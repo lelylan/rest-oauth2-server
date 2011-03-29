@@ -51,13 +51,12 @@ soon there will be a UI where you will be able to easily create your clients)
 
   GET http://localhost:3000/oauth/authorize?
       response_type=code&
-      client_id=http://localhost:3000/client/example&
+      client_id=http://localhost:3000/clients/example&
       redirect_uri=http://example.com/callback&
       scope=write&
       state=2af5D3vds
 
-Lets explain in detail the {authorization request}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.1.1]
-params
+Lets explain in detail the {authorization request}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.1.1] params
 
 * <b>response_type</b> (REQUIRED): always use "code" as response type
 * <b>client_id</b> (REQUIRED): client identifier (in our case is the uri field of the client)
@@ -80,22 +79,40 @@ be used in a second step to have the access token, otherwise an error will be se
 Supposing the resource owner grant the access request, the client uses the authorization code to get the {access token}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.1.3].
 This is done by making a POST request to the /oauth/token resource and by sending the following params in the JSON format.
 
-  $ curl -i http://localhost:3000/token \
-    -u alice@example.com:example \
-    -H "Accept: application/json" \
-    -X POST -d \
-    '{ \
-       "grant_type": "authorization_code", \
-       "client_id": "http://localhost:3000/users/alice/client/lelylan", \
-       "client_secret": "a34a7afe4731e745de9d61iZeUeY", \
-       "code": "g2VDXwrT0S6iZeUeYQBYi2stxRy", \
-       "scope": "write" \
-     }'
+  # simplified request
+  POST http://localhost:3000/oauth/token
+       { "code": "g2VDXwrT0S6iZeUeYQBYi2stxRy",
+         "grant_type": "authorization_code",
+         "client_id": "http://localhost:3000/users/alice/client/lelylan",
+         "client_secret": "a34a7afe4731e745de9d61iZeUeY" }
+
+  # curl request
+  curl -i http://localhost:3000/token \
+       -H "Accept: application/json" \
+       -X POST \
+       -d \ '{ "grant_type": "authorization_code", \
+               "client_id": "http://localhost:3000/users/alice/client/lelylan", \
+               "client_secret": "a34a7afe4731e745de9d61iZeUeY", \
+               "code": "g2VDXwrT0S6iZeUeYQBYi2stxRy", \
+               "scope": "write" }'
+
+Lets explain in detail the {Access Token Request}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.1.3] params
+
+* <b>code</b> (REQUIRED): authorization code (from the previous step)
+* <b>grant_type</b> (REQUIRED): always use "authorization_code" as grant type
+* <b>client_id</b> (REQUIRED): client identifier (in our case is the uri field of the client)
+* <b>client_secred</b> (REQUIRED): client secret code
+
+The response is a JSON structure containing the final access token. In future versions there will be some information
+on refresh token to make the system much more secure.
+
+  { "access_token":"SlAV32hkKG" }
 
 
 == Author
 
-Andrea Reginato | Thanks to The Lelylan Project
+Andrea Reginato
+The Lelylan Project
 
 == Contributors
 
