@@ -15,18 +15,15 @@ you are going to use.
 
 == Installation
 
-For the project to work you need to use ruby 1.9.2 or higher
+For the project to work, you need to have ruby 1.9.2 (or higher) and MongoDB (which for now is the default
+database system). Just clone the repository, install the missing gems with bundler and run your tests. If
+everything is working correctly, now you have an OAuth2 Server working.
 
-  # clone the repository
   git clone git@github.com:Lelylan/rest-oauth2-server.git
-
-  # Install gems
   bundle install
-
-  # Run tests
   rake spec
 
-We are working on a gem and a generator to make things much more easier  
+We are working on a gem and a generator to easily integrate the OAuth server into your project
 
   # install gem
   gem install rest-oauth2-server
