@@ -45,34 +45,52 @@ authorization server. In greater detail, the authorization flow goes like this.
 
 ==== Authorization Code
 
-Redirect the user to https://youroauthserver.com/oauth/authorize passing the following parameters in the query string
-(to create a client go to the rails console and type Factory(:oauth_client), soon there will be a UI where you will be
-able to easily create your clients)
+The client construct the redirect URI to your {OAuth Server}[http://localhost:3000/oauth/authorize] by adding the
+following parameters in the query component (to create a client go to the rails console and type Factory(:oauth_client),
+soon there will be a UI where you will be able to easily create your clients)
 
-  https://youroauthserver.com/oauth/authorize?
-    response_type=code&
-    client_id=https://youroauthserver.com/client/example&
-    redirect_uri=https://example.com/callback&
-    scope=write
+  GET http://localhost:3000/oauth/authorize?
+      response_type=code&
+      client_id=http://localhost:3000/client/example&
+      redirect_uri=http://example.com/callback&
+      scope=write&
+      state=2af5D3vds
 
-Lets explain in detail the params in the query string
+Lets explain in detail the {authorization request}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.1.1]
+params
 
-* <b>response_type</b> - always use "code" as response type
-* <b>client_id</b> - client identifier (in our case is the uri field of the client)
-* <b>redirect_uri</b> - callback URL for the client application
-* <b>scope</b> - privileges give to the client
+* <b>response_type</b> (REQUIRED): always use "code" as response type
+* <b>client_id</b> (REQUIRED): client identifier (in our case is the uri field of the client)
+* <b>redirect_uri</b> (REQUIRED): callback URI to the client application
+* <b>scope</b> (REQUIRED): privileges given to the client (TODO: make section)
+* <b>state</b> (OPTIONAL): opaque value used by the client to maintain state between the request and callback
 
 In the authorization page the resource owner will be asked to grand or deny the access to the specific client for
 a specif scope. If the resource owner 'grant' the access, the client will get back an authorization code that will
 be used in a second step to have the access token, otherwise an error will be sent.
 
-  # User response when the resource owner *grant* the access to its resources to a client
+  # The resource owner grants the access request
   https://example.com/callback?code=g2VDXwrT0S6iZeUeYQBYi2stxRy
 
-  #User response when the resource owner *deny* the access to its resources to a client
+  # The resource owner denies the access request
   https://example.com/callback?access=denied
 
 ==== Access Token
+
+Supposing the resource owner grant the access request, the client uses the authorization code to get the {access token}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.1.3].
+This is done by making a POST request to the /oauth/token resource and by sending the following params in the JSON format.
+
+  $ curl -i http://localhost:3000/token \
+    -u alice@example.com:example \
+    -H "Accept: application/json" \
+    -X POST -d \
+    '{ \
+       "grant_type": "authorization_code", \
+       "client_id": "http://localhost:3000/users/alice/client/lelylan", \
+       "client_secret": "a34a7afe4731e745de9d61iZeUeY", \
+       "code": "g2VDXwrT0S6iZeUeYQBYi2stxRy", \
+       "scope": "write" \
+     }'
 
 
 == Author
