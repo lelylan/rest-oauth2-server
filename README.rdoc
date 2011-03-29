@@ -82,12 +82,12 @@ This is done by making a POST request to the /oauth/token resource and by sendin
   # curl request
   curl -i http://localhost:3000/token \
        -H "Accept: application/json" \
-       -X POST \
-       -d \ '{ "grant_type": "authorization_code", \
-               "client_id": "http://localhost:3000/users/alice/client/lelylan", \
-               "client_secret": "a34a7afe4731e745de9d61iZeUeY", \
-               "code": "g2VDXwrT0S6iZeUeYQBYi2stxRy", \
-               "scope": "write" }'
+       -X POST -d \ '{
+          "code": "g2VDXwrT0S6iZeUeYQBYi2stxRy", \
+          "grant_type": "authorization_code", \
+          "client_id": "http://localhost:3000/users/alice/client/lelylan", \
+          "client_secret": "a34a7afe4731e745de9d61iZeUeY", \
+          "scope": "write" }'
 
 Lets explain in detail the {Access Token Request}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.1.3] params
 
@@ -96,10 +96,11 @@ Lets explain in detail the {Access Token Request}[http://tools.ietf.org/html/dra
 * <b>client_id</b> (REQUIRED): client identifier (in our case is the uri field of the client)
 * <b>client_secred</b> (REQUIRED): client secret code
 
-The response is a JSON structure containing the final access token. In future versions there will be some information
-on refresh token to make the system much more secure.
+The response is a JSON structure containing the final access token.
 
   { "access_token":"SlAV32hkKG" }
+
+We are working on the definition of a refresh token mechanism to improve the OAuth security system
 
 
 == Author
