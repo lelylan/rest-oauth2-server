@@ -55,24 +55,23 @@ Redirect the user to https://example.com/oauth/authorize passing the following p
 
 Lets explain in detail this URI
 
-* https://oauthserver.com/oauth/authorize - the page where the resource owner will grant or deny the access
 * response_type - always use "code" as response type
 * client_id - client identifier (in our case is the uri field of the client)
 * redirect_uri - callback URL for the client application
 * scope - privileges give to the client
 
-NOTE: To create a sample client go to the rails console and type Factory(:oauth_client). Soon there will be a UI
-where you will be able to easily create your clients.
+(to create a client go to the rails console and type Factory(:oauth_client). Soon there will be a UI
+where you will be able to easily create your clients)
 
 In the authorization page the resource owner will be asked to grand or deny the access to the specific client for
 a specif scope. If the resource owner 'grant' the access, the client will get back an authorization code that will
 be used in a second step to have the access token, otherwise an error will be sent
 
-User response when the resource owner grant the access to its resources to a client
+User response when the *resource owner grant* the access to its resources to a client
 
   https://example.com/callback?code=g2VDXwrT0S6iZeUeYQBYi2stxRy
 
-User response when the resource owner deny the access to its resources to a client
+User response when the *resource owner deny* the access to its resources to a client
 
   https://example.com/callback?access=denied
 
