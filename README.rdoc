@@ -43,15 +43,17 @@ server) such as a client implemented on a secure server.  As a redirection-based
 capable of interacting with typically a web browser and capable of receiving incoming requests from the
 authorization server. In greater detail, the authorization flow goes like this.
 
+==== Authorization Code
+
 Redirect the user to https://example.com/oauth/authorize passing the following parameters in the query string
 
   https://oauthserver.com/oauth/authorize?
     response_type=code&
     client_id=https://oauthserver.com/client/example&
-    redirect_uri=https://example.com/callback
+    redirect_uri=https://example.com/callback&
     scope=write
 
-Lets explain more about this URI.
+Lets explain in detail this URI
 
 * https://oauthserver.com/oauth/authorize - the page where the resource owner will grant or deny the access
 * response_type - always use "code" as response type
@@ -59,9 +61,34 @@ Lets explain more about this URI.
 * redirect_uri - callback URL for the client application
 * scope - privileges give to the client
 
+NOTE: To create a sample client go to the rails console and type Factory(:oauth_client). Soon there will be a UI
+where you will be able to easily create your clients.
+
+In the authorization page the resource owner will be asked to grand or deny the access to the specific client for
+a specif scope. If the resource owner 'grant' the access, the client will get back an authorization code that will
+be used in a second step to have the access token, otherwise an error will be sent
+
+User response when the resource owner grant the access to its resources to a client
+
+  https://example.com/callback?code=g2VDXwrT0S6iZeUeYQBYi2stxRy
+
+User response when the resource owner deny the access to its resources to a client
+
+  https://example.com/callback?access=denied
+
+==== Access Token
+
 
 == Author
 
+Andrea Reginato | Thanks to The Lelylan Project
+
+== Contributors
+
 == Changelog
 
+See CHANGELOG
+
 == License
+
+Rest OAuth2 Server is available under the MIT license.

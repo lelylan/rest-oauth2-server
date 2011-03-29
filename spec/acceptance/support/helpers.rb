@@ -27,6 +27,7 @@ module HelperMethods
     return URI.escape(uri)
   end
 
+  # TODO: seems the secred of the client is missing
   def implicit_grant_page(client, scope)
     uri = "/oauth/authorize?response_type=token" + authorization_params(client, scope)
     return URI.escape(uri)
