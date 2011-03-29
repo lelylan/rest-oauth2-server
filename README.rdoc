@@ -82,7 +82,6 @@ be used in a second step to have the access token, otherwise an error will be se
 Supposing the resource owner grant the access request, the client uses the authorization code to get the {access token}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.1.3].
 This is done by making a POST request to the /oauth/token resource and by sending the following params in the JSON format.
 
-  # curl request
   curl -i http://localhost:3000/oauth/token \
        -H "Accept: application/json" \
        -X POST -d \ '{
@@ -156,7 +155,6 @@ when other flows are not viable</b>.
 To have the access token the client make a POST request to the /oauth/token resource by sending the username and password
 given from the resource owner, plus the following params in the JSON format.
 
-  # curl request
   curl -i http://localhost:3000/oauth/token \
        -H "Accept: application/json" \
        -X POST -d \ '{
