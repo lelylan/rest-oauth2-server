@@ -15,20 +15,50 @@ you are going to use.
 
 == Installation
 
-For the project to work, you need to have ruby 1.9.2 (or higher) and MongoDB (which for now is the default
-database system). Just clone the repository, install the missing gems with bundler and run your tests. If
-everything is working correctly, now you have an OAuth2 Server working.
+For the project to work, you need to have ruby 1.9.2 (or higher) and MongoDB[http://www.mongodb.org/]
+which for now is the default database system. We use the handy Mondoid[mongoid.org] library to access
+it. To install just clone the repository, install the missing gems with bundler and run your tests. If
+everything is working correctly, you have your OAuth2 Server working!
 
   git clone git@github.com:Lelylan/rest-oauth2-server.git
   bundle install
   rake spec
 
-We are working on a gem and a generator to easily integrate the OAuth server into your project
+We are working on a gem and a generator to easily integrate the OAuth server into your project. This is what
+we want to reach.
 
-  # install gem
   gem install rest-oauth2-server
+  rails g oauth2
 
 == Getting Started
+
+Rest OAuth2 Server actually supports 3 authorization flows. Each of them can be used in specific situations
+and is important to use the correct one for the correct goal.
+
+=== Authorization Code Flow
+
+The {Authorization Code}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.1] is suitable for
+clients capable of maintaining their client credentials confidential (for authenticating with the authorization
+server) such as a client implemented on a secure server.  As a redirection-based flow, the client must be
+capable of interacting with typically a web browser and capable of receiving incoming requests from the
+authorization server. In greater detail, the authorization flow goes like this.
+
+Redirect the user to https://example.com/oauth/authorize passing the following parameters in the query string
+
+  https://oauthserver.com/oauth/authorize?
+    response_type=code&
+    client_id=https://oauthserver.com/client/example&
+    redirect_uri=https://example.com/callback
+    scope=write
+
+Lets explain more about this URI.
+
+* https://oauthserver.com/oauth/authorize - the page where the resource owner will grant or deny the access
+* response_type - always use "code" as response type
+* client_id - client identifier (in our case is the uri field of the client)
+* redirect_uri - callback URL for the client application
+* scope - privileges give to the client
+
 
 == Author
 

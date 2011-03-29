@@ -21,6 +21,7 @@ module HelperMethods
 
 
   # Authorization page URIs
+  # TODO: change authorize in authorization
   def authorization_grant_page(client, scope)
     uri = "/oauth/authorize?response_type=code" + authorization_params(client, scope)
     return URI.escape(uri)
