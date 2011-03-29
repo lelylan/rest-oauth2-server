@@ -1,9 +1,7 @@
 = Rest OAuth 2 Server
 
 Rest Oauth2 Server is a gem to easily create your OAuth2 Server so that you can start sharing your
-API in a secure and powerful way.
-
-The actual implementation is based on {draft 13}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13]
+API in a secure and powerful way. The actual implementation is based on {draft 13}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13]
 and allow you to obtain the authorization using one of the 3 flows described on the specification.
 
 * {Authorization Code}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.1]
