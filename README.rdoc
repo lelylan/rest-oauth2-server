@@ -1,0 +1,22 @@
+= riflect.me types
+
+Types are resources that identify a devices (e.g. light, dimmer
+or gate). Every type is identified from:
+
+* properties: represent what vary during time (e.g. intensity)
+* functions: represent what a device can do (e.g set intensity)
+* statuses: represent the status a device can assume (e.g turned off)
+
+Through this basic structure is possible to define everything
+you want. When a type is ready, then, you can associate it to
+a device, and it will inherit everything from it.
+
+== Installation
+
+== Getting Started
+
+== Author
+
+== Changelog
+
+== License

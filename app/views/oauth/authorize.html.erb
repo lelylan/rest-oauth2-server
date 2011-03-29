@@ -1,0 +1,35 @@
+  <% if flash.alert %>
+    <h3>Debug information: <%= @info.to_json %></h3>
+  <% else %>
+
+    <h3>The application <%= link_to h(@client.name), @client.uri %> is requesting to access your data on your behalf </h3>
+    <h3>You are giving the accesses for these resources: <%= params[:scope] %></h3>
+
+    <div id="grant">
+      <form method="POST" action="/oauth/authorize/grant">
+        <input type="text" style="display:none" name="response_type" value="<%=params[:response_type]%>">
+        <input type="text" style="display:none" name="client_id" value="<%=params[:client_id]%>">
+        <input type="text" style="display:none" name="redirect_uri" value="<%=params[:redirect_uri]%>">
+        <input type="text" style="display:none" name="scope" value="<%=params[:scope].join(" ")%>">
+        <% if params[:state] %>
+          <input type="text" style="display:none" name="state" value="<%=params[:state]%>">
+        <% end %>
+        <button>Grant</button>
+      </form>
+    </div>
+
+    <div id="deny">
+      <form method="POST" action="/oauth/authorize/deny">
+        <input type="text" style="display:none" name="_method" value="delete">
+        <input type="text" style="display:none" name="response_type" value="<%=params[:response_type]%>">
+        <input type="text" style="display:none" name="client_id" value="<%=params[:client_id]%>">
+        <input type="text" style="display:none" name="redirect_uri" value="<%=params[:redirect_uri]%>">
+        <input type="text" style="display:none" name="scope" value="<%=params[:scope].join(" ")%>">
+        <% if params[:state] %>
+          <input type="text" style="display:none" name="state" value="<%=params[:state]%>">
+        <% end %>
+        <button>Deny</button>
+      </form>
+    </div>
+
+  <% end %>

@@ -1,0 +1,16 @@
+en:
+  notifications:
+    oauth:
+      client:
+        not_found: "Client not found with the provided params"
+        not_authorized: "Client not authorized with the provided scope"
+        blocked: "Client blocked"
+      response_type:
+        not_valid: "Not valid response type"
+      authorization:
+        not_found: "Authorization not found with the provided parms"
+        expired: "Authorization expired"
+      resource_owner:
+        not_found: "User not found with the provided params"
+        blocked_client: "Client blocked from the user (check preferences)"
+

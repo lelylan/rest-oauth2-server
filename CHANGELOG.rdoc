@@ -1,0 +1,6 @@
+= Changelog
+
+== Release v0.1.0 (2011/03/29)
+
+* Added documentation explaining the existing flows
+* Added OAuth2 server with acceptance tests
