@@ -30,7 +30,7 @@ we want to reach.
   gem install rest-oauth2-server
   rails g oauth2
 
-= What will you have
+= How to use
 
 Rest OAuth2 Server actually supports 3 authorization flows. Each of them can be used in specific situations
 and is important to use the correct one for the correct goal.
@@ -83,7 +83,7 @@ Supposing the resource owner grant the access request, the client uses the autho
 This is done by making a POST request to the /oauth/token resource and by sending the following params in the JSON format.
 
   # curl request
-  curl -i http://localhost:3000/token \
+  curl -i http://localhost:3000/oauth/token \
        -H "Accept: application/json" \
        -X POST -d \ '{
           "code": "g2VDXwrT0S6iZeUeYQBYi2stxRy", \
@@ -144,6 +144,42 @@ be used to access the resource owner resources.
 Note that the token is added to the {fragment URI}[http://en.wikipedia.org/wiki/Fragment_identifier]. This is done
 because the fragment URI can not be read from server side, but only from client applications like Javascript and
 ActionScipt.
+
+
+== Resource Owner Password Credentials Flow
+
+The {Resource Owner Password Credential}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.3] flow is suitable
+in cases where the resource owner has a trust relationship with the client, such as its computer operating system or a
+highly privileged application. The authorization server should take special care when enabling the grant type, and <b>only
+when other flows are not viable</b>.
+
+To have the access token the client make a POST request to the /oauth/token resource by sending the username and password
+given from the resource owner, plus the following params in the JSON format.
+
+  # curl request
+  curl -i http://localhost:3000/oauth/token \
+       -H "Accept: application/json" \
+       -X POST -d \ '{
+          "grant_type": "password", \
+          "client_id": "http://localhost:3000/users/alice/client/lelylan", \
+          "client_secret": "a34a7afe4731e745de9d61iZeUeY", \
+          "username": "alice@example.com", \
+          "password": "example", \
+          "scope": "write" }'
+
+
+* <b>grant_type</b> (REQUIRED): always use "password" as grant type
+* <b>client_id</b> (REQUIRED): client identifier (in our case is the uri field of the client model)
+* <b>redirect_uri</b> (REQUIRED): callback URI to the client application
+* <b>username</b> (REQUIRED): resource owner username
+* <b>password</b> (REQUIRED): resource owner password
+* <b>scope</b> (REQUIRED): privileges given to the client (TODO: make section)
+
+The response is a JSON structure containing the final access token.
+
+  { "access_token":"SlAV32hkKG" }
+
+We are working on the definition of a refresh token mechanism to improve the OAuth security system
 
 
 == Author
