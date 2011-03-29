@@ -13,7 +13,7 @@ explains in a clear and detailed way how OAuth2 works. It will help you on under
 you are going to use.
 
 
-== Installation
+= Installation
 
 For the project to work, you need to have ruby 1.9.2 (or higher) and MongoDB[http://www.mongodb.org/]
 which for now is the default database system. We use the handy Mondoid[mongoid.org] library to access
@@ -30,22 +30,24 @@ we want to reach.
   gem install rest-oauth2-server
   rails g oauth2
 
-== Getting Started
+= What will you have
 
 Rest OAuth2 Server actually supports 3 authorization flows. Each of them can be used in specific situations
 and is important to use the correct one for the correct goal.
 
-=== Authorization Code Flow
+
+== Authorization Code Flow
 
 The {Authorization Code}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.1] is suitable for
 clients capable of maintaining their client credentials confidential (for authenticating with the authorization
-server) such as a client implemented on a secure server.  As a redirection-based flow, the client must be
-capable of interacting with typically a web browser and capable of receiving incoming requests from the
+server) such as a client implemented on a <b>secure server side</b>. As a redirection-based flow, the client must
+be capable of interacting with typically a web browser and capable of receiving incoming requests from the
 authorization server. In greater detail, the authorization flow goes like this.
 
-==== Authorization Code
 
-The client construct the redirect URI to your {OAuth Server}[http://localhost:3000/oauth/authorize] by adding the
+=== Authorization Code
+
+The client construct the redirect URI to your {authorization endpoint}[http://localhost:3000/oauth/authorize] by adding the
 following parameters in the query component (to create a client go to the rails console and type Factory(:oauth_client),
 soon there will be a UI where you will be able to easily create your clients)
 
@@ -59,7 +61,7 @@ soon there will be a UI where you will be able to easily create your clients)
 Lets explain in detail the {authorization request}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.1.1] params
 
 * <b>response_type</b> (REQUIRED): always use "code" as response type
-* <b>client_id</b> (REQUIRED): client identifier (in our case is the uri field of the client)
+* <b>client_id</b> (REQUIRED): client identifier (in our case is the uri field of the client model)
 * <b>redirect_uri</b> (REQUIRED): callback URI to the client application
 * <b>scope</b> (REQUIRED): privileges given to the client (TODO: make section)
 * <b>state</b> (OPTIONAL): opaque value used by the client to maintain state between the request and callback
@@ -69,12 +71,13 @@ a specif scope. If the resource owner 'grant' the access, the client will get ba
 be used in a second step to have the access token, otherwise an error will be sent.
 
   # The resource owner grants the access request
-  https://example.com/callback?code=g2VDXwrT0S6iZeUeYQBYi2stxRy
+  https://example.com/callback?code=g2VDXwrT0S6iZeUeYQBYi2stxRy&state=2af5D3vds
 
   # The resource owner denies the access request
-  https://example.com/callback?access=denied
+  https://example.com/callback?access=denied&state=2af5D3vds
 
-==== Access Token
+
+=== Access Token
 
 Supposing the resource owner grant the access request, the client uses the authorization code to get the {access token}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.1.3].
 This is done by making a POST request to the /oauth/token resource and by sending the following params in the JSON format.
@@ -101,6 +104,46 @@ The response is a JSON structure containing the final access token.
   { "access_token":"SlAV32hkKG" }
 
 We are working on the definition of a refresh token mechanism to improve the OAuth security system
+
+
+== Implicit Grant Flow
+
+The {Implicit Grant}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.2] flow is suitable for clients incapable
+of maintaining their client credentials confidential (for authenticating with the authorization server) such as client
+applications residing in a user-agent, typically implemented in a browser using a scripting language such as <b>JavaScript</b>
+or <b>ActionScript</b>. In greater detail, the authorization flow goes like this.
+
+The client redirect the resource owner's user-agent to the {authorization endpoint}[http://localhost:3000/oauth/authorize]
+by adding the following parameters in the query component.
+
+  GET http://localhost:3000/oauth/authorize?
+      response_type=token&
+      client_id=http://localhost:3000/clients/example&
+      redirect_uri=http://example.com/callback&
+      scope=write&
+      state=2af5D3vds
+
+Lets explain in detail the {implicit request}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.2.1] params
+
+* <b>response_type</b> (REQUIRED): always use "token" as response type
+* <b>client_id</b> (REQUIRED): client identifier (in our case is the uri field of the client model)
+* <b>redirect_uri</b> (REQUIRED): callback URI to the client application
+* <b>scope</b> (REQUIRED): privileges given to the client (TODO: make section)
+* <b>state</b> (OPTIONAL): opaque value used by the client to maintain state between the request and callback
+
+In the authorization page the resource owner will be asked to grand or deny the access to the specific client for
+a specif scope. If the resource owner 'grant' the access, the client will get back the final access token that will
+be used to access the resource owner resources.
+
+  # The resource owner grants the access request
+  https://example.com/callback#token=g2VDXwrT0S6iZeUeYQBYi2stxRy&state=2af5D3vds
+
+  # The resource owner denies the access request
+  https://example.com/callback#access=denied&state=2af5D3vds
+
+Note that the token is added to the {fragment URI}[http://en.wikipedia.org/wiki/Fragment_identifier]. This is done
+because the fragment URI can not be read from server side, but only from client applications like Javascript and
+ActionScipt.
 
 
 == Author
