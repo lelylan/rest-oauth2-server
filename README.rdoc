@@ -1,15 +1,19 @@
-= riflect.me types
+= Rest OAuth 2 Server
 
-Types are resources that identify a devices (e.g. light, dimmer
-or gate). Every type is identified from:
+Rest Oauth2 Server is a gem to easily create your OAuth2 Server so that you can start sharing your
+API in a secure and powerful way.
 
-* properties: represent what vary during time (e.g. intensity)
-* functions: represent what a device can do (e.g set intensity)
-* statuses: represent the status a device can assume (e.g turned off)
+The actual implementation is based on {draft 13}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13]
+and allow you to obtain the authorization using one of the 3 flows described on the specification.
 
-Through this basic structure is possible to define everything
-you want. When a type is ready, then, you can associate it to
-a device, and it will inherit everything from it.
+* {Authorization Code}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.1]
+* {Implicit Grant}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.2]
+* {Resource Owner Password Credentials}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.3]
+
+If you are not confortable with these terms, we suggest you to read the specification, which explain
+in a clear and detailed way how OAuth2 works. It will help you on understanding better the tool you are
+going to use.
+
 
 == Installation
 
