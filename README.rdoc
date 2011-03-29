@@ -57,10 +57,10 @@ able to easily create your clients)
 
 Lets explain in detail the params in the query string
 
-* response_type - always use "code" as response type
-* client_id - client identifier (in our case is the uri field of the client)
-* redirect_uri - callback URL for the client application
-* scope - privileges give to the client
+* <b>response_type</b> - always use "code" as response type
+* <b>client_id</b> - client identifier (in our case is the uri field of the client)
+* <b>redirect_uri</b> - callback URL for the client application
+* <b>scope</b> - privileges give to the client
 
 In the authorization page the resource owner will be asked to grand or deny the access to the specific client for
 a specif scope. If the resource owner 'grant' the access, the client will get back an authorization code that will
