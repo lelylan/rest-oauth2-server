@@ -45,34 +45,31 @@ authorization server. In greater detail, the authorization flow goes like this.
 
 ==== Authorization Code
 
-Redirect the user to https://example.com/oauth/authorize passing the following parameters in the query string
+Redirect the user to https://youroauthserver.com/oauth/authorize passing the following parameters in the query string
+(to create a client go to the rails console and type Factory(:oauth_client), soon there will be a UI where you will be
+able to easily create your clients)
 
-  https://oauthserver.com/oauth/authorize?
+  https://youroauthserver.com/oauth/authorize?
     response_type=code&
-    client_id=https://oauthserver.com/client/example&
+    client_id=https://youroauthserver.com/client/example&
     redirect_uri=https://example.com/callback&
     scope=write
 
-Lets explain in detail this URI
+Lets explain in detail the params in the query string
 
 * response_type - always use "code" as response type
 * client_id - client identifier (in our case is the uri field of the client)
 * redirect_uri - callback URL for the client application
 * scope - privileges give to the client
 
-(to create a client go to the rails console and type Factory(:oauth_client). Soon there will be a UI
-where you will be able to easily create your clients)
-
 In the authorization page the resource owner will be asked to grand or deny the access to the specific client for
 a specif scope. If the resource owner 'grant' the access, the client will get back an authorization code that will
-be used in a second step to have the access token, otherwise an error will be sent
+be used in a second step to have the access token, otherwise an error will be sent.
 
-User response when the *resource owner grant* the access to its resources to a client
-
+  # User response when the resource owner *grant* the access to its resources to a client
   https://example.com/callback?code=g2VDXwrT0S6iZeUeYQBYi2stxRy
 
-User response when the *resource owner deny* the access to its resources to a client
-
+  #User response when the resource owner *deny* the access to its resources to a client
   https://example.com/callback?access=denied
 
 ==== Access Token
