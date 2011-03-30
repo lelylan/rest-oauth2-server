@@ -1,24 +1,19 @@
 = Rest OAuth 2 Server
 
 Rest Oauth2 Server is a gem to easily create your OAuth2 Server so that you can start sharing your
-API in a secure and powerful way. The actual implementation is based on {draft 13}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13]
-and allow you to obtain the authorization using one of the following 3 flows:
+API in a secure way. The actual implementation is based on {draft 13}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13]
+and it allows you to obtain the access tokens using one of the following 3 flows
 
 * {Authorization Code}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.1]
 * {Implicit Grant}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.2]
 * {Resource Owner Password Credentials}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.3]
 
-If you are not confortable with these terms is higly suggested for you to read the specification, which
-explains in a clear and detailed way how OAuth2 works. It will help you on understanding better the tool
-you are going to use.
-
 
 = Installation
 
-For the project to work, you need to have ruby 1.9.2 (or higher) and MongoDB[http://www.mongodb.org/]
-which for now is the default database system. We use the handy Mondoid[mongoid.org] library to access
-it. To install just clone the repository, install the missing gems with bundler and run your tests. If
-everything is working correctly, you have your OAuth2 Server working!
+For the project to work, is required ruby 1.9.2 and MongoDB[http://www.mongodb.org/] which is the default database
+system (we use the handy Mondoid[mongoid.org] library to access it). To install it clone the repository, install the
+gems with bundler and run the tests. If everything works correctly, you have your OAuth2 server working.
 
   git clone git@github.com:Lelylan/rest-oauth2-server.git
   bundle install
@@ -36,7 +31,7 @@ Rest OAuth2 Server actually supports 3 authorization flows. Each of them can be 
 and is important to use the correct one for the correct goal.
 
 
-== Authorization Code Flow
+== Authorization Code Flow (aka OAuth2 for server side app)
 
 The {Authorization Code}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.1] is suitable for
 clients capable of maintaining their client credentials confidential (for authenticating with the authorization
@@ -53,7 +48,7 @@ soon there will be a UI where you will be able to easily create your clients)
 
   GET http://localhost:3000/oauth/authorize?
       response_type=code&
-      client_id=http://localhost:3000/clients/example&
+      client_id=http://localhost:3000/users/alic/clients/example&
       redirect_uri=http://example.com/callback&
       scope=write&
       state=2af5D3vds
@@ -105,7 +100,7 @@ The response is a JSON structure containing the final access token.
 We are working on the definition of a refresh token mechanism to improve the OAuth security system
 
 
-== Implicit Grant Flow
+== Implicit Grant Flow (aka OAuth2 for client side app)
 
 The {Implicit Grant}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.2] flow is suitable for clients incapable
 of maintaining their client credentials confidential (for authenticating with the authorization server) such as client
@@ -117,7 +112,7 @@ by adding the following parameters in the query component.
 
   GET http://localhost:3000/oauth/authorize?
       response_type=token&
-      client_id=http://localhost:3000/clients/example&
+      client_id=http://localhost:3000/users/alic/clients/example&
       redirect_uri=http://example.com/callback&
       scope=write&
       state=2af5D3vds
@@ -145,7 +140,7 @@ because the fragment URI can not be read from server side, but only from client 
 ActionScipt.
 
 
-== Resource Owner Password Credentials Flow
+== Resource Owner Password Credentials Flow (aka OAuth2 for native app)
 
 The {Resource Owner Password Credential}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.3] flow is suitable
 in cases where the resource owner has a trust relationship with the client, such as its computer operating system or a
@@ -180,17 +175,35 @@ The response is a JSON structure containing the final access token.
 We are working on the definition of a refresh token mechanism to improve the OAuth security system
 
 
-== Author
+= OAuth2 documentation
 
-Andrea Reginato
-The Lelylan Project
+If the way OAuth2 works is not clear, you can find great documentation on the web.
 
-== Contributors
+* {Oauth2 Specifications}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13]
+* {Google OAuth2}[http://code.google.com/apis/accounts/docs/OAuth2.html]
+* {Facebook OAuth2}[http://developers.facebook.com/docs/authentication]
+* {Gowalla OAuth2}[http://gowalla.com/api/docs/oauth]
+* {Foursquare OAuth2}[http://developer.foursquare.com/docs/oauth.html]
+* {Instagram OAuth2}[http://instagram.com/developer/auth/]
 
-== Changelog
+
+= OAuth2 Ruby Implementations
+
+* {Flowtown Rack OAuth2 Server}[https://github.com/flowtown/rack-oauth2-server]
+* {Nov Rack OAuth2}[https://github.com/nov/rack-oauth2]
+* {ThoughWorks OAuth2 Provider}[https://github.com/ThoughtWorksStudios/oauth2_provider]
+* {Freerange OAuth2 Provider}[https://github.com/freerange/oauth2-provider/blob/master/lib/oauth2/provider/models/access_token.rb]
+
+= Author
+
+Andrea Reginato & The Lelylan Project
+
+
+= Changelog
 
 See CHANGELOG
 
-== License
+
+= License
 
 Rest OAuth2 Server is available under the MIT license.
