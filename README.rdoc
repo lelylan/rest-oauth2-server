@@ -187,7 +187,7 @@ If the way OAuth2 works is not clear, you can find great documentation on the we
 * {Instagram OAuth2}[http://instagram.com/developer/auth/]
 
 
-= OAuth2 Ruby Implementations
+= Other OAuth2 Ruby Implementations
 
 * {Flowtown Rack OAuth2 Server}[https://github.com/flowtown/rack-oauth2-server]
 * {Nov Rack OAuth2}[https://github.com/nov/rack-oauth2]
