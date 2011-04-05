@@ -99,8 +99,6 @@ The response is a JSON Object containing the access token:
 
   { "access_token":"SlAV32hkKG" }
 
-<b>TODO: add refresh token flow</b>
-
 
 
 == OAuth 2.0 for client-side web applications
@@ -142,8 +140,6 @@ JavaScript running on that page can grab that access token from the window.locat
 or POST it to a server. Note that the token is added to the {fragment URI}[http://en.wikipedia.org/wiki/Fragment_identifier]. 
 This is done because the fragment URI can not be read from server side, but only from client-based applications
 
-<b>TODO: add refresh token flow</b>
-
 
 
 == OAuth 2.0 for native applications
@@ -153,7 +149,7 @@ and receive HTTP directly without using a client library, this section walks thr
 
 This flow is suitable in cases where the resource owner has a trust relationship with the client, such as its computer operating 
 system or a highly privileged application. The authorization server should take special care when enabling the grant type, and 
-<b>only when other flows are not viable</b>, because username and password are given to the client.
+<b>only when other flows are not viable</b>, because username and password are shared with the client.
 
 === Getting an access token
 
