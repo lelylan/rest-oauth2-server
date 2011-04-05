@@ -25,7 +25,6 @@ class Oauth::OauthTokenController < ApplicationController
 
 
   def create
-    @client.granted!
 
     # section 4.1.3 - authorization code flow
     if @body[:grant_type] == "authorization_code"

@@ -62,11 +62,7 @@ module HelperMethods
 
 
   # Token generation (via POST requests)
-  def authorization_token_uri(attributes)
-    page.driver.post("/oauth/token", attributes.to_json)
-  end
-
-  def password_credentials_token_uri(attributes)
+  def create_token_uri(attributes)
     page.driver.post("/oauth/token", attributes.to_json)
   end
 
@@ -78,13 +74,6 @@ module HelperMethods
   def response_should_have_refresh_token
     refresh_token = OauthRefreshToken.last
     page.should have_content(refresh_token.refresh_token)
-  end
-
-
-  # Refresh token generation
-  # TODO: put together authorization_token_uri and password_credentials_token_uri
-  def refresh_token_uri(attributes)
-    page.driver.post("/oauth/token", attributes.to_json)
   end
 
 end
