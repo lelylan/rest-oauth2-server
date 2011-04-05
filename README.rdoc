@@ -146,42 +146,47 @@ This is done because the fragment URI can not be read from server side, but only
 
 
 
-== Resource Owner Password Credentials Flow (aka OAuth2 for native app)
+== OAuth 2.0 for native applications
 
-The {Resource Owner Password Credential}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.3] flow is suitable
-in cases where the resource owner has a trust relationship with the client, such as its computer operating system or a
-highly privileged application. The authorization server should take special care when enabling the grant type, and <b>only
-when other flows are not viable</b>.
+This flow is meant for mobile, and desktop installed applications that want access to user data. For those who prefer to send 
+and receive HTTP directly without using a client library, this section walks through how to use OAuth 2.0 for native apps.
 
-To have the access token the client make a POST request to the /oauth/token resource by sending the username and password
-given from the resource owner, plus the following params in the JSON format.
+This flow is suitable in cases where the resource owner has a trust relationship with the client, such as its computer operating 
+system or a highly privileged application. The authorization server should take special care when enabling the grant type, and 
+<b>only when other flows are not viable</b>, because username and password are given to the client.
+
+=== Getting an access token
+
+The client should POST to the token endpoint <tt>http://localhost:3000/oauth/token</tt> using the JSON format along with the 
+following params:
+
+* <b>grant_type</b> (REQUIRED): always use "password" as grant type
+* <b>username</b> (REQUIRED): resource owner username
+* <b>password</b> (REQUIRED): resource owner password
+* <b>client_id</b> (REQUIRED): client identifier (in our case is the uri field of the client model)
+* <b>redirect_uri</b> (REQUIRED): callback URI to the client application
+* <b>scope</b> (REQUIRED): privileges given to the client (TODO: make section)
+
+Using curl the request might look like:
 
   curl -i http://localhost:3000/oauth/token \
        -H "Accept: application/json" \
-       -X POST -d \ '{
+       -X POST -d '{
           "grant_type": "password", \
           "client_id": "http://localhost:3000/users/alice/client/lelylan", \
           "client_secret": "a34a7afe4731e745de9d61iZeUeY", \
           "username": "alice@example.com", \
           "password": "example", \
-          "scope": "write" }'
-
-
-* <b>grant_type</b> (REQUIRED): always use "password" as grant type
-* <b>client_id</b> (REQUIRED): client identifier (in our case is the uri field of the client model)
-* <b>redirect_uri</b> (REQUIRED): callback URI to the client application
-* <b>username</b> (REQUIRED): resource owner username
-* <b>password</b> (REQUIRED): resource owner password
-* <b>scope</b> (REQUIRED): privileges given to the client (TODO: make section)
-
-The response is a JSON structure containing the final access token.
+          "scope": "write"
+       }'
+       
+The response is a JSON Object containing the access token:
 
   { "access_token":"SlAV32hkKG" }
 
-We are working on the definition of a refresh token mechanism to improve the OAuth security system
 
 
-= OAuth2 documentation
+= Other OAuth2 documentation
 
 If the way OAuth2 works is not clear, you can find great documentation on the web.
 
@@ -193,6 +198,7 @@ If the way OAuth2 works is not clear, you can find great documentation on the we
 * {Instagram OAuth2}[http://instagram.com/developer/auth/]
 
 
+
 = Other OAuth2 Ruby Implementations
 
 * {Flowtown Rack OAuth2 Server}[https://github.com/flowtown/rack-oauth2-server]
@@ -200,14 +206,24 @@ If the way OAuth2 works is not clear, you can find great documentation on the we
 * {ThoughWorks OAuth2 Provider}[https://github.com/ThoughtWorksStudios/oauth2_provider]
 * {Freerange OAuth2 Provider}[https://github.com/freerange/oauth2-provider/blob/master/lib/oauth2/provider/models/access_token.rb]
 
+
+
 = Author
 
 Andrea Reginato & The Lelylan Project
 
 
+
+= TODOs
+
+* Implement refresh token flow
+
+
+
 = Changelog
 
 See CHANGELOG
+
 
 
 = License
