@@ -179,6 +179,29 @@ The response is a JSON Object containing the access token:
 
 
 
+= Models
+
+Rest OAuth 2.0 Server is working on top of 5 models.
+
+* {OauthClient}[link:app/models/oauth/oauth_client.rb]</b>: client that can ask the accesses to user's resources
+* {OauthToken}[link:app/models/oauth/oauth_token.rb]</b>: access token used to give access to user's resources
+* {OauthAuthorizarion}[link:app/models/oauth/oauth_authorization.rb]</b>: authorization token used to exchange an access token 
+* {OauthAccess}[link:app/models/oauth/oauth_access.rb]</b>: relation between a client and a user when a user grant the authorization
+* {OauthDailyRequests}[link:app/models/oauth/oauth_daily_request.rb]</b>: daily request from the client on behalf of a specific user 
+
+In addition there is a basic {User}[link:app/models/user.rb] model which defines the basic authentication system, like
+sign up and log in. This model is kept simple on porpuse, but you can easily change it with the authentication system you 
+prefer, like {Authlogic}[https://github.com/binarylogic/authlogic] or {Devise}[https://github.com/plataformatec/devise].
+Just remember that your user model <b>must</b> define an <tt>uri</tt> field.
+
+= Blocking System
+
+
+
+
+= Testing solutions
+
+
 = Other OAuth2 documentation
 
 If the way OAuth2 works is not clear, you can find great documentation on the web.
