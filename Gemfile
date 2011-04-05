@@ -27,7 +27,6 @@ group :development, :test do
   gem 'autotest-growl'
   gem 'database_cleaner'
   gem 'fuubar'
-  #gem 'mongoid-rspec'
   gem 'watchr'
   gem 'delorean'
   gem 'rspec-set'
