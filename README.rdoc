@@ -214,9 +214,9 @@ Just remember that your user model <b>must</b> define an <tt>uri</tt> field, whi
 One important feature lie in the ability of to block a client. Rest OAuth 2.0 server enables you two possibilities:
 
 * <b>Client block</b>: this is done by calling <tt>client.block!</tt> and it revoke any access to any users' resources. 
-* <b>User Client block</b>: this is done by calling <tt>access.block!</tt> and it revoke any access to a specific user's resources.
+* <b>Client block for specific user</b>: this is done by calling <tt>access.block!</tt> and it revoke any access to a specific user's resources.
 
-In both cases, is possible to unblock the client using the <tt>unblock!</tt> method, present in the <tt>OauthClient</tt> and <tt>OauthAccess</tt> models.
+In both cases, is possible to unblock the client using the <tt>unblock!</tt> method.
 
 
 
