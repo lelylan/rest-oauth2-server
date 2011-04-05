@@ -61,25 +61,21 @@ class Oauth::OauthAuthorizeController < ApplicationController
 
     def access_blocked?
       access = OauthAccess.find_or_create_by(:client_uri => @client.uri, resource_owner_uri: current_user.uri)
-      # TODO: manca il ? dopo blocked
       access_blocked if access.blocked?
     end
     
+
     def token_blocked?
       if params[:response_type] == "token"
-        @token = OauthToken.where(
-          client_uri: @client.uri,
-          resource_owner_uri: current_user.uri,
-          scope: params[:scope] 
-        ).first
-        token_blocked   if @token and @token.blocked?
+        @token = OauthToken.exist(@client.uri, current_user.uri, params[:scope]).first
+        token_blocked if @token and @token.blocked?
       end
     end
 
     def refresh_token
       if @token
         @token = OauthToken.create(client_uri: @client.uri, resource_owner_uri: current_user.uri, scope: params[:scope])
-       redirect_to implicit_redirect_uri(@client, @token, params[:state]) and return
+        redirect_to implicit_redirect_uri(@client, @token, params[:state]) and return
       end
     end
 
