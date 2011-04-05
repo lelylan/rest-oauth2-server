@@ -35,29 +35,21 @@ result we want to reach.
 Before diving in the code, we explain how Rest OAuth2 Server supports the 3 authorization flows. 
 
 
-== Authorization Code Flow (aka OAuth2 for server side app)
+== OAuth 2.0 for server-side web applications
 
-The {Authorization Code}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.1] is suitable for
-clients capable of maintaining their client credentials confidential (for authenticating with the authorization
-server) such as a client implemented on a <b>secure server side</b>. As a redirection-based flow, the client must
-be capable of interacting with typically a web browser and capable of receiving incoming requests from the
-authorization server. In greater detail, the authorization flow goes like this.
+This flow is meant for web applications with servers that can keep secrets and maintain state. For those who 
+prefer to send and receive HTTP directly without using a client library, this section walks through how to use 
+OAuth 2.0 for server-side web applications. 
 
+The server-side flow has two parts. In the first part, your application asks the user for permission to access 
+their data. If the user approves, instead of sending an access token directly as in the client-side flow, the 
+Rest OAuth 2.0 Server will send your application an authorization code. In the second part, your application will 
+POST that code along with its client secret to the Rest OAuth 2.0 Server in order to get the an access token
 
-=== Authorization Code
+=== Getting an access token
 
-The client construct the redirect URI to your {authorization endpoint}[http://localhost:3000/oauth/authorize] by adding the
-following parameters in the query component (to create a client go to the rails console and type Factory(:oauth_client),
-soon there will be a UI where you will be able to easily create your clients)
-
-  GET http://localhost:3000/oauth/authorize?
-      response_type=code&
-      client_id=http://localhost:3000/users/alic/clients/example&
-      redirect_uri=http://example.com/callback&
-      scope=write&
-      state=2af5D3vds
-
-Lets explain in detail the {authorization request}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.1.1] params
+This flow begins by sending the user to our OAuth dialog at the authorization endpoint <tt>http://localhost:3000/oauth/authorize</tt>
+with the following query parameters
 
 * <b>response_type</b> (REQUIRED): always use "code" as response type
 * <b>client_id</b> (REQUIRED): client identifier (in our case is the uri field of the client model)
@@ -65,44 +57,49 @@ Lets explain in detail the {authorization request}[http://tools.ietf.org/html/dr
 * <b>scope</b> (REQUIRED): privileges given to the client (TODO: make section)
 * <b>state</b> (OPTIONAL): opaque value used by the client to maintain state between the request and callback
 
-In the authorization page the resource owner will be asked to grand or deny the access to the specific client for
-a specif scope. If the resource owner 'grant' the access, the client will get back an authorization code that will
-be used in a second step to have the access token, otherwise an error will be sent.
+Here's an example URL for a hypothetical app called "Example App" running on https://www.example.com
 
-  # The resource owner grants the access request
-  https://example.com/callback?code=g2VDXwrT0S6iZeUeYQBYi2stxRy&state=2af5D3vds
+  http://localhost:3000/oauth/authorize?
+    response_type=code&
+    client_id=http://localhost:3000/clients/a918F2fs3&
+    redirect_uri=httsp://www.example.com/callback&
+    scope=write&
+    state=2af5D3vds
 
-  # The resource owner denies the access request
+After the user approves access or chooses not to, we'll redirect to the <tt>redirect_uri</tt> you pass us. If the 
+user denies access, an error code is appended:
+
   https://example.com/callback?access=denied&state=2af5D3vds
 
+If the user approves access will be appended an authorization code in the query string of the URL:
 
-=== Access Token
+  https://example.com/callback#code=g2VDXwrT0S6iZeUeYQBYi2stxRy&state=2af5D3vds
 
-Supposing the resource owner grant the access request, the client uses the authorization code to get the {access token}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.1.3].
-This is done by making a POST request to the /oauth/token resource and by sending the following params in the JSON format.
-
-  curl -i http://localhost:3000/oauth/token \
-       -H "Accept: application/json" \
-       -X POST -d \ '{
-          "code": "g2VDXwrT0S6iZeUeYQBYi2stxRy", \
-          "grant_type": "authorization_code", \
-          "client_id": "http://localhost:3000/users/alice/client/lelylan", \
-          "client_secret": "a34a7afe4731e745de9d61iZeUeY", \
-          "scope": "write" }'
-
-Lets explain in detail the {Access Token Request}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.1.3] params
+The client reached through the <tt>redirect_uri</tt> should swap that authorization code for an access token by POSTing 
+it along the following params to the token endpoint <tt>http://localhost:3000/oauth/token</tt> using the JSON format.
 
 * <b>code</b> (REQUIRED): authorization code (from the previous step)
 * <b>grant_type</b> (REQUIRED): always use "authorization_code" as grant type
 * <b>client_id</b> (REQUIRED): client identifier (in our case is the uri field of the client)
 * <b>client_secred</b> (REQUIRED): client secret code
 
-The response is a JSON structure containing the final access token.
+Using curl the request might look like:
+ 
+  curl -i http://localhost:3000/oauth/token \
+       -H "Accept: application/json" \
+       -X POST -d '{
+          "code": "g2VDXwrT0S6iZeUeYQBYi2stxRy", \
+          "grant_type": "authorization_code", \
+          "client_id": "http://localhost:3000/users/alice/client/lelylan", \
+          "client_secret": "a34a7afe4731e745de9d61iZeUeY", \
+          "scope": "write"
+       }'
+
+The response is a JSON Object containing the access token:
 
   { "access_token":"SlAV32hkKG" }
 
-We are working on the definition of a refresh token mechanism to improve the OAuth security system
-
+<b>TODO: add refresh token flow</b>
 
 
 
@@ -114,7 +111,7 @@ web applications (it includes also ActionScript and SilverLight).
 
 === Getting a user's permission
 
-Every flow of OAuth 2.0 begins by sending the user to our OAuth dialog at the authorization endpoint <tt>[http://localhost:3000/oauth/authorize</tt>
+Every flow of OAuth 2.0 begins by sending the user to our OAuth dialog at the authorization endpoint <tt>http://localhost:3000/oauth/authorize</tt>
 with the following query parameters
 
 * <b>response_type</b> (REQUIRED): always use "token" as response type
@@ -132,20 +129,21 @@ Here's an example URL for a hypothetical app called "Example App" running on htt
     scope=write&
     state=2af5D3vds
 
-After the user approves access or chooses not to, we'll redirect to the <tt>redirect_uri</tt> you pass us. If the 
+After the user approves access or chooses not to, we'll redirect to the <tt>redirect_uri</tt> you pass. If the 
 user denies access, an error code is appended:
 
   https://example.com/callback#access=denied&state=2af5D3vds
 
-If the user approves access we'll append a short-lived access token in the hash fragment of the URL. Access tokens 
-typically are valid for a bit more than an hour, but implementations shouldn't depend on that behavior. In the example 
-above, your browser should be redirected to something like:
+If the user approves will be appended an access token in the hash fragment of the UR:
 
   https://example.com/callback#token=g2VDXwrT0S6iZeUeYQBYi2stxRy&state=2af5D3vds
 
 JavaScript running on that page can grab that access token from the window.location.hash and either store it in a cookie 
 or POST it to a server. Note that the token is added to the {fragment URI}[http://en.wikipedia.org/wiki/Fragment_identifier]. 
-This is done because the fragment URI can not be read from server side, but only from client.based applications
+This is done because the fragment URI can not be read from server side, but only from client-based applications
+
+<b>TODO: add refresh token flow</b>
+
 
 
 == Resource Owner Password Credentials Flow (aka OAuth2 for native app)
