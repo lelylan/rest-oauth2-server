@@ -16,11 +16,9 @@ class Oauth::OauthTokenController < ApplicationController
   before_filter :find_resource_owner
 
   # refresh token flow
-  #before_filter :client_where_secret
   before_filter :find_refresh_token
   before_filter :find_expired_token
   before_filter :token_blocked?
-
 
   before_filter :client_blocked?      # check if the client is blocked
   before_filter :access_blocked?      # check if user has blocked the client
@@ -92,10 +90,10 @@ class Oauth::OauthTokenController < ApplicationController
 
     def client_where_secret
       if @body[:grant_type] == "password" or @body[:grant_type] == "refresh_token" 
-        @client = OauthClient.where_secret(@body[:client_secret], @body[:client_id]).first
+        @client = OauthClient.where_secret(@body[:client_secret], @body[:client_id])
         message = "notifications.oauth.client.not_found"
         info = { client_secret: @body[:client_secret], client_id: @body[:client_id] }
-        render_422 message, info unless @client
+        render_422 message, info unless @client.first
       end
     end
 
@@ -122,6 +120,7 @@ class Oauth::OauthTokenController < ApplicationController
     # filters for refresh token (section 6.0)
     def find_refresh_token
       if @body[:grant_type] == "refresh_token"
+        @client = @client.first
         @refresh_token = OauthRefreshToken.where(refresh_token: @body[:refresh_token]).first
         message = "notifications.oauth.refresh_token.not_found"
         info = { refresh_token: @body[:refresh_token] }
