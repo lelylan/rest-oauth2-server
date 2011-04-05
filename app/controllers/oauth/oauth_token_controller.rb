@@ -2,17 +2,25 @@ class Oauth::OauthTokenController < ApplicationController
   include ActionView::Helpers::DateHelper
 
   skip_before_filter :authenticate
-
   before_filter :json_body
 
+  # authorization code flow
   before_filter :client_where_secret_and_redirect
   before_filter :find_authorization
   before_filter :find_authorization_expired
 
+  # password credential flow
   before_filter :normalize_scope
   before_filter :client_where_secret
   before_filter :check_scope
   before_filter :find_resource_owner
+
+  # refresh token flow
+  #before_filter :client_where_secret
+  before_filter :find_refresh_token
+  before_filter :find_expired_token
+  before_filter :token_blocked?
+
 
   before_filter :client_blocked?      # check if the client is blocked
   before_filter :access_blocked?      # check if user has blocked the client
@@ -24,12 +32,20 @@ class Oauth::OauthTokenController < ApplicationController
     # section 4.1.3 - authorization code flow
     if @body[:grant_type] == "authorization_code"
       @token = OauthToken.create(client_uri: @client.uri, resource_owner_uri: @authorization.resource_owner_uri, scope: @authorization.scope)
+      @refresh_token = OauthRefreshToken.create(access_token: @token.token)
       render "/oauth/token" and return
     end
 
     # section 4.3.1 (password credentials flow)
     if @body[:grant_type] == "password"
       @token = OauthToken.create(client_uri: @client.uri, resource_owner_uri: @resource_owner.uri, scope: @body[:scope])
+      @refresh_token = OauthRefreshToken.create(access_token: @token.token)
+      render "/oauth/token" and return
+    end
+
+    # section 6.0 (refresh token)
+    if @body[:grant_type] == "refresh_token"
+      @token = OauthToken.create(client_uri: @expired_token.client_uri, resource_owner_uri: @expired_token.resource_owner_uri, scope: @expired_token.scope)
       render "/oauth/token" and return
     end
   end
@@ -75,11 +91,11 @@ class Oauth::OauthTokenController < ApplicationController
     end
 
     def client_where_secret
-      if @body[:grant_type] == "password"
-        @client = OauthClient.where_secret(@body[:client_secret], @body[:client_id])
+      if @body[:grant_type] == "password" or @body[:grant_type] == "refresh_token" 
+        @client = OauthClient.where_secret(@body[:client_secret], @body[:client_id]).first
         message = "notifications.oauth.client.not_found"
         info = { client_secret: @body[:client_secret], client_id: @body[:client_id] }
-        render_422 message, info unless @client.first
+        render_422 message, info unless @client
       end
     end
 
@@ -101,6 +117,37 @@ class Oauth::OauthTokenController < ApplicationController
         render_422 message, info unless @resource_owner
       end
     end
+
+
+    # filters for refresh token (section 6.0)
+    def find_refresh_token
+      if @body[:grant_type] == "refresh_token"
+        @refresh_token = OauthRefreshToken.where(refresh_token: @body[:refresh_token]).first
+        message = "notifications.oauth.refresh_token.not_found"
+        info = { refresh_token: @body[:refresh_token] }
+        render_422 message, info unless @refresh_token
+      end
+    end
+
+    def find_expired_token
+      if @body[:grant_type] == "refresh_token"
+        @expired_token = OauthToken.where(token: @refresh_token.access_token).first
+        @resource_owner_uri = @expired_token.resource_owner_uri
+        message = "notifications.oauth.token.not_found"
+        info = { token: @refresh_token.access_token }
+        render_422 message, info unless @refresh_token
+      end 
+    end
+
+    def token_blocked?
+      if @body[:grant_type] == "refresh_token"
+        message = "notifications.oauth.token.expired"
+        info = { token: @refresh_token.access_token }
+        render_422 message, info if @expired_token.blocked?
+      end 
+    end
+
+
 
     # shared
     def client_blocked?

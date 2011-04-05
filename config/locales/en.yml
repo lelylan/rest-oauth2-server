@@ -8,9 +8,14 @@ en:
       response_type:
         not_valid: "Not valid response type"
       authorization:
-        not_found: "Authorization not found with the provided parms"
+        not_found: "Authorization not found with the provided params"
         expired: "Authorization expired"
       resource_owner:
         not_found: "User not found with the provided params"
         blocked_client: "Client blocked from the user (check preferences)"
+      token:
+        not_found: "Access token not found with the provided params"
+        expired: "Access token authorization expired"
+      refresh_token:
+        not_found: "Refresh token not found with the provided params"
 

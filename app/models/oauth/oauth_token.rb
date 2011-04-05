@@ -8,12 +8,14 @@ class OauthToken
   field :client_uri                           # client identifier (internal)
   field :resource_owner_uri                   # resource owner identifier
   field :token                                # access token
+  field :refresh_token                        # refresh token
   field :scope, type: Array                   # scope accessible with token
   field :expire_at, type: Time, default: nil  # token expiration
   field :blocked, type: Time, default: nil    # access token block (if client is blocked)
 
   before_create :random_token
-  #before_create :create_expiration
+  before_create :random_refresh_token
+  before_create :create_expiration
 
   validates :client_uri, presence: true, url: true
   validates :resource_owner_uri, presence: true, url: true
@@ -47,7 +49,7 @@ class OauthToken
 
   # Token is expired or not
   def expired?
-    self.expire_at != nil and self.expire_at > Time.now
+    self.expire_at < Time.now
   end
 
 
@@ -57,9 +59,12 @@ class OauthToken
       self.token = ActiveSupport::SecureRandom.hex(32)
     end
 
-    # TODO: implement the refresh token mechanism
+    def random_refresh_token
+      self.refresh_token = ActiveSupport::SecureRandom.hex(32)
+    end
+
     def create_expiration
-      self.expire_at = Chronic.parse("in one hour")
+      self.expire_at = Chronic.parse("in 15 minutes")
     end
 
 end
