@@ -10,6 +10,7 @@ describe OauthToken do
   it { should allow_value(VALID_URIS).for(:resource_owner_uri) }
 
   its(:token) { should_not be_nil }
+  its(:refresh_token) { should_not be_nil }
   it { should_not be_blocked }
 
   context "#block!" do
@@ -35,12 +36,20 @@ describe OauthToken do
     it { @another_owner_token.should_not be_blocked }
   end
 
-  context "with expiration not active" do
-    it "should never expire" do
-      should_not be_expired
-      Delorean.time_travel_to("in one year")
-      should_not be_expired
+  context ".exist" do
+    it "should find the token" do
+      existing = OauthToken.exist(@token.client_uri, 
+                                  @token.resource_owner_uri, 
+                                  @token.scope).first
+      existing.should_not be_nil
     end
+  end
+
+
+  it "#expired?" do
+    subject.should_not be_expired
+    Delorean.time_travel_to("in 15 minutes")
+    subject.should be_expired
   end
 
 end

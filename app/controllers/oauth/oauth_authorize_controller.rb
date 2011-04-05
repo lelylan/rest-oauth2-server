@@ -7,6 +7,9 @@ class Oauth::OauthAuthorizeController < ApplicationController
   before_filter :client_blocked?      # check if the client is blocked
   before_filter :access_blocked?      # check if user has blocked the client
 
+  before_filter :token_blocked?, only: :show   # check for an existing token
+  before_filter :refresh_token,  only: :show   # create a new token
+
 
   def show
     render "/oauth/authorize" and return
@@ -58,9 +61,26 @@ class Oauth::OauthAuthorizeController < ApplicationController
 
     def access_blocked?
       access = OauthAccess.find_or_create_by(:client_uri => @client.uri, resource_owner_uri: current_user.uri)
-      access_blocked if access.blocked
+      access_blocked if access.blocked?
+    end
+    
+
+    def token_blocked?
+      if params[:response_type] == "token"
+        @token = OauthToken.exist(@client.uri, current_user.uri, params[:scope]).first
+        token_blocked if @token and @token.blocked?
+      end
     end
 
+    def refresh_token
+      if @token
+        @token = OauthToken.create(client_uri: @client.uri, resource_owner_uri: current_user.uri, scope: params[:scope])
+        redirect_to implicit_redirect_uri(@client, @token, params[:state]) and return
+      end
+    end
+
+
+    # helper methods
 
     def client_not_found
       flash.now.alert = "notifications.oauth.client.not_found"
@@ -86,6 +106,11 @@ class Oauth::OauthAuthorizeController < ApplicationController
       render "oauth/authorize" and return
     end
 
+    def token_blocked
+      flash.now.alert = "notifications.oauth.token.blocked_token"
+      @info = { client_id: params[:client_id], token: @token.token }
+      render "oauth/authorize" and return
+    end
 
     def authorization_redirect_uri(client, authorization, state)
       uri  = client.redirect_uri
