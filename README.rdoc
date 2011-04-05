@@ -199,13 +199,9 @@ In addition to the models above there is a basic authentication system
 * {UsersController}[blob/master/app/controllers/users_controller.rb]: represents the user definition
 * {SessionsController}[blob/master/app/controllers/sessions_controller.rb]: represents the session definition
 
-This model is kept simple on porpuse, but you can easily change it with the authentication system you prefer like:
-
-* {Authlogic}[https://github.com/binarylogic/authlogic] 
-* {Devise}[https://github.com/plataformatec/devise]
-* {Warden}[https://github.com/hassox/warden]
-
-Just remember that your user model <b>must</b> define an <tt>uri</tt> field, which is used as identifier on the OAuth 2.0 flows.
+This model is kept simple on porpuse, but you can easily change it with the authentication system you prefer like {Authlogic}[https://github.com/binarylogic/authlogic],
+{Devise}[https://github.com/plataformatec/devise] or {Warden}[https://github.com/hassox/warden]. Just remember that your user model <b>must</b> 
+define an <tt>uri</tt> field, which is used as identifier on the OAuth 2.0 flows.
 
 
 
