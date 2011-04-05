@@ -179,7 +179,7 @@ The response is a JSON Object containing the access token:
 
 
 
-= Models
+= OAuth 2.0 Models
 
 Rest OAuth 2.0 Server is working on top of 5 models. They are pretty simple so if you want to have more information about
 them, check the source code, which is clearly documented.
@@ -190,13 +190,33 @@ them, check the source code, which is clearly documented.
 * {OauthAccess}[link:blob/master/app/models/oauth/oauth_access.rb]: represents the relation between a client and a user, whenever a user grant an authorization.
 * {OauthDailyRequests}[link:blob/master/app/models/oauth/oauth_daily_request.rb]: represents a daily request from the client on behalf of a specific user.
 
-In addition to the models above, there is a basic {User}[link:app/models/user.rb] model which defines the basic authentication 
-system (together with {users_controller}[blob/master/app/controllers/users_controller.rb] and {sessions_controller}[blob/master/app/controllers/sessions_controller.rb]). 
-This model is kept simple on porpuse, but you can easily change it with the authentication system you prefer, like {Authlogic}[https://github.com/binarylogic/authlogic] 
-or {Devise}[https://github.com/plataformatec/devise]. Just remember that your user model <b>must</b> define an <tt>uri</tt> field.
+
+= Basic auth system
+
+In addition to the models above there is a basic authentication system
+
+* {User}[link:blob/master/app/models/user.rb]: represents the basic user authentication functionalities
+* {UsersController}[blob/master/app/controllers/users_controller.rb]: represents the user definition
+* {SessionsController}[blob/master/app/controllers/sessions_controller.rb]: represents the session definition
+
+This model is kept simple on porpuse, but you can easily change it with the authentication system you prefer like:
+
+* {Authlogic}[https://github.com/binarylogic/authlogic] 
+* {Devise}[https://github.com/plataformatec/devise]
+* {Warden}[https://github.com/hassox/warden]
+
+Just remember that your user model <b>must</b> define an <tt>uri</tt> field, which is used as identifier on the OAuth 2.0 flows.
+
+
 
 = Blocking System
 
+One important feature lie in the ability of to block a client. Rest OAuth 2.0 server enables you two possibilities:
+
+* <b>Client block</b>: this is done by calling <tt>client.block!</tt> and it revoke any access to any users' resources. 
+* <b>User Client block</b>: this is done by calling <tt>access.block!</tt> and it revoke any access to a specific user's resources.
+
+In both cases, is possible to unblock the client using the <tt>unblock!</tt> method, present in the <tt>OauthClient</tt> and <tt>OauthAccess</tt> models.
 
 
 
