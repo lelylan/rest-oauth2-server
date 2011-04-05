@@ -129,7 +129,7 @@ class Oauth::OauthAuthorizeController < ApplicationController
     def deny_redirect_uri(response_type, state)
       uri = @client.redirect_uri
       uri += (response_type == "code") ? "?" : "#"
-      uri += "access=denied"
+      uri += "error=access_denied"
       uri += "&state=" + state if state
       return uri
     end

@@ -53,11 +53,11 @@ module HelperMethods
   end
 
   def authorization_denied_uri(client)
-    client.redirect_uri + "?access=denied"
+    client.redirect_uri + "?error=access_denied"
   end
 
   def implicit_denied_uri(client)
-    client.redirect_uri + "#access=denied"
+    client.redirect_uri + "#error=access_denied"
   end
 
 
