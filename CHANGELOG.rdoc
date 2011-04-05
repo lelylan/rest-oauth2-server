@@ -1,7 +1,20 @@
 = Changelog
 
+
+== Release v0.2.0 (2011/04/06)
+
+* Added refresh token mechanisms
+* Removed unuseful gems
+* Changed denied message from access=denied to error=access_denied
+* Introduced test to block of single token (idea of logout)
+* Changed oauth/authorize with /oauth/authorization to make sistem more REST
+* Redefinition of all documentation, more simple and complete
+
+
 == Release v0.1.1 (2011/03/29)
+
 * Added documentation explaining the authorization flows
+
 
 == Release v0.1.0 (2011/03/29)
 
