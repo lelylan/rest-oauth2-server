@@ -16,6 +16,7 @@ en:
       token:
         not_found: "Access token not found with the provided params"
         expired: "Access token authorization expired"
+        blocked_token: "Access token blocked from the user (logged out)"
       refresh_token:
         not_found: "Refresh token not found with the provided params"
 

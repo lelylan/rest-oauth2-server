@@ -168,11 +168,11 @@ feature "Refresh Token" do
     end
   end
 
-  context "when token is blocked (resource owner log out from client)" do
+  context "when token is blocked (resource owner log out)" do
     scenario "should not load authorization page" do
       token.block!
       create_token_uri(attributes)
-      page.should have_content "Access token authorization expired"
+      page.should have_content "Access token blocked from the user"
     end
   end
 

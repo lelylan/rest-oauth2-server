@@ -139,7 +139,7 @@ class Oauth::OauthTokenController < ApplicationController
 
     def token_blocked?
       if @body[:grant_type] == "refresh_token"
-        message = "notifications.oauth.token.expired"
+        message = "notifications.oauth.token.blocked_token"
         info = { token: @refresh_token.access_token }
         render_422 message, info if @expired_token.blocked?
       end 
