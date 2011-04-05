@@ -21,15 +21,15 @@ module HelperMethods
 
 
   # Authorization page URIs
-  # TODO: change authorize in authorization
+  # TODO: change authorization in authorization
   def authorization_grant_page(client, scope)
-    uri = "/oauth/authorize?response_type=code" + authorization_params(client, scope)
+    uri = "/oauth/authorization?response_type=code" + authorization_params(client, scope)
     return URI.escape(uri)
   end
 
   # TODO: seems the secred of the client is missing
   def implicit_grant_page(client, scope)
-    uri = "/oauth/authorize?response_type=token" + authorization_params(client, scope)
+    uri = "/oauth/authorization?response_type=token" + authorization_params(client, scope)
     return URI.escape(uri)
   end
 

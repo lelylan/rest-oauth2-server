@@ -6,7 +6,7 @@
     <h3>You are giving the accesses for these resources: <%= params[:scope] %></h3>
 
     <div id="grant">
-      <form method="POST" action="/oauth/authorize/grant">
+      <form method="POST" action="/oauth/authorization">
         <input type="text" style="display:none" name="response_type" value="<%=params[:response_type]%>">
         <input type="text" style="display:none" name="client_id" value="<%=params[:client_id]%>">
         <input type="text" style="display:none" name="redirect_uri" value="<%=params[:redirect_uri]%>">
@@ -19,7 +19,7 @@
     </div>
 
     <div id="deny">
-      <form method="POST" action="/oauth/authorize/deny">
+      <form method="POST" action="/oauth/authorization">
         <input type="text" style="display:none" name="_method" value="delete">
         <input type="text" style="display:none" name="response_type" value="<%=params[:response_type]%>">
         <input type="text" style="display:none" name="client_id" value="<%=params[:client_id]%>">

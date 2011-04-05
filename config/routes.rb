@@ -1,10 +1,10 @@
 Lelylan::Application.routes.draw do
 
   namespace :oauth do
-    get "authorize" => "oauth_authorize#show", defaults: { format: "html" }
-    post "authorize/grant" => "oauth_authorize#create", defaults: { format: "html" }
-    delete "authorize/deny" => "oauth_authorize#destroy", defaults: { format: "html" }
-    post "token" => "oauth_token#create", defaults: { format: "json" }
+    get    "authorization" => "oauth_authorize#show", defaults: { format: "html" }
+    post   "authorization" => "oauth_authorize#create", defaults: { format: "html" }
+    delete "authorization" => "oauth_authorize#destroy", defaults: { format: "html" }
+    post   "token" => "oauth_token#create", defaults: { format: "json" }
   end
 
   get "log_out" => "sessions#destroy", as: "log_out"
