@@ -1,12 +1,16 @@
-= Rest OAuth 2 Server
+= Rest OAuth 2.0 Server
 
-Rest Oauth2 Server is a gem to easily create your OAuth2 Server so that you can start sharing your
-API in a secure way. The actual implementation is based on {draft 13}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13]
-and it allows you to obtain the access tokens using one of the following 3 flows
+<b>Rest OAuth 2.0 Server</b> is a gem that easily allow the generation of an OAuth 2.0 Server following the {draft 13}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13]
+of the OAuth 2.0 protocol with bearer tokens for authorizing. The spec is close to settling down, and we intend 
+to update our code to match the final OAuth 2.0 and bearer token standards. OAuth has often been described as a 
+"valet key for the web." It lets applications ask users for access to just the data they need and no more, giving
+them the ability to enable and disable the accesses whenever they want, most of the time without sharing their 
+secret credentials.
 
-* {Authorization Code}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.1]
-* {Implicit Grant}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.2]
-* {Resource Owner Password Credentials}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.3]
+Today Rest OAuth 2.0 Server supports three flows of OAuth 2.0
+* The client-side flow for JavaScript applications running in a browser ({Implicit Grant}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.2]) 
+* The server-side flow for web applications with servers that can securely store persistent information ({Authorization Code Flow}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.1])
+* The native application flow for desktop and mobile applications ({Resource Owner Password Credentials}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.3])
 
 
 = Installation
