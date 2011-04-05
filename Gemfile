@@ -1,17 +1,12 @@
 source 'http://rubygems.org'
 source 'http://gemcutter.org'
 
-gem 'rails', '3.0.4'
+gem 'rails', '3.0.5'
 gem 'mongoid', '2.0.0.beta.20'
 gem 'bson_ext'
 gem 'yajl-ruby'
-gem 'addressable'
 gem 'will_paginate'
 gem 'rack-ssl'
-gem 'dragonfly'
-gem 'rack-cache', :require => 'rack/cache'
-gem 'rmagick'
-gem 'radius', git: "https://github.com/jlong/radius.git"
 gem "bcrypt-ruby", :require => "bcrypt"
 gem 'validate_url', '0.1.6'
 gem 'email_validator'
