@@ -1,38 +1,38 @@
 = Rest OAuth 2.0 Server
 
 <b>Rest OAuth 2.0 Server</b> is a gem that easily allow the generation of an OAuth 2.0 Server following the {draft 13}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13]
-of the OAuth 2.0 protocol with bearer tokens for authorizing. The spec is close to settling down, and we intend 
-to update our code to match the final OAuth 2.0 and bearer token standards. OAuth has often been described as a 
-"valet key for the web." It lets applications ask users for access to just the data they need and no more, giving
-them the ability to enable and disable the accesses whenever they want, most of the time without sharing their 
-secret credentials.
+of the OAuth 2.0 protocol with {bearer tokens}[http://tools.ietf.org/html/draft-ietf-oauth-v2-bearer-02]. The spec 
+is close to settling down, and we intend to update our code to match the final OAuth 2.0 and bearer token standards. 
+OAuth has often been described as a "valet key for the web." It lets applications ask users for access to just the 
+data they need and no more, giving them the ability to enable and disable the accesses whenever they want, most of 
+the time without sharing their secret credentials.
 
 Today Rest OAuth 2.0 Server supports three flows of OAuth 2.0
-* The client-side flow for JavaScript applications running in a browser ({Implicit Grant}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.2]) 
 * The server-side flow for web applications with servers that can securely store persistent information ({Authorization Code Flow}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.1])
+* The client-side flow for JavaScript applications running in a browser ({Implicit Grant}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.2]) 
 * The native application flow for desktop and mobile applications ({Resource Owner Password Credentials}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.3])
 
 
 = Installation
 
-For the project to work, is required ruby 1.9.2 and MongoDB[http://www.mongodb.org/] which is the default database
+For the project to work you is required ruby 1.9.2 and MongoDB[http://www.mongodb.org/] which is the default database
 system (we use the handy Mondoid[mongoid.org] library to access it). To install it clone the repository, install the
-gems with bundler and run the tests. If everything works correctly, you have your OAuth2 server working.
+gems with bundler and run the tests. If everything works correctly, you have your OAuth2 server up and running.
 
   git clone git@github.com:Lelylan/rest-oauth2-server.git
   bundle install
   rake spec
 
-We are working on a gem and a generator to easily integrate the OAuth server into your project. This is what
-we want to reach.
+We are working on a gem and a generator to easily integrate the OAuth server into your project. This is the final 
+result we want to reach.
 
   gem install rest-oauth2-server
   rails g oauth2
 
-= How to use
 
-Rest OAuth2 Server actually supports 3 authorization flows. Each of them can be used in specific situations
-and is important to use the correct one for the correct goal.
+= OAuth 2.0 flows
+
+Before diving in the code, we explain how Rest OAuth2 Server supports the 3 authorization flows. 
 
 
 == Authorization Code Flow (aka OAuth2 for server side app)
@@ -104,24 +104,18 @@ The response is a JSON structure containing the final access token.
 We are working on the definition of a refresh token mechanism to improve the OAuth security system
 
 
-== Implicit Grant Flow (aka OAuth2 for client side app)
 
-The {Implicit Grant}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.2] flow is suitable for clients incapable
-of maintaining their client credentials confidential (for authenticating with the authorization server) such as client
-applications residing in a user-agent, typically implemented in a browser using a scripting language such as <b>JavaScript</b>
-or <b>ActionScript</b>. In greater detail, the authorization flow goes like this.
 
-The client redirect the resource owner's user-agent to the {authorization endpoint}[http://localhost:3000/oauth/authorize]
-by adding the following parameters in the query component.
+== OAuth 2.0 for client-side web applications
 
-  GET http://localhost:3000/oauth/authorize?
-      response_type=token&
-      client_id=http://localhost:3000/users/alic/clients/example&
-      redirect_uri=http://example.com/callback&
-      scope=write&
-      state=2af5D3vds
+This flow is meant for JavaScript-based web applications that can't maintain state over time. For those who prefer to send 
+and receive HTTP directly without using a client library, this section walks through how to use OAuth 2.0 for client-side 
+web applications (it includes also ActionScript and SilverLight).
 
-Lets explain in detail the {implicit request}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.2.1] params
+=== Getting a user's permission
+
+Every flow of OAuth 2.0 begins by sending the user to our OAuth dialog at the authorization endpoint <pre>[http://localhost:3000/oauth/authorize</pre>
+with the following query parameters
 
 * <b>response_type</b> (REQUIRED): always use "token" as response type
 * <b>client_id</b> (REQUIRED): client identifier (in our case is the uri field of the client model)
@@ -129,19 +123,29 @@ Lets explain in detail the {implicit request}[http://tools.ietf.org/html/draft-i
 * <b>scope</b> (REQUIRED): privileges given to the client (TODO: make section)
 * <b>state</b> (OPTIONAL): opaque value used by the client to maintain state between the request and callback
 
-In the authorization page the resource owner will be asked to grand or deny the access to the specific client for
-a specif scope. If the resource owner 'grant' the access, the client will get back the final access token that will
-be used to access the resource owner resources.
+Here's an example URL for a hypothetical app called "Example App" running on https://example.com
 
-  # The resource owner grants the access request
-  https://example.com/callback#token=g2VDXwrT0S6iZeUeYQBYi2stxRy&state=2af5D3vds
+  http://localhost:3000/oauth/authorize?
+    response_type=token&
+    client_id=http://localhost:3000/clients/a918F2fs3&
+    redirect_uri=httsp://example.com/callback&
+    scope=write&
+    state=2af5D3vds
 
-  # The resource owner denies the access request
+After the user approves access or chooses not to, we'll redirect to the <pre>redirect_uri</pre> you pass us. If the 
+user denies access, an error code is appended:
+
   https://example.com/callback#access=denied&state=2af5D3vds
 
-Note that the token is added to the {fragment URI}[http://en.wikipedia.org/wiki/Fragment_identifier]. This is done
-because the fragment URI can not be read from server side, but only from client applications like Javascript and
-ActionScipt.
+If the user approves access we'll append a short-lived access token in the hash fragment of the URL. Access tokens 
+typically are valid for a bit more than an hour, but implementations shouldn't depend on that behavior. In the example 
+above, your browser should be redirected to something like:
+
+  https://example.com/callback#token=g2VDXwrT0S6iZeUeYQBYi2stxRy&state=2af5D3vds
+
+JavaScript running on that page can grab that access token from the window.location.hash and either store it in a cookie 
+or POST it to a server. Note that the token is added to the {fragment URI}[http://en.wikipedia.org/wiki/Fragment_identifier]. 
+This is done because the fragment URI can not be read from server side, but only from client.based applications
 
 
 == Resource Owner Password Credentials Flow (aka OAuth2 for native app)
