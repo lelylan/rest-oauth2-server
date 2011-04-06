@@ -12,9 +12,9 @@ def run_spec(file)
 end
 
 def run_spec_cmd(cmd)
-  @second_int = false
   puts "Running #{cmd}"
   system "bundle exec rspec #{cmd}"
+  @second_int = false
 end
 
 # --------------
@@ -57,8 +57,8 @@ end
 # Run all tests (Ctrl-c)
 Signal.trap 'INT' do
   check_exit # exit  (double Ctrl-c)
-  run_spec "spec/"
   @second_int = true
+  run_spec "spec/"
 end
 
 def check_exit
