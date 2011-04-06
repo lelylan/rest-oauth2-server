@@ -95,7 +95,41 @@ Using curl the request might look like:
 
 The response is a JSON Object containing the access token:
 
-  { "access_token":"SlAV32hkKG" }
+  { 
+    "access_token": "SlAV32hkKG", 
+    "expires_in": 1800,
+    "refresh_token": "Da8i1930LSj"
+  }
+
+=== Getting additional access tokens
+
+When your access token expires, Rest OAuth 2.0 Server API endpoints will respond with HTTP 401 Unauthorized. At any time, 
+you can use the token endpoint with your refresh token with the following query parameters
+
+* <b>grant_type</b> (REQUIRED): always use "refresh_token" as grant type
+* <b>client_id</b> (REQUIRED): client identifier (in our case is the uri field of the client)
+* <b>client_secred</b> (REQUIRED): client secret code
+* <b>refresh_token</b> (REQUIRED): refresh token previusly received
+* <b>state</b> (OPTIONAL): opaque value used by the client to maintain state between the request and callback
+
+Using curl the request might look like:
+ 
+  curl -i http://localhost:3000/oauth/token \
+       -H "Accept: application/json" \
+       -X POST -d '{
+          "grant_type": "refresh_token", \
+          "refresh_token": "Da8i1930LSj", \
+          "client_id": "http://localhost:30000/clients/a918F2fs3", \
+          "client_secret": "a34a7afe4731e745de9d61iZeUeY" \
+       }'
+
+The response is a JSON Object containing the new access token. 
+
+  { 
+    "access_token": "AlYZ892hsKs", 
+    "expires_in": 1800,
+    "refresh_token": "Da8i1930LSj"
+  }
 
 
 
@@ -132,11 +166,18 @@ user denies access, an error code is appended:
 
 If the user approves will be appended an access token in the hash fragment of the UR:
 
-  https://example.com/callback#token=g2VDXwrT0S6iZeUeYQBYi2stxRy&state=2af5D3vds
+  https://example.com/callback#token=g2VDXwrT0S6iZeUeYQBYi2stxRy&expires_in=1800&state=2af5D3vds
 
 JavaScript running on that page can grab that access token from the <tt>window.location.hash</tt> and either store it in a
 cookie or POST it to a server. Note that the token is added to the {fragment URI}[http://en.wikipedia.org/wiki/Fragment_identifier]. 
 This is done because the fragment URI can not be read from server side, but only from client-based applications.
+
+=== Getting additional access tokens
+
+When your access token expires, our API endpoints will respond with HTTP 401 Unauthorized. At any time, you can send 
+your user to the same authorization endpoint you used in the previous step. If the user has already authorized your 
+application for the scopes you're requesting, Rest OAuth Server won't show the OAuth dialog and will immediately redirect 
+to the <tt>redirect_uri</tt> you pass us with a new access token.
 
 
 
@@ -175,7 +216,41 @@ Using curl the request might look like:
        
 The response is a JSON Object containing the access token:
 
-  { "access_token":"SlAV32hkKG" }
+  { 
+    "access_token": "AlYZ892hsKs", 
+    "expires_in": 1800,
+    "refresh_token": "Da8i1930LSj"
+  }
+
+=== Getting additional access tokens
+
+When your access token expires, Rest OAuth 2.0 Server API endpoints will respond with HTTP 401 Unauthorized. At any time, 
+you can use the token endpoint with your refresh token with the following query parameters
+
+* <b>grant_type</b> (REQUIRED): always use "refresh_token" as grant type
+* <b>client_id</b> (REQUIRED): client identifier (in our case is the uri field of the client)
+* <b>client_secred</b> (REQUIRED): client secret code
+* <b>refresh_token</b> (REQUIRED): refresh token previusly received
+* <b>state</b> (OPTIONAL): opaque value used by the client to maintain state between the request and callback
+
+Using curl the request might look like:
+ 
+  curl -i http://localhost:3000/oauth/token \
+       -H "Accept: application/json" \
+       -X POST -d '{
+          "grant_type": "refresh_token", \
+          "refresh_token": "Da8i1930LSj", \
+          "client_id": "http://localhost:30000/clients/a918F2fs3", \
+          "client_secret": "a34a7afe4731e745de9d61iZeUeY" \
+       }'
+
+The response is a JSON Object containing the new access token. 
+
+  { 
+    "access_token": "AlYZ892hsKs", 
+    "expires_in": 1800,
+    "refresh_token": "Da8i1930LSj"
+  }
 
 
 

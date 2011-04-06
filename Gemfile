@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 source 'http://gemcutter.org'
 
-gem 'rails', '3.0.5'
+gem 'rails', '3.0.6'
 gem 'mongoid', '2.0.0.beta.20'
 gem 'bson_ext'
 gem 'yajl-ruby'
