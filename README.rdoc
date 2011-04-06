@@ -254,6 +254,14 @@ The response is a JSON Object containing the new access token.
 
 
 
+= OAuth 2.0 options
+
+Rest OAuth 2.0 Server allows you to personalize some options changing {oauth.yml}[link:blob/master/config/oauth.yml]
+
+* <b>expires_in</b>: define the seconds after which the access token expire. 
+
+
+
 = OAuth 2.0 Models
 
 Rest OAuth 2.0 Server is working on top of 5 models. They are pretty simple so if you want to have more information about
