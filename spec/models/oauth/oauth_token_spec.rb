@@ -48,7 +48,7 @@ describe OauthToken do
 
   it "#expired?" do
     subject.should_not be_expired
-    Delorean.time_travel_to("in #{Oauth.settings["expires_in"]} seconds")
+    Delorean.time_travel_to("in #{Oauth.settings["token_expires_in"]} seconds")
     subject.should be_expired
   end
 

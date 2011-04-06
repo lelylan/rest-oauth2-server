@@ -96,7 +96,7 @@ class OauthClient
     end
 
     def random_secret
-      self.secret = ActiveSupport::SecureRandom.hex(32)
+      self.secret = ActiveSupport::SecureRandom.hex(Oauth.settings["random_length"])
     end
 
     def clean

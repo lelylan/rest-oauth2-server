@@ -122,7 +122,7 @@ class Oauth::OauthAuthorizeController < ApplicationController
     def implicit_redirect_uri(client, token, state)
       uri  = client.redirect_uri
       uri += "#token=" + token.token
-      uri += "&expires_in=" + Oauth.settings["expires_in"]
+      uri += "&expires_in=" + Oauth.settings["token_expires_in"]
       uri += "&state=" + state if state
       return uri
     end

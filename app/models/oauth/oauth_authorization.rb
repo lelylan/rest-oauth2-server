@@ -57,12 +57,12 @@ class OauthAuthorization
 
     # random authorization code
     def random_code
-      self.code = ActiveSupport::SecureRandom.hex(32)
+      self.code = ActiveSupport::SecureRandom.hex(Oauth.settings["random_length"])
     end
 
     # expiration time
     def create_expiration
-      self.expire_at = Chronic.parse("in 150 seconds")
+      self.expire_at = Chronic.parse("in #{Oauth.settings["authorization_expires_in"]} seconds")
     end
 
 end

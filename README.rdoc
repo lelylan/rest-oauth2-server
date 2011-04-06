@@ -89,8 +89,7 @@ Using curl the request might look like:
           "code": "g2VDXwrT0S6iZeUeYQBYi2stxRy", \
           "grant_type": "authorization_code", \
           "client_id": "http://localhost:30000/clients/a918F2fs3", \
-          "client_secret": "a34a7afe4731e745de9d61iZeUeY", \
-          "scope": "write"
+          "client_secret": "a34a7afe4731e745de9d61iZeUeY" \
        }'
 
 The response is a JSON Object containing the access token:
@@ -110,7 +109,6 @@ you can use the token endpoint with your refresh token with the following query 
 * <b>client_id</b> (REQUIRED): client identifier (in our case is the uri field of the client)
 * <b>client_secred</b> (REQUIRED): client secret code
 * <b>refresh_token</b> (REQUIRED): refresh token previusly received
-* <b>state</b> (OPTIONAL): opaque value used by the client to maintain state between the request and callback
 
 Using curl the request might look like:
  
@@ -211,7 +209,7 @@ Using curl the request might look like:
           "client_secret": "a34a7afe4731e745de9d61iZeUeY", \
           "username": "alice@example.com", \
           "password": "example", \
-          "scope": "write"
+          "scope": "write" \
        }'
        
 The response is a JSON Object containing the access token:
@@ -231,7 +229,6 @@ you can use the token endpoint with your refresh token with the following query 
 * <b>client_id</b> (REQUIRED): client identifier (in our case is the uri field of the client)
 * <b>client_secred</b> (REQUIRED): client secret code
 * <b>refresh_token</b> (REQUIRED): refresh token previusly received
-* <b>state</b> (OPTIONAL): opaque value used by the client to maintain state between the request and callback
 
 Using curl the request might look like:
  
@@ -258,7 +255,9 @@ The response is a JSON Object containing the new access token.
 
 Rest OAuth 2.0 Server allows you to personalize some options changing {oauth.yml}[link:blob/master/config/oauth.yml]
 
-* <b>expires_in</b>: define the seconds after which the access token expire. 
+* <b>token_expires_in</b>: define the seconds after which the access token expires. 
+* <b>authorization_expires_in</b>: define the seconds after which the authorization code expires. 
+* <b>secure_random</b>: define the lenght of tokens, code and secret keys.
 
 
 

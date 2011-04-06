@@ -62,15 +62,15 @@ class OauthToken
   private
 
     def random_token
-      self.token = ActiveSupport::SecureRandom.hex(32)
+      self.token = ActiveSupport::SecureRandom.hex(Oauth.settings["random_length"])
     end
 
     def random_refresh_token
-      self.refresh_token = ActiveSupport::SecureRandom.hex(32)
+      self.refresh_token = ActiveSupport::SecureRandom.hex(Oauth.settings["random_length"])
     end
 
     def create_expiration
-      self.expire_at = Chronic.parse("in #{Oauth.settings["expires_in"]} seconds")
+      self.expire_at = Chronic.parse("in #{Oauth.settings["token_expires_in"]} seconds")
     end
 
 end
