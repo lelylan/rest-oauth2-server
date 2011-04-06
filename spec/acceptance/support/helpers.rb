@@ -21,13 +21,11 @@ module HelperMethods
 
 
   # Authorization page URIs
-  # TODO: change authorization in authorization
   def authorization_grant_page(client, scope)
     uri = "/oauth/authorization?response_type=code" + authorization_params(client, scope)
     return URI.escape(uri)
   end
 
-  # TODO: seems the secred of the client is missing
   def implicit_grant_page(client, scope)
     uri = "/oauth/authorization?response_type=token" + authorization_params(client, scope)
     return URI.escape(uri)
@@ -49,7 +47,7 @@ module HelperMethods
   def implicit_grant_uri(client)
     token = OauthToken.last
     token.token.should_not be_nil
-    uri = client.redirect_uri + "#token=" + token.token
+    uri = client.redirect_uri + "#token=" + token.token + "&expires_in=" + Oauth.settings["expires_in"]
   end
 
   def authorization_denied_uri(client)

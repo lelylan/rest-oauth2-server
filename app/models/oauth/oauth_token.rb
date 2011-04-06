@@ -70,7 +70,7 @@ class OauthToken
     end
 
     def create_expiration
-      self.expire_at = Chronic.parse("in 15 minutes")
+      self.expire_at = Chronic.parse("in #{Oauth.settings["expires_in"]} seconds")
     end
 
 end
