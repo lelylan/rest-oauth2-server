@@ -46,7 +46,7 @@ that code along with its client secret to the Rest OAuth 2.0 Server in order to 
 
 === Getting an access token
 
-This flow begins by sending the user to the authorization endpoint <tt>http://localhost:3000/oauth/authorize</tt>
+This flow begins by sending the user to the authorization endpoint <tt>http://localhost:3000/oauth/authorization</tt>
 with the following query parameters
 
 * <b>response_type</b> (REQUIRED): always use "code" as response type
@@ -57,7 +57,7 @@ with the following query parameters
 
 Here's an example URL for a hypothetical app called "Example App" running on https://www.example.com
 
-  http://localhost:3000/oauth/authorize?
+  http://localhost:3000/oauth/authorization?
     response_type=code&
     client_id=http://localhost:3000/clients/a918F2fs3&
     redirect_uri=httsp://www.example.com/callback&
@@ -67,7 +67,7 @@ Here's an example URL for a hypothetical app called "Example App" running on htt
 After the user approves access or chooses not to, we'll redirect to the <tt>redirect_uri</tt> you pass us. If the 
 user denies access, an error code is appended:
 
-  https://example.com/callback?access=denied&state=2af5D3vds
+  https://example.com/callback?error=access_denied&state=2af5D3vds
 
 If the user approves access will be appended an authorization code in the query string of the URL:
 
@@ -141,7 +141,7 @@ and SilverLight).
 === Getting a user's permission
 
 
-This flow begins by sending the user to the authorization endpoint <tt>http://localhost:3000/oauth/authorize</tt>
+This flow begins by sending the user to the authorization endpoint <tt>http://localhost:3000/oauth/authorization</tt>
 with the following query parameters
 
 * <b>response_type</b> (REQUIRED): always use "token" as response type
@@ -152,7 +152,7 @@ with the following query parameters
 
 Here's an example URL for a hypothetical app called "Example App" running on https://www.example.com
 
-  http://localhost:3000/oauth/authorize?
+  http://localhost:3000/oauth/authorization?
     response_type=token&
     client_id=http://localhost:3000/clients/a918F2fs3&
     redirect_uri=httsp://www.example.com/callback&
@@ -162,7 +162,7 @@ Here's an example URL for a hypothetical app called "Example App" running on htt
 After the user approves access or chooses not to, we'll redirect to the <tt>redirect_uri</tt> you pass. If the 
 user denies access, an error code is appended:
 
-  https://example.com/callback#access=denied&state=2af5D3vds
+  https://example.com/callback#error=access_denied&state=2af5D3vds
 
 If the user approves will be appended an access token in the hash fragment of the UR:
 
