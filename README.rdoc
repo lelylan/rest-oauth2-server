@@ -291,12 +291,9 @@ define an <tt>uri</tt> field, which is used as identifier on the OAuth 2.0 flows
 
 One important feature lie in the ability of to block a client. Rest OAuth 2.0 server enables you two possibilities:
 
-* <b>Client block</b>: this is done by calling <tt>client.block!</tt> and it revoke any access to any users' resources accessed from the client. This
-is done when a client is considered not safe.
-* <b>User block a client</b>: this is done by calling <tt>access.block!</tt> and it revoke any access to a specific user's resources from the client.
-This is done when a user want to revoke any access to his resources.
-* <b>User block an access token</b>: this is done by calling <tt>token.block!</tt> and it revoke any access to a specific token from a client. This
-is usually done when a user logout from the client.
+* <b>Client block</b> via <tt>client.block!</tt>: used to block a not safe client for all users.
+* <b>User block a client</b> via <tt>access.block!</tt>: used when a user want to revoke any access to his resources to a specific client.
+* <b>User block an access token</b> via <tt>token.block!</tt>: used when a user logout from the client and want to revoke the token access.
 
 In the first two cases it is possible to unblock the client using the <tt>unblock!</tt> method.
 
