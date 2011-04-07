@@ -1,0 +1,8 @@
+<div class="list">
+  <% @scopes.each do |scope| %>
+    <div class="item">
+      <%= render partial: "scope", locals: { scope: scope } %>
+      <a href="<%=scope.uri%>">show</a>
+    </div>
+  <% end %>
+</div>

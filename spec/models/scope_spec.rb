@@ -19,5 +19,4 @@ describe Scope do
     it { @scope.values[0].should == "{:key=>\"value\"}" }
     it { @scope.values[1].should == "[\"value\"]" }
   end
-
 end

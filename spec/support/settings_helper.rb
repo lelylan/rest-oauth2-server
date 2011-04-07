@@ -1,8 +1,9 @@
+# TODO: define a yml file for configurations
 module SettingsHelper
 
   # general
   HOST = "http://www.iana.org/domains/example"
-  ANOTHER_HOST = "http://www.examplify.com"
+  ANOTHER_HOST = "http://www.example.com"
 
   # resources
   USER_URI               = HOST + "/users/example"
@@ -12,6 +13,7 @@ module SettingsHelper
   REDIRECT_URI           = HOST + "/app/callback"
 
   # scopes
+  SCOPE_URI   = HOST + "/scopes/write"
   WRITE_SCOPE = ["pizza/read", "pizza/write", "pasta/read", "pasta/write"]
   READ_SCOPE  = ["pizza/read", "pasta/read"]
 

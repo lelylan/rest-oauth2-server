@@ -40,7 +40,7 @@ FactoryGirl.define do
   end
 
   factory :scope do
-    uri CLIENT_URI
+    uri SCOPE_URI
     name "write"
     host HOST
   end

@@ -17,8 +17,13 @@
     <% end %>
   </div>
 
+  <br/>
+
   <% flash.each do |name, msg| %>
     <%= content_tag :div, t(msg), :id => "flash_#{name}" %>
+    <% if @info %>
+      <div id=info>Debug information: <%= @info.to_json %></div>
+    <% end %>
   <% end %>
 
   <%= yield %>

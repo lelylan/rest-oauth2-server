@@ -1,10 +1,8 @@
 class Scope
   include Mongoid::Document
   include Mongoid::Timestamps
-  include Lelylan::Document::Base
   include Lelylan::Array::Normalize
-
-  before_save :normalize_values
+  include Lelylan::Document::Base
 
   field :name
   field :uri
@@ -12,6 +10,8 @@ class Scope
   field :values, type: Array
 
   attr_accessible :name
+
+  before_save :normalize_values
 
   validates :name, presence: true
   validates :host, presence: true
