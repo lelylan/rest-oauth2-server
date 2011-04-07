@@ -11,6 +11,11 @@ module SettingsHelper
   ANOTHER_CLIENT_URI     = HOST + "/users/alice/client/riflect"
   REDIRECT_URI           = HOST + "/app/callback"
 
+  # scopes
+  WRITE_SCOPE = ["pizza/read", "pizza/write", "pasta/read", "pasta/write"]
+  READ_SCOPE  = ["pizza/read", "pasta/read"]
+
+
   # urls validator
   VALID_URIS    = [ 'http://example.com',  'http://www.example.com',
                     'https://example.com', 'https://www.example.com',

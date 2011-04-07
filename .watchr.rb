@@ -14,7 +14,6 @@ end
 def run_spec_cmd(cmd)
   puts "Running #{cmd}"
   system "bundle exec rspec #{cmd}"
-  @second_int = false
 end
 
 # --------------
@@ -28,10 +27,7 @@ end
 
 # Models tests
 watch("app/models/(.*/.*)\.rb") do |match|
-  exclusions = ["controllers/application_controller"]
-  unless exclusions.include? match[1]
-    run_spec %{spec/models/#{match[1]}_spec.rb}
-  end
+  run_spec %{spec/models/#{match[1]}_spec.rb}
 end
 
 # Acceptance tests for every controller (not the
@@ -63,4 +59,5 @@ end
 
 def check_exit
   exit if @second_int
+  @second_int = false
 end
