@@ -145,7 +145,6 @@ feature "ScopesController" do
       context "when not valid" do
         scenario "fails" do
           visit @uri
-          save_and_open_page
           fill_scope("", "")
           click_button 'Update Scope'
           page.should have_content "Name can't be blank"
@@ -155,5 +154,7 @@ feature "ScopesController" do
     end
   end
 
+  context ".destroy" do
+  end
 
 end

@@ -3,7 +3,7 @@ class ScopesController < ApplicationController
   before_filter :find_resource, only: ["show", "edit", "update", "destroy"]
 
   def index
-    @scopes = Scope.all.paginate page: params[:page], per_page: params[:per_page]
+    @scopes = Scope.all
   end
 
   def show
@@ -19,7 +19,7 @@ class ScopesController < ApplicationController
     @scope.values = @scope.normalize(params[:scope][:values])
 
     if @scope.save
-      redirect_to(@scope, notice: 'Resource was successfully created.')
+      redirect_to(@scope, notice: "Resource was successfully created.")
     else
       render action: "new"
     end
@@ -40,7 +40,7 @@ class ScopesController < ApplicationController
 
   def destroy
     @scope.destroy
-    head 204
+    redirect_to(scopes_url, notice: "Resource was successfully destroyed.")
   end
 
 
