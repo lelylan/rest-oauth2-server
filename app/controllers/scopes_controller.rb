@@ -1,6 +1,6 @@
 class ScopesController < ApplicationController
  
-  before_filter :find_resource, only: ["show", "update", "destroy"]
+  before_filter :find_resource, only: ["show", "edit", "update", "destroy"]
 
   def index
     @scopes = Scope.all.paginate page: params[:page], per_page: params[:per_page]
@@ -25,8 +25,14 @@ class ScopesController < ApplicationController
     end
   end
 
+  def edit
+
+  end
+
   def update
-    if @scope.update_attributes(@body)
+    @scope.values = @scope.normalize(params[:scope][:values])
+
+    if @scope.update_attributes(params[:scope])
       render "show", status: 200, location: @scope.uri
     else
       render_422 "notifications.document.not_valid", @scope.errors

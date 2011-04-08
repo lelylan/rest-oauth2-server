@@ -5,6 +5,7 @@ feature "ScopesController" do
   before { @user = Factory(:user) }
   before { @scope = Factory(:scope, values: WRITE_SCOPE) }
 
+
   context ".index" do
     before { @uri = "/scopes" }
     before { @read_scope = Factory(:scope, name: "read", values: READ_SCOPE) }
@@ -29,6 +30,7 @@ feature "ScopesController" do
     end
   end
 
+
   context ".show" do
     before { @uri = "/scopes/" + @scope.id.as_json }
 
@@ -48,10 +50,10 @@ feature "ScopesController" do
       end
 
       scenario "resource not found" do
-      @scope.destroy
-      visit @uri
-      page.should have_content "not_found"
-      page.should have_content "Resource not found"
+        @scope.destroy
+        visit @uri
+        page.should have_content "not_found"
+        page.should have_content "Resource not found"
       end
 
       scenario "illegal id" do
@@ -61,6 +63,7 @@ feature "ScopesController" do
       end
     end
   end
+
 
   context ".create" do
     before { @uri = "/scopes/new" }
@@ -78,7 +81,8 @@ feature "ScopesController" do
       context "when valid" do
         before do
           visit @uri
-          submit_scope("pizza/read", "pizza/index pizza/show")
+          fill_scope("pizza/read", "pizza/index pizza/show")
+          click_button 'Create Scope'
           @scope = Scope.last
         end
 
@@ -95,13 +99,52 @@ feature "ScopesController" do
       context "when not valid" do
         scenario "fails" do
           visit @uri
-          submit_scope("", "")
+          fill_scope("", "")
+          click_button 'Create Scope'
           page.should have_content "Name can't be blank"
           page.should have_content "Values can't be blank"
         end
       end
-
     end
   end
+
+  context ".update" do
+    before { @uri = "/scopes/" + @scope.id.as_json +  "/edit" }
+
+    context "when not logged in" do
+      scenario "is not authorized" do
+        visit @uri
+        current_url.should == host + "/log_in"
+      end
+    end
+
+    context "when logged in" do
+      before { login(@user) } 
+
+      scenario "update a resource" do
+        visit @uri
+        fill_scope("pizza/read/toppings", "pizza/index pizza/show pizza/toppings")
+        click_button 'Update Scope'
+
+        save_and_open_page
+        page.should have_content("pizza/read/toppings")
+        page.should have_content("pizza/toppings")
+      end
+
+      scenario "resource not found" do
+        @scope.destroy
+        visit @uri
+        page.should have_content "not_found"
+        page.should have_content "Resource not found"
+      end
+
+      scenario "illegal id" do
+        visit "/scopes/0"
+        page.should have_content "not_found"
+        page.should have_content "Resource not found"
+      end
+    end
+  end
+
 
 end
