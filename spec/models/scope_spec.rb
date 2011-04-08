@@ -5,7 +5,7 @@ describe Scope do
   subject { @scope }
 
   it { should validate_presence_of(:name) }
-  it { should validate_presence_of(:host) }
+  it { should validate_presence_of(:values) }
 
   it { should allow_value(VALID_URIS).for(:uri) }
   it { should_not allow_value(INVALID_URIS).for(:uri) }

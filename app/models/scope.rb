@@ -6,7 +6,6 @@ class Scope
 
   field :name
   field :uri
-  field :host
   field :values, type: Array
 
   attr_accessible :name
@@ -14,6 +13,11 @@ class Scope
   before_save :normalize_values
 
   validates :name, presence: true
-  validates :host, presence: true
+  validates :values, presence: true
   validates :uri, url: true
+
+  def normalize(values)
+    values.split(" ")
+  end
+
 end

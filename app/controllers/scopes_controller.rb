@@ -1,6 +1,5 @@
 class ScopesController < ApplicationController
  
-  before_filter :json_body, only: ["create", "update"]
   before_filter :find_resource, only: ["show", "update", "destroy"]
 
   def index
@@ -15,11 +14,13 @@ class ScopesController < ApplicationController
   end
 
   def create
-    @scope = scope.base(@body, request, current_user)
+    @scope = Scope.new(params[:scope])
+    @scope.uri    = @scope.base_uri(request)
+    @scope.values = @scope.normalize(params[:scope][:values])
     if @scope.save
-      render "show", status: 201, location: @scope.uri
+      redirect_to(@scope, notice: 'Resource was successfully created.')
     else
-      render_422 "notifications.document.not_valid", @scope.errors
+      render action: "new"
     end
   end
 
@@ -49,5 +50,5 @@ class ScopesController < ApplicationController
       @info = { id: params[:id] }
       render "shared/html/404" and return
     end
- 
+
 end

@@ -42,7 +42,6 @@ FactoryGirl.define do
   factory :scope do
     uri SCOPE_URI
     name "write"
-    host HOST
   end
 
 end

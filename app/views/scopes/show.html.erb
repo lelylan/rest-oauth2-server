@@ -1,3 +1,15 @@
-<div class="item">
-  <%= render partial: "scope", locals: { scope:  @scope } %>
-</div>
+<h3>Show Scope</h3>
+
+<p>
+  <b>Name:</b>
+  <%= @scope.name %>
+</p>
+
+<p>
+  <b>Values:</b>
+  <%= @scope.values.join(", ") %>
+</p>
+
+
+<%= link_to 'Edit', edit_scope_path(@scope) %> |
+<%= link_to 'Back', scopes_path %>

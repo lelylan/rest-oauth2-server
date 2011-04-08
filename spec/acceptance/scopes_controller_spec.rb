@@ -12,7 +12,6 @@ feature "ScopesController" do
     context "when not logged in" do
       scenario "is not authorized" do
         visit @uri
-        page.driver.status_code.should == 200
         current_url.should == host + "/log_in"
       end
     end
@@ -24,7 +23,6 @@ feature "ScopesController" do
         visit @uri
         [@scope, @read_scope].each do |scope|
           should_visualize_scope(scope)
-          page.should have_link("show")
         end
       end
 
@@ -37,7 +35,6 @@ feature "ScopesController" do
     context "when not logged in" do
       scenario "is not authorized" do
         visit @uri
-        page.driver.status_code.should == 200
         current_url.should == host + "/log_in"
       end
     end
@@ -48,7 +45,6 @@ feature "ScopesController" do
       scenario "view a resource" do
         visit @uri
         should_visualize_scope(@scope)
-        page.should_not have_link("show")
       end
 
       scenario "resource not found" do
@@ -63,6 +59,31 @@ feature "ScopesController" do
         page.should have_content "not_found"
         page.should have_content "Resource not found"
       end
+    end
+  end
+
+  context ".create" do
+    before { @uri = "/scopes/new" }
+
+    context "when not logged in" do
+      scenario "is not authorized" do
+        visit @uri
+        current_url.should == host + "/log_in"
+      end
+    end
+
+    context "when logged in" do
+      before { login(@user) } 
+
+      scenario "create a resource" do
+        visit @uri
+        fill_in 'Name', with: 'pizza/write'
+        fill_in 'Values', with: 'pizza/create pizza/update pizza/delete'
+        click_button 'Create Scope'
+        should_visualize_scope(Scope.last)
+        page.should have_content "was successfully created"
+      end
+
     end
   end
 
