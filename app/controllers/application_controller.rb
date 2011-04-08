@@ -1,9 +1,14 @@
 class ApplicationController < ActionController::Base
+  include Lelylan::Rescue::Helpers
 
   protect_from_forgery
 
   before_filter :authenticate
   helper_method :current_user
+
+  rescue_from BSON::InvalidObjectId,        with: :bson_invalid_object_id
+  rescue_from JSON::ParserError,            with: :json_parse_error
+  rescue_from Mongoid::Errors::InvalidType, with: :mongoid_errors_invalid_type
 
   protected
 
@@ -35,7 +40,7 @@ class ApplicationController < ActionController::Base
     end
 
     def session_auth
-      @current_user ||= User.find(session[:user_id]) if session[:user_id]
+      @current_user ||= User.criteria.id(session[:user_id]).first if session[:user_id]
       unless current_user
         redirect_to(log_in_path) and return false
       end

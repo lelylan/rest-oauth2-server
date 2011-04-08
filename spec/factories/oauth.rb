@@ -39,6 +39,11 @@ FactoryGirl.define do
     scope Lelylan::Oauth::Scope::MATCHES[:read]
   end
 
+  factory :scope do
+    uri SCOPE_URI
+    name "write"
+  end
+
 end
 
 

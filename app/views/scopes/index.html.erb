@@ -1,0 +1,24 @@
+<h3>Show Scopes</h3>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Values</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @scopes.each do |scope| %>
+  <tr>
+    <td><%= scope.name %></td>
+    <td><%= scope.values.join(", ") %></td>
+    <td><%= link_to 'Show', scope %></td>
+    <td><%= link_to 'Edit', edit_scope_path(scope) %></td>
+    <td><%= link_to 'Destroy', scope, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br/>
+<%= link_to 'New Task', new_scope_path %>

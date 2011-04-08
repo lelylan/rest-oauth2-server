@@ -1,0 +1,17 @@
+<h3>Show Scope</h3>
+
+<p>
+  <b>Name:</b>
+  <%= @scope.name %>
+</p>
+
+<p>
+  <b>Values:</b>
+  <%= @scope.values.join(", ") %>
+</p>
+
+
+<%= link_to 'Edit', edit_scope_path(@scope) %> |
+<%= link_to 'Back', scopes_path %> | 
+<%= link_to 'Destroy', @scope, :confirm => 'Are you sure?', :method => :delete %>
+

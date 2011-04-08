@@ -1,7 +1,4 @@
-  <% if flash.alert %>
-    <h3>Debug information: <%= @info.to_json %></h3>
-  <% else %>
-
+  <% unless flash.alert %>
     <h3>The application <%= link_to h(@client.name), @client.uri %> is requesting to access your data on your behalf </h3>
     <h3>You are giving the accesses for these resources: <%= params[:scope] %></h3>
 
