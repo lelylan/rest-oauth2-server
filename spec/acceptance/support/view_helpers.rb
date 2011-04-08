@@ -7,7 +7,7 @@ module ViewHelperMethods
 
   def fill_scope(name, values)
     fill_in 'Name', with: name
-    fill_in 'Values with space', with: values
+    fill_in 'Values', with: values
   end
 
 end

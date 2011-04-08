@@ -16,8 +16,8 @@
     <%= f.text_field :name %>
   </div>
   <div class="field">
-    <%= f.label :values_with_space %><br />
-    <%= f.text_field :values_with_space %>
+    <%= f.label :values %> (separated by spaces)<br />
+    <input id="scope_values" name="scope[values]" size="30" type="text" value="<%=@scope.values.join(" ") if @scope.values%>">
   </div>
   <div class="actions">
     <%= f.submit %>
