@@ -1,9 +1,14 @@
 class ApplicationController < ActionController::Base
+  include Lelylan::Rescue::Helpers
 
   protect_from_forgery
 
   before_filter :authenticate
   helper_method :current_user
+
+  rescue_from BSON::InvalidObjectId,        with: :bson_invalid_object_id
+  rescue_from JSON::ParserError,            with: :json_parse_error
+  rescue_from Mongoid::Errors::InvalidType, with: :mongoid_errors_invalid_type
 
   protected
 

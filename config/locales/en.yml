@@ -19,4 +19,13 @@ en:
         blocked_token: "Access token blocked from the user (logged out)"
       refresh_token:
         not_found: "Refresh token not found with the provided params"
-
+    document:
+      not_found: "Resource not found"
+      not_valid: "Not valid attributes"
+    json:
+      not_valid: "Not valid JSON"
+      not_array: "Not a valid JSON type associated"
+    pagination:
+      not_valid_page: "Not a valid page"
+      not_valid_per_page: "Not a valid per_page"
+ 

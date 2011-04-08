@@ -19,11 +19,18 @@
 
   <br/>
 
-  <% flash.each do |name, msg| %>
-    <%= content_tag :div, t(msg), :id => "flash_#{name}" %>
-    <% if @info %>
-      <div id=info>Debug information: <%= @info.to_json %></div>
-    <% end %>
+  <% if flash.notice %>
+    <div class="flash_notice">
+      <%= flash.notice %>
+    </div>
+  <% end %>
+
+  <% if flash.alert %>
+    <div id=info>
+      <div>Error code:  <%= flash.alert %></div>
+      <div>Description: <%= t(flash.alert) %></div>
+      <div>Information: <%= @info.to_json %></div>
+    </div>
   <% end %>
 
   <%= yield %>

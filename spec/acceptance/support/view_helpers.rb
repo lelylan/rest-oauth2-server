@@ -1,6 +1,6 @@
 module ViewHelperMethods
 
-  def should_have_scope(scope)
+  def should_visualize_scope(scope)
     page.should have_content(scope.name)
     page.should have_content(scope.values.join(", "))
   end

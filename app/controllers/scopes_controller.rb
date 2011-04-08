@@ -10,6 +10,10 @@ class ScopesController < ApplicationController
   def show
   end
 
+  def new
+    @scope = Scope.new
+  end
+
   def create
     @scope = scope.base(@body, request, current_user)
     if @scope.save
@@ -41,9 +45,9 @@ class ScopesController < ApplicationController
     end
 
     def resource_not_found
-      flash.now.alert =  "notifications.document.not_found"
-      @info = params[:id]
-      render "shared/404" and return
+      flash.now.alert = "notifications.document.not_found"
+      @info = { id: params[:id] }
+      render "shared/html/404" and return
     end
  
 end

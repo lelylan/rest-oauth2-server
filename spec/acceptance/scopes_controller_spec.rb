@@ -18,10 +18,10 @@ feature "ScopesController.index" do
   context "when logged it" do
     before { login(@user) } 
 
-    scenario "view resources" do
+    scenario "view the resources" do
       visit @uri
       [@scope, @read_scope].each do |scope|
-        should_have_scope(scope)
+        should_visualize_scope(scope)
         page.should have_link("show")
       end
     end
@@ -46,10 +46,30 @@ feature "ScopesController.show" do
   context "when logged in" do
     before { login(@user) } 
 
-    scenario "view resource" do
+    scenario "view a resource" do
       visit @uri
-      should_have_scope(@scope)
+      should_visualize_scope(@scope)
       page.should_not have_link("show")
     end
+
+    scenario "resource not found" do
+     @scope.destroy
+     visit @uri
+     page.should have_content "not_found"
+     page.should have_content "Resource not found"
+    end
+
+    scenario "illegal id" do
+      illegal_uri = "/scopes/0"
+      visit illegal_uri
+      page.should have_content "not_found"
+      page.should have_content "Resource not found"
+    end
   end
+end
+
+feature "ScopeController.create" do
+  before { host! "http://" + host }
+  before { @user = Factory(:user) }
+  before { @uri = "/scopes/new" } 
 end
