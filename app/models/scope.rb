@@ -10,10 +10,9 @@ class Scope
 
   attr_accessible :name
 
-  before_save :normalize_values
+  before_create :stringify_values
 
   validates :name, presence: true
-  validates :values, presence: true
   validates :uri, url: true
 
   def normalize(values)

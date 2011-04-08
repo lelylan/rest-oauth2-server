@@ -77,9 +77,8 @@ feature "ScopesController" do
 
       scenario "create a resource" do
         visit @uri
-        fill_in 'Name', with: 'pizza/write'
-        fill_in 'Values', with: 'pizza/create pizza/update pizza/delete'
-        click_button 'Create Scope'
+        submit_scope("pizza/read", "pizza/index pizza/show")
+        save_and_open_page
         should_visualize_scope(Scope.last)
         page.should have_content "was successfully created"
       end

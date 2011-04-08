@@ -5,10 +5,11 @@ describe Scope do
   subject { @scope }
 
   it { should validate_presence_of(:name) }
-  it { should validate_presence_of(:values) }
 
   it { should allow_value(VALID_URIS).for(:uri) }
   it { should_not allow_value(INVALID_URIS).for(:uri) }
+
+  it { should allow_mass_assignment_of(:name) }
 
   its(:values) { should be_a_kind_of Array }
 
@@ -19,4 +20,5 @@ describe Scope do
     it { @scope.values[0].should == "{:key=>\"value\"}" }
     it { @scope.values[1].should == "[\"value\"]" }
   end
+
 end
