@@ -1,7 +1,6 @@
 class Scope
   include Mongoid::Document
   include Mongoid::Timestamps
-  include Lelylan::Array::Normalize
   include Lelylan::Document::Base
 
   field :name
@@ -10,13 +9,12 @@ class Scope
 
   attr_accessible :name
 
-  before_create :stringify_values
-
   validates :name, presence: true
+  validates :values, presence: true
   validates :uri, url: true
 
-  def normalize(values)
-    values.split(" ")
+  def normalize(val)
+    val = val.split(" ")
   end
 
 end

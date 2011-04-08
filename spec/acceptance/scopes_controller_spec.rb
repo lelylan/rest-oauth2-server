@@ -75,12 +75,30 @@ feature "ScopesController" do
     context "when logged in" do
       before { login(@user) } 
 
-      scenario "create a resource" do
-        visit @uri
-        submit_scope("pizza/read", "pizza/index pizza/show")
-        save_and_open_page
-        should_visualize_scope(Scope.last)
-        page.should have_content "was successfully created"
+      context "when valid" do
+        before do
+          visit @uri
+          submit_scope("pizza/read", "pizza/index pizza/show")
+          @scope = Scope.last
+        end
+
+        scenario "create a resource" do
+          should_visualize_scope(@scope)
+          page.should have_content "was successfully created"
+        end
+
+        scenario "assign an URI to the resource" do
+          @scope.uri.should == host + "/scopes/" + @scope.id.as_json
+        end
+      end
+
+      context "when not valid" do
+        scenario "fails" do
+          visit @uri
+          submit_scope("", "")
+          page.should have_content "Name can't be blank"
+          page.should have_content "Values can't be blank"
+        end
       end
 
     end

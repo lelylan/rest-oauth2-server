@@ -14,9 +14,10 @@ class ScopesController < ApplicationController
   end
 
   def create
-    @scope = Scope.new(params[:scope])
+    @scope        = Scope.new(params[:scope])
     @scope.uri    = @scope.base_uri(request)
     @scope.values = @scope.normalize(params[:scope][:values])
+
     if @scope.save
       redirect_to(@scope, notice: 'Resource was successfully created.')
     else
