@@ -125,8 +125,6 @@ feature "ScopesController" do
         visit @uri
         fill_scope("pizza/read/toppings", "pizza/index pizza/show pizza/toppings")
         click_button 'Update Scope'
-
-        save_and_open_page
         page.should have_content("pizza/read/toppings")
         page.should have_content("pizza/toppings")
       end
@@ -142,6 +140,17 @@ feature "ScopesController" do
         visit "/scopes/0"
         page.should have_content "not_found"
         page.should have_content "Resource not found"
+      end
+
+      context "when not valid" do
+        scenario "fails" do
+          visit @uri
+          save_and_open_page
+          fill_scope("", "")
+          click_button 'Update Scope'
+          page.should have_content "Name can't be blank"
+          page.should have_content "Values can't be blank"
+        end
       end
     end
   end

@@ -6,8 +6,9 @@ class Scope
   field :name
   field :uri
   field :values, type: Array
+  field :values_with_space
 
-  attr_accessible :name
+  attr_accessible :name, :values_with_space
 
   validates :name, presence: true
   validates :values, presence: true

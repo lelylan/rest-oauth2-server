@@ -10,7 +10,8 @@ describe Scope do
   it { should allow_value(VALID_URIS).for(:uri) }
   it { should_not allow_value(INVALID_URIS).for(:uri) }
 
-  it { should allow_mass_assignment_of(:name) }
+  it { should_not allow_mass_assignment_of(:values) }
+  it { should_not allow_mass_assignment_of(:uri) }
 
   its(:values) { should be_a_kind_of Array }
 
