@@ -53,11 +53,10 @@ end
 # Run all tests (Ctrl-c)
 Signal.trap 'INT' do
   check_exit # exit  (double Ctrl-c)
-  @second_int = true
+  #@second_int = true
   run_spec "spec/"
 end
 
 def check_exit
   exit if @second_int
-  @second_int = false
 end

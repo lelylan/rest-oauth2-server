@@ -14,7 +14,7 @@ module SettingsHelper
 
   # scopes
   SCOPE_URI   = HOST + "/scopes/write"
-  WRITE_SCOPE = ["pizza/read", "pizza/write", "pasta/read", "pasta/write"]
+  ALL_SCOPE = ["pizza/read", "pizza/write", "pasta/read", "pasta/write"]
   READ_SCOPE  = ["pizza/read", "pasta/read"]
 
 

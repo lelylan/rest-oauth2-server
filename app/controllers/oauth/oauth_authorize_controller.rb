@@ -41,7 +41,7 @@ class Oauth::OauthAuthorizeController < ApplicationController
 
     def normalize_scope
       params[:scope] ||= ""
-      params[:scope] = Lelylan::Oauth::Scope.normalize(params[:scope].split(" "))
+      params[:scope] = Oauth.normalize_scope(params[:scope])
     end
 
 
