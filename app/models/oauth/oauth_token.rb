@@ -38,9 +38,9 @@ class OauthToken
   end
 
   def self.exist(client_uri, resource_owner_uri, scope)
-    self.where(client_uri: client_uri,
-               resource_owner_uri: resource_owner_uri,
-               scope: scope)
+    self.where(client_uri: client_uri).
+         where(resource_owner_uri: resource_owner_uri).
+         all_in(scope: scope)
   end
 
   # Check if the status is or is not blocked

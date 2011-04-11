@@ -39,6 +39,9 @@ FactoryGirl.define do
     scope READ_SCOPE
   end
 
+
+
+
   # TODO: make a factory file just for scopes
   factory :scope do
     uri SCOPE_URI

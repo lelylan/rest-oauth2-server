@@ -40,7 +40,6 @@ class Oauth::OauthAuthorizeController < ApplicationController
   private
 
     def normalize_scope
-      params[:scope] ||= ""
       params[:scope] = Oauth.normalize_scope(params[:scope])
     end
 
@@ -64,7 +63,6 @@ class Oauth::OauthAuthorizeController < ApplicationController
       access_blocked if access.blocked?
     end
     
-
     def token_blocked?
       if params[:response_type] == "token"
         @token = OauthToken.exist(@client.uri, current_user.uri, params[:scope]).first
@@ -72,6 +70,7 @@ class Oauth::OauthAuthorizeController < ApplicationController
       end
     end
 
+    # @only refresh token for implicit flow
     def refresh_token
       if @token
         @token = OauthToken.create(client_uri: @client.uri, resource_owner_uri: current_user.uri, scope: params[:scope])

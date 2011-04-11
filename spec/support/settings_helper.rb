@@ -13,9 +13,9 @@ module SettingsHelper
   REDIRECT_URI           = HOST + "/app/callback"
 
   # scopes
-  SCOPE_URI   = HOST + "/scopes/write"
-  ALL_SCOPE = ["pizza/read", "pizza/write", "pasta/read", "pasta/write"]
-  READ_SCOPE  = ["pizza/read", "pasta/read"]
+  SCOPE_URI   = HOST + "/scopes/pizzas"
+  ALL_SCOPE   = ["pizzas/index", "pizzas/show", "pizzas/create", "pizzas/update", "pizzas/destroy"]
+  READ_SCOPE  = ["pizzas/index", "pizzas/show"]
 
 
   # urls validator

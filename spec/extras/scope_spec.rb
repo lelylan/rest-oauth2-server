@@ -46,6 +46,7 @@ describe "Oauth" do
         it { should include "pizzas/update" }
         it { should include "pizzas/destroy"}
         it { should_not include "pastas/index" }
+        it { should_not include "pizzas" }
       end
     end
 
@@ -66,9 +67,14 @@ describe "Oauth" do
         it { should include "pizzas/index" }
         it { should include "pizzas/show" }
         it { should_not include "pizzas/create"}
+
         it { should include "pastas/index" }
         it { should include "pastas/show" }
         it { should_not include "pastas/create"}     
+
+        it { should_not include "read" }
+        it { should_not include "pizzas/read" }
+        it { should_not include "pastas/read" }
       end
 
       context "all rest actions" do
@@ -86,53 +92,14 @@ describe "Oauth" do
         it { should include "pastas/create" }
         it { should include "pastas/update" }
         it { should include "pastas/destroy"}
+
+        it { should_not include "all"}
+        it { should_not include "pizzas"}
+        it { should_not include "pastas"}
+        it { should_not include "pizzas/read"}
+        it { should_not include "pastas/read"}
       end
     end
 
   end
 end
-
-
-
-
-  #context "when normalizing key" do
-    #context "#write" do
-      #let(:scope) { Lelylan::Oauth::Scope.normalize(["write"]) }
-      #it { scope.should == Lelylan::Oauth::Scope::MATCHES[:write] }
-    #end
-
-    #context "#read" do
-      #let(:scope) { Lelylan::Oauth::Scope.normalize(["read"]) }
-      #it { scope.should == Lelylan::Oauth::Scope::MATCHES[:read] }
-    #end
-
-    #context "#type" do
-      #let(:scope) { Lelylan::Oauth::Scope.normalize(["type"]) }
-      #it { scope.should == ["type.read", "type.write"] }
-    #end
-
-    #context "#property" do
-      #let(:scope) { Lelylan::Oauth::Scope.normalize(["property"]) }
-      #it { scope.should == ["property.read", "property.write"] }
-    #end
-
-    #context "#function" do
-      #let(:scope) { Lelylan::Oauth::Scope.normalize(["function"]) }
-      #it { scope.should == ["function.read", "function.write"] }
-    #end
-
-    #context "#status" do
-      #let(:scope) { Lelylan::Oauth::Scope.normalize(["status"]) }
-      #it { scope.should == ["status.read", "status.write"] }
-    #end
-  #end
-
-  #context "when normalizing bases" do
-    #let(:scope) { Lelylan::Oauth::Scope.normalize(["status.read", "property.write"]) }
-    #it { scope.should == ["status.read", "property.write"]}
-  #end
-
-  #context "when normalizing not existing keys" do
-    #let(:scope) { Lelylan::Oauth::Scope.normalize(["status.read", "resource.not_existing"]) }
-    #it { scope.should == ["status.read"]}
-  #end
