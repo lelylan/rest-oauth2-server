@@ -182,7 +182,6 @@ feature "OauthAuthorizeController" do
 
     scenario "should create new token" do
       visit implicit_grant_page(client, write_scope)
-      save_and_open_page
       current_url.should == implicit_grant_uri(client)
     end
 

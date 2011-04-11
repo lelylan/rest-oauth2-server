@@ -75,13 +75,13 @@ describe OauthClient do
 
   context ".where_scope" do
     context "with complete scope" do
-      let(:scope) { Lelylan::Oauth::Scope::SCOPE }
-      subject { OauthClient.where_scope(Lelylan::Oauth::Scope::SCOPE).first }
+      let(:scope) { ALL_SCOPE }
+      subject { OauthClient.where_scope(scope).first }
       it { should_not be_nil }
     end
 
     context "with partial scope" do
-      let(:scope) { ["type.write", "type.read"] }
+      let(:scope) { ["pizzas/show", "pizzas/create"] }
       subject { OauthClient.where_scope(scope).first }
       it { should_not be_nil }
     end
