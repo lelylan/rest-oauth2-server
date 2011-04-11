@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/acceptance_helper')
 feature "ScopesController" do
   before { host! "http://" + host }
   before { @user = Factory(:user) }
-  before { @scope = Factory(:scope, values: WRITE_SCOPE) }
+  before { @scope = Factory(:scope, values: ALL_SCOPE) }
 
 
   context ".index" do

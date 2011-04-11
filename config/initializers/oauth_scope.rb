@@ -1,34 +1,30 @@
-# TODO: organize this in a Lelylan::Oauth::Scope class so
-# that you can give it a more modular structure
+module Oauth
 
-module Lelylan
-  module Oauth
-    module Scope
+  def self.normalize_scope(scope)
+    scope = scope.split(" ") if scope.kind_of? String
 
-      SCOPE = %w(
-        type.read type.write
-        property.read property.write
-        function.read function.write
-        status.read status.write
-      )
+    normalized = Scope.any_in(name: scope)
+    normalized = normalized.map(&:values).flatten
 
-      MATCHES = {
-        write: SCOPE,
-        read: %w(type.read property.read function.read status.read),
-        type: %w(type.read type.write),
-        property: %w(property.read property.write),
-        function: %w(function.read function.write),
-        status: %w(status.read status.write)
-      }
-
-      def self.normalize(scope = [])
-        normalized = scope.clone
-        scope.each { |key| normalized << MATCHES[key.to_sym] }
-        normalized.flatten!
-        intersection = normalized & SCOPE
-        return intersection
-      end
-
+    if normalized.empty?
+      return self.clean(scope)
+    else
+      return self.clean(scope) + self.normalize_scope(normalized)
     end
+  end
+
+  # Remove 'no action' keys. For example during normalization
+  # we add keys like 'pizza' (resource names) or 'pizza/read'
+  # wihch we have to remove to easily make the access recognition
+  # with the bearer token. 
+  #
+  # TODO: put on documentation
+  # Note that at the moment are not allowed method with the 
+  # word 'read', because it will be removed
+  def self.clean(scope)
+    scope = scope.keep_if   {|scope| scope =~ /\// }
+    scope = scope.delete_if {|scope| scope =~ /read/ }
+    scope = scope.uniq
+    return scope
   end
 end

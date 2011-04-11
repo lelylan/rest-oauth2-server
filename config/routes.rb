@@ -16,4 +16,9 @@ Lelylan::Application.routes.draw do
   resources :scopes
 
   root :to => "users#new"
+
+  # sample resources
+  resources :pizzas, defaults: { format: "json" }
+  resources :pastas, defaults: { format: "json" }
+
 end

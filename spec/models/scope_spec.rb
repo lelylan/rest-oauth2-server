@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Scope do
-  before  { @scope = Factory(:scope, values: WRITE_SCOPE) }
+  before  { @scope = Factory(:scope, values: ALL_SCOPE) }
   subject { @scope }
 
   it { should validate_presence_of(:name) }
