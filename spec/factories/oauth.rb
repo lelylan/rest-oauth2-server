@@ -9,6 +9,12 @@ FactoryGirl.define do
      uri USER_URI
   end
 
+  factory :user_bob, parent: :user do
+     email "bob@example.com"
+     password "example"
+     uri ANOTHER_USER_URI
+  end
+
   factory :oauth_access do
     client_uri CLIENT_URI
     resource_owner_uri USER_URI

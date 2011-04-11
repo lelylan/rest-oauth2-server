@@ -1,0 +1,14 @@
+<h3>Show User</h3>
+
+<p>
+  <b>URI:</b>
+  <%= @user.uri %>
+</p>
+
+<p>
+  <b>Email:</b>
+  <%= @user.email %>
+</p>
+
+<%= link_to 'Edit', edit_user_path(@user) %> |
+<%= link_to 'Destroy', @user, :confirm => 'Are you sure?', :method => :delete %>
