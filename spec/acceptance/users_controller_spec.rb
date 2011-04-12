@@ -73,33 +73,34 @@ feature "usersController" do
     before { @uri = "/sign_up" }
 
     context "when valid" do
-      #before do
-        #visit @uri
-        #fill_in "Email", with: "new@example.com"
-        #fill_in "Password", with: "example"
-        #click_button 'Create User'
-      #end
+      before do
+        visit @uri
+        fill_in "Email", with: "new@example.com"
+        fill_in "Password", with: "example"
+        click_button 'Create User'
+      end
 
-      #scenario "create a resource" do
-        #save_and_open_page
-        #should_visualize_user(@user)
-        #page.should have_content "Signed up"
-      #end
+      scenario "create a resource" do
+        page.should have_content "Signed up"
+      end
 
-      #scenario "assign an URI to the resource" do
-        #@user.uri.should == host + "/users/" + @user.id.as_json
-      #end
+      scenario "assign an URI to the resource" do
+        @user = User.last
+        @user.uri.should == host + "/users/" + @user.id.as_json
+      end
     end
 
-    #context "when not valid" do
-      #scenario "fails" do
-        #visit @uri
-        #fill_user("", "")
-        #click_button 'Create user'
-        #page.should have_content "Name can't be blank"
-        #page.should have_content "Values can't be blank"
-      #end
-    #end
+    context "when not valid" do
+      scenario "fails" do
+        visit @uri
+        fill_in "Email", with: ""
+        fill_in "Password", with: ""
+        click_button 'Create User'
+        save_and_open_page
+        page.should have_content "Email can't be blank"
+        page.should have_content "Password can't be blank"
+      end
+    end
   end
 
   context ".update" do
