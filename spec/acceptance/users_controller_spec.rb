@@ -69,48 +69,38 @@ feature "usersController" do
   end
 
 
-  #context ".create" do
-    #before { @uri = "/users/new" }
+  context ".create" do
+    before { @uri = "/sign_up" }
 
-    #context "when not logged in" do
-      #scenario "is not authorized" do
+    context "when valid" do
+      #before do
         #visit @uri
-        #current_url.should == host + "/log_in"
+        #fill_in "Email", with: "new@example.com"
+        #fill_in "Password", with: "example"
+        #click_button 'Create User'
+      #end
+
+      #scenario "create a resource" do
+        #save_and_open_page
+        #should_visualize_user(@user)
+        #page.should have_content "Signed up"
+      #end
+
+      #scenario "assign an URI to the resource" do
+        #@user.uri.should == host + "/users/" + @user.id.as_json
+      #end
+    end
+
+    #context "when not valid" do
+      #scenario "fails" do
+        #visit @uri
+        #fill_user("", "")
+        #click_button 'Create user'
+        #page.should have_content "Name can't be blank"
+        #page.should have_content "Values can't be blank"
       #end
     #end
-
-    #context "when logged in" do
-      #before { login(@user) } 
-
-      #context "when valid" do
-        #before do
-          #visit @uri
-          #fill_user("pizza/read", "pizza/index pizza/show")
-          #click_button 'Create user'
-          #@user = user.last
-        #end
-
-        #scenario "create a resource" do
-          #should_visualize_user(@user)
-          #page.should have_content "was successfully created"
-        #end
-
-        #scenario "assign an URI to the resource" do
-          #@user.uri.should == host + "/users/" + @user.id.as_json
-        #end
-      #end
-
-      #context "when not valid" do
-        #scenario "fails" do
-          #visit @uri
-          #fill_user("", "")
-          #click_button 'Create user'
-          #page.should have_content "Name can't be blank"
-          #page.should have_content "Values can't be blank"
-        #end
-      #end
-    #end
-  #end
+  end
 
   context ".update" do
     before { @bob = Factory(:user_bob) }
@@ -153,7 +143,7 @@ feature "usersController" do
           scenario "should not log with old pass" do
             login(@user)
             page.should_not have_content "Logged in"
-            save_and_open_page
+            page.should have_content "Invalid email or password"
           end
         end
 

@@ -27,9 +27,13 @@
 
   <% if flash.alert %>
     <div id=info>
+    <% if @info %>
       <div>Error code:  <%= flash.alert %></div>
       <div>Description: <%= t(flash.alert) %></div>
       <div>Information: <%= @info.to_json %></div>
+    <% else %>
+      <div><%= flash.alert %></div>
+    <% end %>
     </div>
   <% end %>
 

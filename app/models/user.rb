@@ -1,6 +1,7 @@
 class User
   include Mongoid::Document
   include Mongoid::Timestamps
+  include Lelylan::Document::Base
 
   field :uri
   field :email
@@ -13,9 +14,9 @@ class User
   attr_accessor :password
   before_save :encrypt_password
 
-  validates :password, presence: true, :on => :create
+  validates :password, presence: true, on: :create
   # TODO: add password length
-  #validates :password, length: {min: 6}
+  #validates :password, length: {min: 6}, empty: true
   validates :email, presence: true
   validates :email, uniqueness: true
   validates :email, email: true

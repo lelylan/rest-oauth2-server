@@ -11,8 +11,8 @@ Lelylan::Application.routes.draw do
   get "log_in"  => "sessions#new",     as: "log_in"
 
   get "sign_up" => "users#new",        as: "sign_up"
-  get "users/show" => "users#show",    as: "show"
-  get "users/edit" => "users#edit",    as: "show"
+  get "users/show" => "users#show"
+  get "users/edit" => "users#edit"
 
   resources :users
   resources :sessions
