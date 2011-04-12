@@ -24,6 +24,7 @@ class UsersController < ApplicationController
   end
 
   def update
+    params[:user].delete_if { |key, value| key == "password" and value.empty? }
     if @user.update_attributes(params[:user])
       render "show"
     else

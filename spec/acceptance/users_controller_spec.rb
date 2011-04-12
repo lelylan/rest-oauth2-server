@@ -127,11 +127,44 @@ feature "usersController" do
       before { login(@user) } 
       let(:name) { "Alice is my name" }
 
-      scenario "when update a resource" do
+      scenario "when update fields" do
         visit @uri
         fill_in "Name", with: name
         click_button "Update User"
         page.should have_content(name)
+      end
+
+      context "when update the password" do
+        let(:new_pass) { "asecurepassword"}
+
+        context "when valid" do
+          before do
+            visit @uri
+            fill_in "Password", with: new_pass
+            click_button "Update User"
+            click_link "Log out"
+          end
+
+          scenario "should log with new pass" do
+            login(@user, new_pass)
+            page.should have_content "Logged in"
+          end
+
+          scenario "should not log with old pass" do
+            login(@user)
+            page.should_not have_content "Logged in"
+            save_and_open_page
+          end
+        end
+
+        scenario "when empty" do
+          visit @uri
+          fill_in "Password", with: ""
+          click_button "Update User"
+          click_link "Log out"
+          login(@user)
+          page.should have_content "Logged in"
+        end
       end
 
       scenario "when resource not found" do

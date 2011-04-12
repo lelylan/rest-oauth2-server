@@ -1,9 +1,9 @@
 module HelperMethods
 
-  def login(user)
+  def login(user, password = "example")
     visit "/log_in"
     fill_in "email", with: user.email
-    fill_in "password", with: "example"
+    fill_in "password", with: password
     click_button "Log in"
   end
 
