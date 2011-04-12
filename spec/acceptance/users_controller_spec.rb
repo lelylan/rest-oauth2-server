@@ -24,7 +24,6 @@ feature "usersController" do
           should_visualize_user(user)
         end
       end
-
     end
   end
 
