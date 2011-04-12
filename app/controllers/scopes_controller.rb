@@ -32,7 +32,7 @@ class ScopesController < ApplicationController
     @scope.values = @scope.normalize(params[:scope][:values])
 
     if @scope.update_attributes(params[:scope])
-      render "show", status: 200, location: @scope.uri
+      render "show"
     else
       render action: "edit"
     end

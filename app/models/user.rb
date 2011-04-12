@@ -4,10 +4,11 @@ class User
 
   field :uri
   field :email
+  field :name
   field :password_hash
   field :password_salt
 
-  attr_accessible :email, :password
+  attr_accessible :email, :name, :password
 
   attr_accessor :password
   before_save :encrypt_password

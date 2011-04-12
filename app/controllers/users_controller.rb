@@ -1,11 +1,9 @@
 class UsersController < ApplicationController
 
   skip_before_filter :authenticate, only: ["new", "create"]
-  before_filter :user_resources, only: ["show"]
+  before_filter :find_user, only: ["show", "edit", "update"]
 
   def show
-    @user = @user_resources.id(params[:id]).first
-    resource_not_found unless @user
   end
 
   def new
@@ -22,10 +20,22 @@ class UsersController < ApplicationController
     end
   end
 
+  def edit
+  end
+
+  def update
+    if @user.update_attributes(params[:user])
+      render "show"
+    else
+      render action: "edit"
+    end
+  end
+
   private 
 
-    def user_resources
-      @user_resources = User.where(uri: current_user.uri)
+    def find_user
+      @user = User.where(uri: current_user.uri).id(params[:id]).first
+      resource_not_found unless @user
     end
 
     def resource_not_found
