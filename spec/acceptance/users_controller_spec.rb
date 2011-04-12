@@ -4,29 +4,29 @@ feature "usersController" do
   before { host! "http://" + host }
   before { @user = Factory(:user) }
 
-  #context ".index" do
-    #before { @uri = "/users" }
-    #before { @read_user = Factory(:user, name: "read", values: READ_user) }
+  context ".index" do
+    before { @uri = "/users" }
+    before { @read_user = Factory(:user_bob) }
 
-    #context "when not logged in" do
-      #scenario "is not authorized" do
-        #visit @uri
-        #current_url.should == host + "/log_in"
-      #end
-    #end
+    context "when not logged in" do
+      scenario "is not authorized" do
+        visit @uri
+        current_url.should == host + "/log_in"
+      end
+    end
 
-    #context "when logged it" do
-      #before { login(@user) } 
+    context "when logged it" do
+      before { login(@user) } 
 
-      #scenario "view the resources" do
-        #visit @uri
-        #[@user, @read_user].each do |user|
-          #should_visualize_user(user)
-        #end
-      #end
+      scenario "view the resources" do
+        visit @uri
+        [@user, @read_user].each do |user|
+          should_visualize_user(user)
+        end
+      end
 
-    #end
-  #end
+    end
+  end
 
 
   context ".show" do
@@ -96,12 +96,12 @@ feature "usersController" do
         fill_in "Email", with: ""
         fill_in "Password", with: ""
         click_button 'Create User'
-        save_and_open_page
         page.should have_content "Email can't be blank"
         page.should have_content "Password can't be blank"
       end
     end
   end
+
 
   context ".update" do
     before { @bob = Factory(:user_bob) }

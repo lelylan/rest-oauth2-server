@@ -3,6 +3,10 @@ class UsersController < ApplicationController
   skip_before_filter :authenticate, only: ["new", "create"]
   before_filter :find_user, only: ["show", "edit", "update"]
 
+  def index
+    @users = User.all
+  end
+
   def show
   end
 
