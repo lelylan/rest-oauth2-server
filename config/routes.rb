@@ -17,6 +17,7 @@ Lelylan::Application.routes.draw do
   resources :users
   resources :sessions
   resources :scopes
+  resources :clients
 
   root :to => "users#new"
 

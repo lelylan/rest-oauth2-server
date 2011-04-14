@@ -53,7 +53,7 @@ class Oauth::OauthTokenController < ApplicationController
     # filters for section 4.1.3 - authorization code flow
     def client_where_secret_and_redirect
       if @body[:grant_type] == "authorization_code"
-        @client = OauthClient.where_secret(@body[:client_secret], @body[:client_id]).where(redirect_uri: @body[:redirect_uri]).first
+        @client = Client.where_secret(@body[:client_secret], @body[:client_id]).where(redirect_uri: @body[:redirect_uri]).first
         message = "notifications.oauth.client.not_found"
         info = { client_secret: @body[:client_secret], client_id: @body[:client_id], redirect_uri: @body[:redirect_uri] }
         render_422 message, info unless @client
@@ -89,7 +89,7 @@ class Oauth::OauthTokenController < ApplicationController
 
     def client_where_secret
       if @body[:grant_type] == "password" or @body[:grant_type] == "refresh_token" 
-        @client = OauthClient.where_secret(@body[:client_secret], @body[:client_id])
+        @client = Client.where_secret(@body[:client_secret], @body[:client_id])
         message = "notifications.oauth.client.not_found"
         info = { client_secret: @body[:client_secret], client_id: @body[:client_id] }
         render_422 message, info unless @client.first

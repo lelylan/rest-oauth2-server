@@ -32,7 +32,7 @@ class ScopesController < ApplicationController
     @scope.values = @scope.normalize(params[:scope][:values])
 
     if @scope.update_attributes(params[:scope])
-      render "show"
+      render("show", notice: "Resource was successfully updated.")
     else
       render action: "edit"
     end

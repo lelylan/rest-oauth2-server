@@ -32,7 +32,7 @@ FactoryGirl.define do
     scope ALL_SCOPE
   end
 
-  factory :oauth_client do
+  factory :client do
     uri CLIENT_URI
     name "the client"
     created_from USER_URI
@@ -40,12 +40,10 @@ FactoryGirl.define do
     scope ALL_SCOPE
   end
 
-  factory :oauth_client_read, parent: :oauth_client do
+  factory :client_read, parent: :client do
     uri ANOTHER_CLIENT_URI
     scope READ_SCOPE
   end
-
-
 
 
   # TODO: make a factory file just for scopes

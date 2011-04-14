@@ -45,7 +45,7 @@ class Oauth::OauthAuthorizeController < ApplicationController
 
 
     def find_client
-      @client = OauthClient.where_uri(params[:client_id], params[:redirect_uri])
+      @client = Client.where_uri(params[:client_id], params[:redirect_uri])
       client_not_found unless @client.first
     end
 

@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../acceptance_helper')
 
 feature "OauthTokenController" do
-  before { OauthClient.destroy_all }
+  before { Client.destroy_all }
   before { OauthAccess.destroy_all }
   before { OauthRefreshToken.destroy_all }
 

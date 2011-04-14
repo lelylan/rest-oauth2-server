@@ -1,9 +1,10 @@
 # Application making protected resource requests on behalf of
 # the resource owner and with its authorization
 
-class OauthClient
+class Client
   include Mongoid::Document
   include Mongoid::Timestamps
+  include Lelylan::Document::Base
 
   field :uri                                       # client identifier (internal)
   field :name                                      # client name
@@ -52,6 +53,11 @@ class OauthClient
   def granted!
     self.granted_times += 1
     self.save
+  end
+
+  def scope_pretty
+    separator = Oauth.settings["scope_separator"]
+    scope.join(separator) if scope
   end
 
   # Increase the counter of resource owners revoking the access
