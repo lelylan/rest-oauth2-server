@@ -1,0 +1,18 @@
+<h3>Show user <%= @user.name %></h3>
+
+<p>
+  <b>URI:</b>
+  <%= @user.uri %>
+</p>
+
+<p>
+  <b>Email:</b>
+  <%= @user.email %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @user.name %>
+</p>
+
+<%= link_to 'Edit', edit_user_path(@user) %>

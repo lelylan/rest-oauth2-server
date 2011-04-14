@@ -1,18 +1,23 @@
 class User
   include Mongoid::Document
   include Mongoid::Timestamps
+  include Lelylan::Document::Base
 
   field :uri
   field :email
+  field :name
   field :password_hash
   field :password_salt
+  field :admin, type: Boolean, default: false
 
-  attr_accessible :email, :password
+  attr_accessible :email, :name, :password
 
   attr_accessor :password
   before_save :encrypt_password
 
-  validates :password, presence: true, :on => :create
+  validates :password, presence: true, on: :create
+  # TODO: add password length
+  #validates :password, length: {min: 6}, empty: true
   validates :email, presence: true
   validates :email, uniqueness: true
   validates :email, email: true
@@ -37,4 +42,7 @@ class User
     end
   end
 
+  def admin?
+    self.admin
+  end
 end

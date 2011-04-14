@@ -1,9 +1,10 @@
 # Application making protected resource requests on behalf of
 # the resource owner and with its authorization
 
-class OauthClient
+class Client
   include Mongoid::Document
   include Mongoid::Timestamps
+  include Lelylan::Document::Base
 
   field :uri                                       # client identifier (internal)
   field :name                                      # client name
@@ -11,7 +12,7 @@ class OauthClient
   field :secret                                    # client secret
   field :site_uri                                  # client website
   field :redirect_uri                              # page called after authorization
-  field :scope, type: Array                        # scope asked to resource owner
+  field :scope, type: Array, default: []           # scope asked to resource owner
   field :info                                      # client additional info
   field :granted_times, type: Integer, default: 0  # tokens granted in the authorization step
   field :revoked_times, type: Integer, default: 0  # tokens revoked in the authorization step
@@ -59,6 +60,11 @@ class OauthClient
   def revoked!
     self.revoked_times += 1
     self.save
+  end
+
+  def scope_pretty
+    separator = Oauth.settings["scope_separator"]
+    scope.join(separator)
   end
 
   class << self

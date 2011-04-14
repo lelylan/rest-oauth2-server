@@ -9,8 +9,16 @@
 <body>
   <div id="user_nav">
     <% if current_user %>
+      <div style="float: left">
       Logged in as <%= current_user.email %>.
       <%= link_to "Log out", log_out_path %>
+      </div>
+      <div style="float: right">
+      Your Dashboard includes 
+      <%= link_to("Users", users_path)     if current_user.admin? %> 
+      <%= link_to("Scopes", scopes_path)   if current_user.admin? %> 
+      <%= link_to("Clients", clients_path)  %>
+      </div>
     <% else %>
       <%= link_to "Sign up", sign_up_path %> or
       <%= link_to "log in", log_in_path %>
@@ -27,9 +35,13 @@
 
   <% if flash.alert %>
     <div id=info>
+    <% if @info %>
       <div>Error code:  <%= flash.alert %></div>
       <div>Description: <%= t(flash.alert) %></div>
       <div>Information: <%= @info.to_json %></div>
+    <% else %>
+      <div><%= flash.alert %></div>
+    <% end %>
     </div>
   <% end %>
 

@@ -1,5 +1,6 @@
 class ScopesController < ApplicationController
  
+  before_filter :admin?
   before_filter :find_resource, only: ["show", "edit", "update", "destroy"]
 
   def index
@@ -32,7 +33,7 @@ class ScopesController < ApplicationController
     @scope.values = @scope.normalize(params[:scope][:values])
 
     if @scope.update_attributes(params[:scope])
-      render "show", status: 200, location: @scope.uri
+      render("show", notice: "Resource was successfully updated.")
     else
       render action: "edit"
     end
@@ -55,6 +56,14 @@ class ScopesController < ApplicationController
       flash.now.alert = "notifications.document.not_found"
       @info = { id: params[:id] }
       render "shared/html/404" and return
+    end
+
+    def admin?
+      unless current_user.admin?
+        flash.alert = "Unauthorized access."
+        redirect_to root_path
+        return false
+      end
     end
 
 end

@@ -1,13 +1,13 @@
 require File.expand_path(File.dirname(__FILE__) + '/../acceptance_helper')
 
 feature "OauthAuthorizeController" do
-  before { OauthClient.destroy_all }
+  before { Client.destroy_all }
   before { OauthAccess.destroy_all }
   before { OauthToken.destroy_all }
 
   let(:user)        { Factory(:user) }
-  let(:client)      { Factory(:oauth_client) }
-  let(:client_read) { Factory(:oauth_client_read) }
+  let(:client)      { Factory(:client) }
+  let(:client_read) { Factory(:client_read) }
   let(:access)      { Factory(:oauth_access) }
   let(:write_scope) { "pizzas" }
   let(:read_scope)  { "pizzas/read" }

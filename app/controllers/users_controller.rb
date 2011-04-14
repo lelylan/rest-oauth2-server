@@ -1,10 +1,14 @@
 class UsersController < ApplicationController
 
-  skip_before_filter :authenticate
+  skip_before_filter :authenticate, only: ["new", "create"]
+  before_filter :admin?, only: ["index"]
+  before_filter :find_user, only: ["show", "edit", "update"]
+
+  def index
+    @users = User.all
+  end
 
   def show
-    @user = User.criteria.id(params[:id]).first
-    resource_not_found unless @user
   end
 
   def new
@@ -13,7 +17,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(params[:user])
-    @user.link = @user.base_link(request)
+    @user.uri = @user.base_uri(request)
     if @user.save
       redirect_to root_url, :notice => "Signed up!"
     else
@@ -21,12 +25,39 @@ class UsersController < ApplicationController
     end
   end
 
+  def edit
+  end
+
+  def update
+    params[:user].delete_if { |key, value| key == "password" and value.empty? }
+    if @user.update_attributes(params[:user])
+      render "show"
+    else
+      render action: "edit"
+    end
+  end
+
   private 
+
+    def find_user
+      @user = current_user.admin? ? User.criteria : User.where(uri: current_user.uri)
+      @user = @user.id(params[:id]).first
+      resource_not_found unless @user
+    end
 
     def resource_not_found
       flash.now.alert = "notifications.document.not_found"
       @info = { id: params[:id] }
       render "shared/html/404" and return
+    end 
+
+    
+    def admin?
+      unless current_user.admin?
+        flash.alert = "Unauthorized access."
+        redirect_to root_path
+        return false
+      end
     end
 
 end

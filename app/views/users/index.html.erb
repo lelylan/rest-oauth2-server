@@ -1,0 +1,24 @@
+<h3>Show Users</h3>
+
+<table>
+  <tr>
+    <th>Email</th>
+    <th>URI</th>
+    <th>Name</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @users.each do |user| %>
+  <tr>
+    <td><%= user.email %></td>
+    <td><%= user.uri %></td>
+    <td><%= user.name %></td>
+    <td><%= link_to 'Show', user %></td>
+  </tr>
+<% end %>
+</table>
+
+<br/>
+<%= link_to 'New User', new_user_path %>

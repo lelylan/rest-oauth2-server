@@ -1,0 +1,41 @@
+<h3>Show Client</h3>
+
+<p>
+  <b>Name:</b>
+  <%= @client.name %>
+</p>
+
+<p>
+  <b>URI:</b>
+  <%= @client.uri %>
+</p>
+
+<p>
+  <b>Secret:</b>
+  <%= @client.secret %>
+</p>
+
+<p>
+  <b>Site URI:</b>
+  <%= @client.site_uri %>
+</p>
+
+<p>
+  <b>Redirect URI:</b>
+  <%= @client.redirect_uri %>
+</p>
+
+<p>
+  <b>scope:</b>
+  <%= @client.scope_pretty %>
+</p>
+
+<p>
+  <b>Info:</b>
+  <%= @client.info %>
+</p>
+
+<%= link_to 'Edit', edit_client_path(@client) %> |
+<%= link_to 'Back', clients_path %> | 
+<%= link_to 'Destroy', @client, :confirm => 'Are you sure?', :method => :delete %>
+
