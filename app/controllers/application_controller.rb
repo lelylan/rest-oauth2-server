@@ -58,7 +58,6 @@ class ApplicationController < ActionController::Base
     def oauth_authorized
       action = params[:controller] + "/" + params[:action]
       normalize_token
-      puts ":::" + params[:token]
       @token = OauthToken.where(token: params[:token]).all_in(scope: [action]).first
       if @token.nil? or @token.blocked?
         render text: "Unauthorized access", status: 401
@@ -67,9 +66,19 @@ class ApplicationController < ActionController::Base
     end
 
     def normalize_token
+      # Token in the body
       if (json_body and @body[:token])
         params[:token] = @body[:token]
       end
+
+      # Token in the header
+      if request.env["Authorization"]
+        params[:token] = request.env["Authorization"].split(" ").last
+      end
+
+      #unless params[:token]
+        #params[:token] = "0"
+      #end
     end
 
 end

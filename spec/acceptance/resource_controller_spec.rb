@@ -1,5 +1,33 @@
 require File.expand_path(File.dirname(__FILE__) + '/acceptance_helper')
 
+
+module RackTestMixin
+
+  def self.included(mod)
+    mod.class_eval do
+      # This is where we save additional entries.
+      def hacked_env
+        @hacked_env ||= {}
+      end
+      
+      # Alias the original method for further use.
+      alias_method  :original_env, :env
+
+      # Override the method to merge additional headers.
+      # Plus this implicitly makes it public.
+      def env
+        original_env.merge(hacked_env)
+      end
+    end
+  end
+
+end
+
+Capybara::Driver::RackTest.send :include, RackTestMixin
+
+
+
+
 feature "ResourceController" do
 
   context "with not existing access token" do
@@ -109,5 +137,16 @@ feature "ResourceController" do
       page.driver.delete("/pizzas/0", @token_json)
       page.should have_content "destroy"
     end
+
+    context "with token in the header" do
+      before { @headers = Hash["Authorization", "OAuth #{@token_value}"] }
+      before { page.driver.hacked_env.merge!(@headers) }
+
+      scenario ".index" do
+        visit "/pizzas"
+        page.should have_content "index"
+      end
+    end
   end
+
 end
