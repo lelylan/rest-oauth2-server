@@ -14,7 +14,13 @@ class Scope
   validates :uri, url: true
 
   def normalize(val)
-    val = val.split(" ")
+    separator = Oauth.settings["scope_separator"]
+    val = val.split(separator)
+  end
+
+  def values_pretty
+    separator = Oauth.settings["scope_separator"]
+    values.join(separator)
   end
 
 end

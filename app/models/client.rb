@@ -64,7 +64,7 @@ class Client
 
   def scope_pretty
     separator = Oauth.settings["scope_separator"]
-    scope.empty? ? "" : scope.join(separator)
+    scope.join(separator)
   end
 
   class << self

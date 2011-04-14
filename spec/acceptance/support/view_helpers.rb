@@ -3,7 +3,7 @@ module ViewHelperMethods
   # Scope
   def should_visualize_scope(scope)
     page.should have_content(scope.name)
-    page.should have_content(scope.values.join(", "))
+    page.should have_content(scope.values_pretty)
   end
 
   def fill_scope(name, values)
