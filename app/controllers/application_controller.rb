@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
     def authenticate
       if api_request
         # uncomment to make all json API protected
-        #oauth_authorized
+        # oauth_authorized
       else
         session_auth
       end
