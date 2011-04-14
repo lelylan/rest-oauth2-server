@@ -42,6 +42,12 @@ module ViewHelperMethods
     fill_in "Info", with: "This is an example app"
   end
 
+  # bearer token
+  def should_not_be_authorized
+    page.status_code.should == 401
+    page.should have_content "Unauthorized access"
+  end
+
 end
 
 RSpec.configuration.include ViewHelperMethods, :type => :acceptance

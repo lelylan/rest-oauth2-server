@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/acceptance_helper')
 
-feature "usersController" do
+feature "UsersController" do
   before { host! "http://" + host }
   before { @user = Factory(:user) }
   before { @bob = Factory(:user_bob) }
@@ -18,7 +18,7 @@ feature "usersController" do
     context "when logged it" do
       context "when admin" do
         before { login(@user) } 
-        scenario "list all users" do
+        scenario "list all resources" do
           visit @uri
           [@user, @bob].each do |user|
             should_visualize_user(user)
@@ -28,7 +28,7 @@ feature "usersController" do
 
       context "when not admin" do
         before { login(@bob) } 
-        scenario "do not list all users" do
+        scenario "do not list all resources" do
           visit @uri
           page.should have_content "Unauthorized access"
         end

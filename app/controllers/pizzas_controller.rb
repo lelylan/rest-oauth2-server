@@ -21,9 +21,4 @@ class PizzasController < ApplicationController
     render json: {action: :destroy}
   end
 
-  private 
-
-    def oauth_authorized
-    end
-
 end
