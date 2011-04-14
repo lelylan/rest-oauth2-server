@@ -1,5 +1,16 @@
 = Changelog
 
+== Release v0.2.1 (2011/04/15)
+
+* Added bearer token protection simply adding the filter 
+<tt>before_filter :oauth_authorized<tt> on the conrtoller
+* Added dynamic scope setting. Now is possible to set the 
+scopes directly in the admin interface, and easily protect 
+every method inside a controller.
+* Added dashboard for admin to add scopes and monitor all
+registered users
+* Added dashboard to control and create clients
+* Added dashboard to edit user info
 
 == Release v0.2.0 (2011/04/06)
 
