@@ -1,3 +1,11 @@
+= TODO DOCUMENTATION
+
+* Explain how scope works and how it can daynamically be set
+* Explain where the tests are and the tech used
+* Integrate the flow description with some code
+* Explain how to protect a resource (bearer token)
+
+
 = Rest OAuth 2.0 Server
 
 <b>Rest OAuth 2.0 Server</b> is a gem that easily allow the generation of an OAuth 2.0 Server following the {draft 13}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13]
