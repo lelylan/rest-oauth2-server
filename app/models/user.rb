@@ -8,6 +8,7 @@ class User
   field :name
   field :password_hash
   field :password_salt
+  field :admin, type: Boolean, default: false
 
   attr_accessible :email, :name, :password
 
@@ -41,4 +42,7 @@ class User
     end
   end
 
+  def admin?
+    self.admin
+  end
 end

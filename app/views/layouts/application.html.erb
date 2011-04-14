@@ -15,9 +15,9 @@
       </div>
       <div style="float: right">
       Your Dashboard includes 
-      <%= link_to "Users", users_path %> |
-      <%= link_to "Scopes", scopes_path %> |
-      <%= link_to "Clients", clients_path %>
+      <%= link_to("Users", users_path)     if current_user.admin? %> 
+      <%= link_to("Scopes", scopes_path)   if current_user.admin? %> 
+      <%= link_to("Clients", clients_path)  %>
       </div>
     <% else %>
       <%= link_to "Sign up", sign_up_path %> or

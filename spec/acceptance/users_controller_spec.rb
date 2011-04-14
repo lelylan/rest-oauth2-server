@@ -3,10 +3,10 @@ require File.expand_path(File.dirname(__FILE__) + '/acceptance_helper')
 feature "usersController" do
   before { host! "http://" + host }
   before { @user = Factory(:user) }
+  before { @bob = Factory(:user_bob) }
 
   context ".index" do
     before { @uri = "/users" }
-    before { @read_user = Factory(:user_bob) }
 
     context "when not logged in" do
       scenario "is not authorized" do
@@ -16,12 +16,22 @@ feature "usersController" do
     end
 
     context "when logged it" do
-      before { login(@user) } 
+      context "when admin" do
+        before { login(@user) } 
+        scenario "list all users" do
+          visit @uri
+          [@user, @bob].each do |user|
+            should_visualize_user(user)
+          end
+        end
+      end
 
-      scenario "view the resources" do
-        visit @uri
-        [@user, @read_user].each do |user|
-          should_visualize_user(user)
+      context "when not admin" do
+        before { login(@bob) } 
+        scenario "do not list all users" do
+          visit @uri
+          save_and_open_page
+          page.should have_content "Unauthorized access"
         end
       end
     end
@@ -39,7 +49,6 @@ feature "usersController" do
     end
 
     context "when logged in" do
-      before { @bob = Factory(:user_bob) }
       before { login(@user) } 
 
       scenario "view a resource" do
@@ -54,7 +63,8 @@ feature "usersController" do
       end
 
       scenario "access other users profile" do
-        visit "/users/" + @bob.id.as_json
+        login @bob
+        visit @uri
         page.should have_content "not_found"
         page.should have_content "Resource not found" 
       end
@@ -103,7 +113,6 @@ feature "usersController" do
 
 
   context ".update" do
-    before { @bob = Factory(:user_bob) }
     before { @uri = "/users/" + @user.id.as_json +  "/edit" }
 
     context "when not logged in" do
@@ -170,17 +179,11 @@ feature "usersController" do
       end
 
       scenario "when edit other users profile" do
-        visit "/users/" + @bob.id.as_json + "/edit"
+        login @bob
+        visit @uri
         page.should have_content "not_found"
         page.should have_content "Resource not found" 
       end
-
-      # No validation present on the user form
-      #context "when not valid" do
-        #scenario "fails" do
-        #end
-      #end
-
     end
   end
 

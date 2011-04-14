@@ -7,9 +7,10 @@ FactoryGirl.define do
      email "alice@example.com"
      password "example"
      uri USER_URI
+     admin true
   end
 
-  factory :user_bob, parent: :user do
+  factory :user_bob, class: User do
      email "bob@example.com"
      password "example"
      uri ANOTHER_USER_URI
@@ -43,6 +44,11 @@ FactoryGirl.define do
   factory :client_read, parent: :client do
     uri ANOTHER_CLIENT_URI
     scope READ_SCOPE
+  end
+
+  factory :client_not_owned, parent: :client do
+    name "Not owned client"
+    created_from ANOTHER_USER_URI
   end
 
 

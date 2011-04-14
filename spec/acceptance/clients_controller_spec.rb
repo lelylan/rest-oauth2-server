@@ -4,6 +4,7 @@ feature "ClientsController" do
   before { host! "http://" + host }
   before { @user = Factory(:user) }
   before { @client = Factory(:client) }
+  before { @client_not_owned = Factory(:client, created_from: ANOTHER_USER_URI) }
   before { @scope = Factory(:scope_pizzas_read) }
   before { @scope = Factory(:scope_pizzas_all) }
 
@@ -27,6 +28,7 @@ feature "ClientsController" do
         [@client, @read_client].each do |client|
           should_visualize_client(client)
         end
+        page.should_not have_content "Not owned client"
       end
     end
   end
@@ -53,6 +55,12 @@ feature "ClientsController" do
       scenario "resource not found" do
         @client.destroy
         visit @uri
+        page.should have_content "not_found"
+        page.should have_content "Resource not found"
+      end
+
+      scenario "resource not owned" do
+        visit "/clients/" + @client_not_owned.id.as_json
         page.should have_content "not_found"
         page.should have_content "Resource not found"
       end
@@ -88,7 +96,6 @@ feature "ClientsController" do
         end
 
         scenario "create a resource" do
-          save_and_open_page
           should_visualize_client_details(@client)
           page.should have_content "was successfully created"
         end

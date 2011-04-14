@@ -1,10 +1,10 @@
 class ClientsController < ApplicationController
 
+  before_filter :find_clients
   before_filter :find_client, only: ["show", "edit", "update", "destroy"]
   before_filter :normalize_scope, only: ["create", "update"]
 
   def index
-    @clients = Client.all
   end
 
   def show
@@ -45,8 +45,12 @@ class ClientsController < ApplicationController
 
   private 
 
+    def find_clients
+      @clients = Client.where(created_from: current_user.uri)
+    end
+
     def find_client
-      @client = Client.where(created_from: current_user.uri).id(params[:id]).first
+      @client = @clients.id(params[:id]).first
       resource_not_found unless @client
     end
 

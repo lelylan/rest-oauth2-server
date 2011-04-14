@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
 
   skip_before_filter :authenticate, only: ["new", "create"]
+  before_filter :admin?, only: ["index"]
   before_filter :find_user, only: ["show", "edit", "update"]
 
   def index
@@ -39,7 +40,8 @@ class UsersController < ApplicationController
   private 
 
     def find_user
-      @user = User.where(uri: current_user.uri).id(params[:id]).first
+      @user = current_user.admin? ? User.criteria : User.where(uri: current_user.uri)
+      @user = @user.id(params[:id]).first
       resource_not_found unless @user
     end
 
@@ -48,5 +50,14 @@ class UsersController < ApplicationController
       @info = { id: params[:id] }
       render "shared/html/404" and return
     end 
+
+    
+    def admin?
+      unless current_user.admin?
+        flash.alert = "Unauthorized access."
+        redirect_to root_path
+        return false
+      end
+    end
 
 end
