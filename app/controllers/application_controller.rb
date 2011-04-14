@@ -17,7 +17,12 @@ class ApplicationController < ActionController::Base
     end
 
     def authenticate
-      api_request ? basic_auth : session_auth
+      if api_request
+        # uncomment to make all json API protected
+        #oauth_authorized
+      else
+        session_auth
+      end
     end
 
     def api_request
@@ -48,6 +53,23 @@ class ApplicationController < ActionController::Base
 
     def current_user
       @current_user
+    end
+
+    def oauth_authorized
+      action = params[:controller] + "/" + params[:action]
+      normalize_token
+      @token = OauthToken.where(token: params[:token]).all_in(scope: [action]).first
+      if @token.nil? or @token.blocked?
+        render text: "Unauthorized access", status: 401
+        return false
+      end
+    end
+
+    def normalize_token
+      if ["create", "update", "destroy"].include?(params[:action])
+        json_body unless @body
+        params[:token] = @body[:token]
+      end
     end
 
 end

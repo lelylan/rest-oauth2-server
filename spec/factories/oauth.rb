@@ -32,6 +32,10 @@ FactoryGirl.define do
     resource_owner_uri USER_URI
     scope ALL_SCOPE
   end
+  
+  factory :oauth_token_read, parent: :oauth_token do
+    scope READ_SCOPE
+  end
 
   factory :client do
     uri CLIENT_URI
