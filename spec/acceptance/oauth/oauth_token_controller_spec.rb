@@ -6,8 +6,8 @@ feature "OauthTokenController" do
   before { OauthRefreshToken.destroy_all }
 
   let(:user)          { Factory(:user) }
-  let(:client)        { Factory(:oauth_client) }
-  let(:client_read)   { Factory(:oauth_client_read) }
+  let(:client)        { Factory(:client) }
+  let(:client_read)   { Factory(:client_read) }
   let(:authorization) { Factory(:oauth_authorization) }
   let(:access)        { Factory(:oauth_access) }
   let(:write_scope)   { "pizzas" }

@@ -12,7 +12,7 @@ class Client
   field :secret                                    # client secret
   field :site_uri                                  # client website
   field :redirect_uri                              # page called after authorization
-  field :scope, type: Array                        # scope asked to resource owner
+  field :scope, type: Array, default: []           # scope asked to resource owner
   field :info                                      # client additional info
   field :granted_times, type: Integer, default: 0  # tokens granted in the authorization step
   field :revoked_times, type: Integer, default: 0  # tokens revoked in the authorization step
@@ -55,16 +55,16 @@ class Client
     self.save
   end
 
-  def scope_pretty
-    separator = Oauth.settings["scope_separator"]
-    scope.join(separator) if scope
-  end
-
   # Increase the counter of resource owners revoking the access
   # to the client
   def revoked!
     self.revoked_times += 1
     self.save
+  end
+
+  def scope_pretty
+    separator = Oauth.settings["scope_separator"]
+    scope.empty? ? "" : scope.join(separator)
   end
 
   class << self

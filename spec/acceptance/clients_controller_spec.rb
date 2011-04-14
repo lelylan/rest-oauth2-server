@@ -88,6 +88,7 @@ feature "ClientsController" do
         end
 
         scenario "create a resource" do
+          save_and_open_page
           should_visualize_client_details(@client)
           page.should have_content "was successfully created"
         end
