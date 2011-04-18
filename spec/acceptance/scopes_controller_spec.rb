@@ -183,25 +183,36 @@ feature "ScopesController" do
           end
         end
 
-        scenario "update clients'scopes" do
-          Scope.destroy_all
-          @scope = Factory(:scope_pizzas_all)
-          @scope_read = Factory(:scope_pizzas_read)
-          @client = Factory(:client)
-          @client_read = Factory(:client_read)
+        context "update clients'scopes" do
 
-          visit "/scopes/" + @scope_read.id.as_json +  "/edit"
-          fill_scope("pizzas/read", "pizzas/show")
-          click_button 'Update Scope'
+          before do 
+            Scope.destroy_all
+            @scope = Factory(:scope_pizzas_all)
+            @scope_read = Factory(:scope_pizzas_read)
+            @client = Factory(:client)
+            @client_read = Factory(:client_read)
+          end
 
-          @client.reload.scope_values.should_not include "pizzas/index"
-          @client.reload.scope_values.should include "pizzas/show"
-          @client.reload.scope_values.should include "pizzas/create"
-          @client.reload.scope_values.should include "pizzas/update"
-          @client.reload.scope_values.should include "pizzas/destroy"
+          before do
+            visit "/scopes/" + @scope_read.id.as_json +  "/edit"
+            fill_scope("pizzas/read", "pizzas/show")
+            click_button 'Update Scope'
+          end
 
-          @client_read.reload.scope_values.should_not include "pizzas/index"
-          @client_read.reload.scope_values.should include "pizzas/show"
+          context "with indirect client" do
+            subject { @client.reload.scope_values }
+            it { should_not include "pizzas/index" }
+            it { should include "pizzas/show" }
+            it { should include "pizzas/create" }
+            it { should include "pizzas/update" }
+            it { should include "pizzas/destroy" }
+          end
+
+          context "with direct client" do
+            subject { @client_read.reload.scope_values }
+            it { should_not include "pizzas/index" }
+            it { @client_read.reload.scope_values.should include "pizzas/show" }
+          end
         end
       end 
 
