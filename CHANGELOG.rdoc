@@ -1,5 +1,12 @@
 = Changelog
 
+
+== Release v0.2.2 (2011/04/18)
+
+* Added documentation on scope definition, action authorization, testing 
+framewors and oauth flow testing code.
+
+
 == Release v0.2.1 (2011/04/15)
 
 * Added bearer token protection simply adding the filter 
