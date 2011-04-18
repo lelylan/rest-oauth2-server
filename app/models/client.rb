@@ -12,7 +12,8 @@ class Client
   field :secret                                    # client secret
   field :site_uri                                  # client website
   field :redirect_uri                              # page called after authorization
-  field :scope, type: Array, default: []           # scope asked to resource owner
+  field :scope                                     # raw scope with keywords
+  field :scope_values, type: Array, default: []    # scope parsed as array of allowed actions
   field :info                                      # client additional info
   field :granted_times, type: Integer, default: 0  # tokens granted in the authorization step
   field :revoked_times, type: Integer, default: 0  # tokens revoked in the authorization step
@@ -64,7 +65,7 @@ class Client
 
   def scope_pretty
     separator = Oauth.settings["scope_separator"]
-    scope.join(separator)
+    scope_values.join(separator)
   end
 
   class << self
@@ -72,8 +73,7 @@ class Client
     # Filter to the client uri (internal identifier) and the
     # redirect uri
     def where_uri(client_uri, redirect_uri)
-      where(uri: client_uri).
-      where(redirect_uri: redirect_uri)
+      where(uri: client_uri, redirect_uri: redirect_uri)
     end
 
     # Filter to the client secret and the redirect uri
@@ -83,7 +83,7 @@ class Client
 
     # Filter to the client scope
     def where_scope(scope)
-      all_in(scope: scope)
+      all_in(scope_values: scope)
     end
 
   end

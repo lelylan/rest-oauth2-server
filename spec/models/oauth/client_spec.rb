@@ -14,24 +14,20 @@ describe Client do
 
   its(:secret) { should_not be_nil }
 
-  context "when granted" do
-    it "shold increase the granted timer" do
-      lambda{ subject.granted! }.should change{ subject.granted_times }.by(1)
-    end
+  it ".granted!" do
+    lambda{ subject.granted! }.should change{ subject.granted_times }.by(1)
   end
 
-  context "when revoked" do
-    it "shold increase the revoked timer" do
-      lambda{ subject.revoked! }.should change{ subject.revoked_times }.by(1)
-    end
+  it ".revoked!" do
+    lambda{ subject.revoked! }.should change{ subject.revoked_times }.by(1)
   end
 
   it { should_not be_blocked }
   context "#block!" do
-    before { @authorization = Factory.create(:oauth_authorization) }
+    before { @authorization         = Factory.create(:oauth_authorization) }
     before { @another_authorization = Factory.create(:oauth_authorization, client_uri: ANOTHER_CLIENT_URI) }
-    before { @token = Factory.create(:oauth_token) }
-    before { @another_token = Factory.create(:oauth_token, client_uri: ANOTHER_CLIENT_URI) }
+    before { @token                 = Factory.create(:oauth_token) }
+    before { @another_token         = Factory.create(:oauth_token, client_uri: ANOTHER_CLIENT_URI) }
 
     before { subject.block! }
 
@@ -57,7 +53,7 @@ describe Client do
     end
 
     context "with valid scope" do
-      let(:found) { Client.where_scope(subject.scope).where_uri(subject.uri, subject.redirect_uri).first }
+      let(:found) { Client.where_scope(subject.scope_values).where_uri(subject.uri, subject.redirect_uri).first }
       it { found.should_not be_nil }
     end
 
