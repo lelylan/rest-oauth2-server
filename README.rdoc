@@ -24,8 +24,7 @@ Today Rest OAuth 2.0 Server supports three flows of OAuth 2.0
 
 = OAuth 2.0 flows explained
 
-Before diving into the code we want to give an overview on how Rest OAuth2 Server supports the 3 authorization flows. If
-you feel enough comfortable with then, just skip this chapter. 
+Before diving into the code we want to give an overview on how Rest OAuth 2.0 Server supports the 3 authorization flows.
 
 == OAuth 2.0 for server-side web applications
 
@@ -258,13 +257,13 @@ gems with bundler and run the tests. If everything works correctly you will have
   # run tests
   rake spec
   # run server
-  rails s
+  rails server
 
+We are working on a gem and a generator to easily integrate the Rest OAuth 2.0 server into your project, so stay tuned!
 
-We are working on a gem and a generator to easily integrate the OAuth server into your project, follow us!
+= Up and running
 
-
-= Up and Running
+== Scopes definition
 
 The Rest OAuth 2.0 Server ships with an and highly customizable "scope system" which restricts what resources 
 a given user can grant to the client applications. 
@@ -277,39 +276,39 @@ that the user can give. So, lets suppose we want to define two basic scopes:
 * <tt>read</tt> which allow the access to the read-only actions <tt>index</tt> and <tt>show</tt>
 * <tt>all</tt> which allow the access to all actions
 
-To do this we need to follow two simple steps:
+To do this we need to follow two simple steps which we are going to explain in detail.
 
-* Scope definition (in the admin dashboard)
+* Scope administration (only admin user can do this)
 * Resource protection (inside every controller)
 
-== Scope Definition
+=== Scope administration
 
-The scope definition consist in the creation of associations key/actions. In other words, we associate to a 
-key a list of actions that it is allowed to access. To do this you need to log in as admin, open a browser 
-and go to the /scopes section. Here you can add the scopes that the client will be able to use.
+The scope definition consists in the creation of key/actions pairs. In other words, we associate a key to a 
+list of accessible actions. To do this you need to log in as admin, open a browser and reach the /scopes 
+section.
 
-For example, if we want to define a scope <b>read</b> which allow clients to grant authorization for read-only
-actions we need to define a record with an alphanumeric name and a white space list of actions you can access.
+For example, if you want to define a scope <b>read</b> which allows clients to grant authorization for read-only
+actions you need to define a record with an alphanumeric key and a white space list of actions you can access.
 
-* name:   <tt>read</tt>
+* key:    <tt>read</tt>
 * values: <tt>pizzas/index pizzas/show pastas/index pastas/show</tt>
 
-The only rule you need to remember here is that the values list need to follow a strict name convention where you
-put the "controller name", a "/" and the "action name". If this convention is not followed the access will not be
-granted. Note that in this way you can give access to any action, not only the RESTful ones.
+Here the only rule to remember is that the values list is separated from spaces and that every value follow a 
+convention where you put the <b>controller name</b>, the <b>dash "/"</b> and the <b>action name</b>.
 
-To define the <b>all</b> scope the logic is similar. Anyway, instead or rewriting a list with all actions, you can 
-reuse the keys of already created scopes. This means that we can reuse the write key, which will automatically add
-the access for all read-only actions.
+To define the <b>all</b> scope the logic is the same. The only difference is that the scope engine allow you to 
+reuse scope keys instead of rewriting all actions. This means that if you want to define a scope to access all 
+of the controller actions, you can use <tt>read</tt> to include read-only actions and then add all others. Here 
+a sample.
 
 * name:   <tt>all</tt>
 * values: <tt>read pizzas/create pizzas/update pizzas/destroy pastas/create pastas/update pastas/destroy</tt>
 
-Look at the {tests}[link:/blob/development/spec/extras/scope_spec.rb] to fully understand all possibilities
+Look at the {tests}[link:/blob/development/spec/extras/scope_spec.rb] to fully understand the scope engine.
 
-== Resource protection
+=== Resource protection
 
-Once scope are defined, you need to add one single line to the controllers you want to protect.
+Once scopes are defined, you need to add one single line to the controllers you need to protect.
 
   class PizzasController < ApplicationController
     before_filter :oauth_authorized
@@ -319,15 +318,24 @@ Once scope are defined, you need to add one single line to the controllers you w
     before_filter :oauth_authorized
     ...
 
-This is a simple filter which will authorize the access to all actions on a controller, based on the scope access 
-a user has given to a client. Using the <tt>before_filter</tt> options, you can exclude some actions (making them
-public) or add any logic you need. For example if the <b>pizza</b> has the index action public to everyone, you 
-would add the before filter like this.
+This filter verify the authorization to all actions on a controller, based on the scope access a client requires. 
+Remember that using the <tt>before_filter</tt> options, you can exclude some actions (making them public) or add 
+any logic you need. For example if we want to make the index action public, we simply exclude the action.
 
    before_filter :oauth_authorized, except: "index"
 
-Last, you can decide to apply the authorization check to all actions that accept the JSON format by uncomment the 
-<tt>oauth_authorized</tt> line in the authenticate method in the {ApplicationController}[https://github.com/Lelylan/rest-oauth2-server/blob/development/app/controllers/application_controller.rb]
+You can also decide to verify authorizations for all actions that accept the JSON format by uncommenting
+<tt>oauth_authorized</tt> in the {ApplicationController}[https://github.com/Lelylan/rest-oauth2-server/blob/development/app/controllers/application_controller.rb]
+
+
+== Client definition
+
+Before a client application can request access, you must create it. Every registered user have a dashboard where
+is possible to create new clients. Registration provides the client application with a client ID and secret. The 
+client uses these to authenticate itself, as described in the section <b>OAuth 2.0 flows explained</b>. To create 
+it open a browser, login with your credentials and click on the <b>clients</b> link and fill the needed fields. At 
+this point you have all you need to use your Rest OAuth 2.0 Server.
+
 
 
 = OAuth 2.0 options
