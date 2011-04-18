@@ -59,6 +59,7 @@ class ScopesController < ApplicationController
       render "shared/html/404" and return
     end
 
+    # TODO: put into a backfround process
     def sync_existing_scopes
       Client.sync_clients_with_scope(@scope.name)
     end
@@ -70,6 +71,5 @@ class ScopesController < ApplicationController
         return false
       end
     end
-
 
 end
