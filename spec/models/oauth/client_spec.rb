@@ -89,7 +89,7 @@ describe Client do
     end
   end
 
-  context "when destroyed" do
+  context ".destroy" do
     subject { Factory.create(:client) }
     before do
       OauthAuthorization.destroy_all

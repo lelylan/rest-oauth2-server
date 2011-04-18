@@ -16,16 +16,19 @@ FactoryGirl.define do
      uri ANOTHER_USER_URI
   end
 
+
   factory :oauth_access do
     client_uri CLIENT_URI
     resource_owner_uri USER_URI
   end
+
 
   factory :oauth_authorization do
     client_uri CLIENT_URI
     resource_owner_uri USER_URI
     scope ALL_SCOPE
   end
+
 
   factory :oauth_token do
     client_uri CLIENT_URI
@@ -36,6 +39,7 @@ FactoryGirl.define do
   factory :oauth_token_read, parent: :oauth_token do
     scope READ_SCOPE
   end
+
 
   factory :client do
     uri CLIENT_URI
@@ -58,7 +62,6 @@ FactoryGirl.define do
   end
 
 
-  # TODO: make a factory file just for scopes
   factory :scope do
     uri SCOPE_URI
     name "write"

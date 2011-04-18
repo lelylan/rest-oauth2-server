@@ -2,7 +2,6 @@ class ClientsController < ApplicationController
 
   before_filter :find_clients
   before_filter :find_client, only: ["show", "edit", "update", "destroy"]
-  before_filter :normalize_scope, only: ["create", "update"]
 
   def index
   end
@@ -17,7 +16,9 @@ class ClientsController < ApplicationController
   def create
     @client = Client.new(params[:client])
     @client.created_from = current_user.uri
-    @client.uri = @client.base_uri(request)
+    @client.uri          = @client.base_uri(request)
+    @client.scope_values = Oauth.normalize_scope(params[:client][:scope])
+
     if @client.save
       redirect_to @client, notice: "Resource was successfully created."
     else
@@ -29,6 +30,8 @@ class ClientsController < ApplicationController
   end
 
   def update
+    @client.scope_values = Oauth.normalize_scope(params[:client][:scope])
+
     if @client.update_attributes(params[:client])
       flash.now.notice = "Resource was successfully updated."
       render "show"
