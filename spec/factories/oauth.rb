@@ -74,7 +74,7 @@ FactoryGirl.define do
 
   factory :scope_pizzas_all, parent: :scope do
     name "pizzas"
-    values ["pizzas/create", "pizzas/update", "pizzas/destroy", "pizzas/read"]
+    values ["pizzas/read", "pizzas/create", "pizzas/update", "pizzas/destroy"]
   end
 
   factory :scope_pastas_read, parent: :scope do
