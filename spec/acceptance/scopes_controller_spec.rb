@@ -187,25 +187,22 @@ feature "ScopesController" do
           Scope.destroy_all
           @scope = Factory(:scope_pizzas_all)
           @scope_read = Factory(:scope_pizzas_read)
+          @client = Factory(:client)
+          @client_read = Factory(:client_read)
+
           visit "/scopes/" + @scope_read.id.as_json +  "/edit"
-
-          client = Factory(:client)
-          client_read = Factory(:client_read)
-
           fill_scope("pizzas/read", "pizzas/show")
           click_button 'Update Scope'
 
-          client.reload.scope_values.should_not include "pizzas/index"
-          client.reload.scope_values.should include "pizzas/show"
-          client.reload.scope_values.should include "pizzas/create"
-          client.reload.scope_values.should include "pizzas/update"
-          client.reload.scope_values.should include "pizzas/destroy"
+          @client.reload.scope_values.should_not include "pizzas/index"
+          @client.reload.scope_values.should include "pizzas/show"
+          @client.reload.scope_values.should include "pizzas/create"
+          @client.reload.scope_values.should include "pizzas/update"
+          @client.reload.scope_values.should include "pizzas/destroy"
 
-          client_read.reload.scope_values.should_not include "pizzas/index"
-          client_read.reload.scope_values.should include "pizzas/show"
+          @client_read.reload.scope_values.should_not include "pizzas/index"
+          @client_read.reload.scope_values.should include "pizzas/show"
         end
-
-
       end 
 
       context "when not admin" do
