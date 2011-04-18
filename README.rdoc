@@ -120,6 +120,12 @@ The response is a JSON Object containing the new access token.
     "refresh_token": "Da8i1930LSj"
   }
 
+=== Going deep
+
+If you are curious and you want to find more check the {acceptance}[link:blob/development/spec/acceptance/oauth/oauth_authorize_controller_spec.rb] 
+{tests}[link:blob/development/spec/acceptance/oauth/oauth_token_controller_spec.rb] in the <b>Authorization token 
+flow</b> and <b>refresh token</b> context.
+
 
 
 == OAuth 2.0 for client-side web applications
@@ -167,6 +173,11 @@ When your access token expires, our API endpoints will respond with HTTP 401 Una
 your user to the same authorization endpoint you used in the previous step. If the user has already authorized your 
 application for the scopes you're requesting, Rest OAuth Server won't show the OAuth dialog and will immediately redirect 
 to the <tt>redirect_uri</tt> you pass us with a new access token.
+
+=== Going deep
+
+If you are curious and you want to find more check the {acceptance tests}[link:/blob/master/spec/acceptance/oauth/oauth_authorize_controller_spec.rb] 
+in the <b>implicit token flow</b> and <b>refresh implicit token flow</b>context.
 
 
 
@@ -240,6 +251,10 @@ The response is a JSON Object containing the new access token.
     "refresh_token": "Da8i1930LSj"
   }
 
+=== Going deep
+
+If you are curious and you want to find more check the {acceptance tests}[link:blob/development/spec/acceptance/oauth/oauth_token_controller_spec.rb] 
+in the <b>password credentials flow/b> and <b>refresh token</b> context.
 
 
 
