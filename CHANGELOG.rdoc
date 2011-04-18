@@ -3,6 +3,8 @@
 
 == Release v0.2.3 (2011/04/19)
 
+* Added UI to authomatically set admin the first user which 
+register into the OAuth Server
 * Added autoupdate of scopes to all clients when it changes
 
 

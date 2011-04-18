@@ -18,6 +18,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(params[:user])
     @user.uri = @user.base_uri(request)
+    @user.admin = true if admin_does_not_exist
     if @user.save
       redirect_to root_url, :notice => "Signed up!"
     else

@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
 
   before_filter :authenticate
   helper_method :current_user
+  helper_method :admin_does_not_exist
 
   rescue_from BSON::InvalidObjectId,        with: :bson_invalid_object_id
   rescue_from JSON::ParserError,            with: :json_parse_error
@@ -70,15 +71,14 @@ class ApplicationController < ActionController::Base
       if (json_body and @body[:token])
         params[:token] = @body[:token]
       end
-
       # Token in the header
       if request.env["Authorization"]
         params[:token] = request.env["Authorization"].split(" ").last
       end
+    end
 
-      #unless params[:token]
-        #params[:token] = "0"
-      #end
+    def admin_does_not_exist
+      User.where(admin: true).first.nil?
     end
 
 end
