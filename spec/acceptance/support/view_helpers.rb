@@ -21,6 +21,7 @@ module ViewHelperMethods
   def should_visualize_client(client)
     page.should have_content(client.name)
     page.should have_content(client.scope_pretty)
+    page.should have_content(client.secret)
   end
 
   def should_visualize_client_details(client)
@@ -29,7 +30,7 @@ module ViewHelperMethods
     page.should have_content(client.secret)
     page.should have_content(client.site_uri)
     page.should have_content(client.redirect_uri)
-    page.should have_content(client.scope_pretty)
+    page.should have_content(client.scope_values_pretty)
     page.should have_content("pizzas/create")
     page.should have_content(client.info)
   end

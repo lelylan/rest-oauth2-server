@@ -14,5 +14,4 @@ describe Scope do
   it { should_not allow_mass_assignment_of(:uri) }
 
   its(:values) { should be_a_kind_of Array }
-
 end

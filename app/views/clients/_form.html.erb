@@ -28,7 +28,7 @@
 
   <div class="field">
     <%= f.label :scope %><br />
-    <%= f.text_field :scope %>
+    <input id="client_scope" name="client[scope]" size="30" type="text" value="<%=@client.scope_pretty%>">
   </div>
 
   <div class="field">

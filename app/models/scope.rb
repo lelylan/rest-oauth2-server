@@ -5,7 +5,7 @@ class Scope
 
   field :name
   field :uri
-  field :values, type: Array
+  field :values, type: Array, default: []
 
   attr_accessible :name
 

@@ -2,6 +2,7 @@ class ScopesController < ApplicationController
  
   before_filter :admin?
   before_filter :find_resource, only: ["show", "edit", "update", "destroy"]
+  after_filter  :sync_existing_scopes, only: ["update", "destroy"] 
 
   def index
     @scopes = Scope.all
@@ -58,6 +59,10 @@ class ScopesController < ApplicationController
       render "shared/html/404" and return
     end
 
+    def sync_existing_scopes
+      Client.sync_clients_with_scope(@scope.name)
+    end
+
     def admin?
       unless current_user.admin?
         flash.alert = "Unauthorized access."
@@ -65,5 +70,6 @@ class ScopesController < ApplicationController
         return false
       end
     end
+
 
 end

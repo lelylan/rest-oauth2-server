@@ -89,7 +89,7 @@ describe Client do
     end
   end
 
-  context ".destroy" do
+  context "#destroy" do
     subject { Factory.create(:client) }
     before do
       OauthAuthorization.destroy_all
@@ -108,6 +108,24 @@ describe Client do
       lambda{ subject.destroy }.should change{
         OauthToken.all.size
       }.by(-3)
+    end
+  end
+
+  context ".sync_clients_with_scope" do
+    before { Client.destroy_all }
+    before { Scope.destroy_all }
+
+    before { @client = Factory(:client) }
+    before { @read_client = Factory(:client_read) }
+    before { @scope = Factory(:scope_pizzas_read, values: ["pizzas/show"]) }
+    before { Client.sync_clients_with_scope("pizzas/read") }
+
+    it "should not update client scope" do
+      @client.reload.scope_values.should == ALL_SCOPE
+    end
+
+    it "should update read client scope" do
+      @read_client.reload.scope_values.should == ["pizzas/show"]
     end
   end
 

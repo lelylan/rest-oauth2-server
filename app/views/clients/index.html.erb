@@ -13,7 +13,7 @@
 <% @clients.each do |client| %>
   <tr>
     <td><%= client.name %></td>
-    <td><%= client.scope %></td>
+    <td><%= client.scope_pretty %></td>
     <td><%= client.secret %></td>
     <td><%= link_to 'Show', client %></td>
     <td><%= link_to 'Edit', edit_client_path(client) %></td>

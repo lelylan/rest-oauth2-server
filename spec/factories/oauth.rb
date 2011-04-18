@@ -46,13 +46,13 @@ FactoryGirl.define do
     name "the client"
     created_from USER_URI
     redirect_uri REDIRECT_URI
-    scope "all"
+    scope ["pizzas"]
     scope_values ALL_SCOPE
   end
 
   factory :client_read, parent: :client do
     uri ANOTHER_CLIENT_URI
-    scope "read"
+    scope ["pizzas/read"]
     scope_values READ_SCOPE
   end
 
@@ -64,7 +64,7 @@ FactoryGirl.define do
 
   factory :scope do
     uri SCOPE_URI
-    name "write"
+    name "pizzas"
   end
 
   factory :scope_pizzas_read, parent: :scope do

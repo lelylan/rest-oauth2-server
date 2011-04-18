@@ -12,7 +12,7 @@ class Client
   field :secret                                    # client secret
   field :site_uri                                  # client website
   field :redirect_uri                              # page called after authorization
-  field :scope                                     # raw scope with keywords
+  field :scope, type: Array, default: []           # raw scope with keywords
   field :scope_values, type: Array, default: []    # scope parsed as array of allowed actions
   field :info                                      # client additional info
   field :granted_times, type: Integer, default: 0  # tokens granted in the authorization step
@@ -62,8 +62,13 @@ class Client
     self.revoked_times += 1
     self.save
   end
-
+  
   def scope_pretty
+    separator = Oauth.settings["scope_separator"]
+    scope.join(separator)
+  end
+
+  def scope_values_pretty
     separator = Oauth.settings["scope_separator"]
     scope_values.join(separator)
   end
@@ -86,6 +91,16 @@ class Client
       all_in(scope_values: scope)
     end
 
+    # Sync all clients with the correct exploded scope when a
+    # scope is modified (changed or removed)
+    def sync_clients_with_scope(scope)
+      clients_to_sync = any_in(scope: [scope])
+      clients_to_sync.each do |client|
+        scope_string = client.scope.join(Oauth.settings["scope_separator"])
+        client.scope_values = Oauth.normalize_scope(scope_string)
+        client.save
+      end
+    end
   end
 
 
