@@ -100,8 +100,12 @@ feature "ClientsController" do
           page.should have_content "was successfully created"
         end
 
-        scenario "assign an URI to the resource" do
+        scenario "assign URI field" do
           @client.uri.should == host + "/clients/" + @client.id.as_json
+        end
+        
+        scenario "assign created_from field" do
+          @client.created_from == @user.uri
         end
       end
 

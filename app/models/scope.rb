@@ -5,7 +5,7 @@ class Scope
 
   field :name
   field :uri
-  field :values, type: Array
+  field :values, type: Array, default: []
 
   attr_accessible :name
 
@@ -23,4 +23,15 @@ class Scope
     values.join(separator)
   end
 
+  class << self
+    # Sync all scopes with the correct exploded scope when a
+    # scope is modified (changed or removed)
+    def sync_scopes_with_scope(scope)
+      scopes_to_sync = any_in(scope: [scope])
+      scopes_to_sync.each do |client|
+        scope.values = Oauth.normalize_scope(scope.values)
+        scope.save
+      end
+    end
+  end
 end

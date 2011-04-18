@@ -16,16 +16,19 @@ FactoryGirl.define do
      uri ANOTHER_USER_URI
   end
 
+
   factory :oauth_access do
     client_uri CLIENT_URI
     resource_owner_uri USER_URI
   end
+
 
   factory :oauth_authorization do
     client_uri CLIENT_URI
     resource_owner_uri USER_URI
     scope ALL_SCOPE
   end
+
 
   factory :oauth_token do
     client_uri CLIENT_URI
@@ -37,17 +40,20 @@ FactoryGirl.define do
     scope READ_SCOPE
   end
 
+
   factory :client do
     uri CLIENT_URI
     name "the client"
     created_from USER_URI
     redirect_uri REDIRECT_URI
-    scope ALL_SCOPE
+    scope ["pizzas"]
+    scope_values ALL_SCOPE
   end
 
   factory :client_read, parent: :client do
     uri ANOTHER_CLIENT_URI
-    scope READ_SCOPE
+    scope ["pizzas/read"]
+    scope_values READ_SCOPE
   end
 
   factory :client_not_owned, parent: :client do
@@ -56,10 +62,9 @@ FactoryGirl.define do
   end
 
 
-  # TODO: make a factory file just for scopes
   factory :scope do
     uri SCOPE_URI
-    name "write"
+    name "pizzas"
   end
 
   factory :scope_pizzas_read, parent: :scope do
@@ -69,7 +74,7 @@ FactoryGirl.define do
 
   factory :scope_pizzas_all, parent: :scope do
     name "pizzas"
-    values ["pizzas/create", "pizzas/update", "pizzas/destroy", "pizzas/read"]
+    values ["pizzas/read", "pizzas/create", "pizzas/update", "pizzas/destroy"]
   end
 
   factory :scope_pastas_read, parent: :scope do

@@ -4,6 +4,7 @@
   <tr>
     <th>Name</th>
     <th>Scope</th>
+    <th>Secret</th>
     <th></th>
     <th></th>
     <th></th>
@@ -13,6 +14,7 @@
   <tr>
     <td><%= client.name %></td>
     <td><%= client.scope_pretty %></td>
+    <td><%= client.secret %></td>
     <td><%= link_to 'Show', client %></td>
     <td><%= link_to 'Edit', edit_client_path(client) %></td>
     <td><%= link_to 'Destroy', client, :confirm => 'Are you sure?', :method => :delete %></td>

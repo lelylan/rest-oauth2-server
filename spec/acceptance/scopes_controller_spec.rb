@@ -182,6 +182,38 @@ feature "ScopesController" do
             page.should have_content "Values can't be blank"
           end
         end
+
+        context "update clients'scopes" do
+
+          before do 
+            Scope.destroy_all
+            @scope = Factory(:scope_pizzas_all)
+            @scope_read = Factory(:scope_pizzas_read)
+            @client = Factory(:client)
+            @client_read = Factory(:client_read)
+          end
+
+          before do
+            visit "/scopes/" + @scope_read.id.as_json +  "/edit"
+            fill_scope("pizzas/read", "pizzas/show")
+            click_button 'Update Scope'
+          end
+
+          context "with indirect client" do
+            subject { @client.reload.scope_values }
+            it { should_not include "pizzas/index" }
+            it { should include "pizzas/show" }
+            it { should include "pizzas/create" }
+            it { should include "pizzas/update" }
+            it { should include "pizzas/destroy" }
+          end
+
+          context "with direct client" do
+            subject { @client_read.reload.scope_values }
+            it { should_not include "pizzas/index" }
+            it { @client_read.reload.scope_values.should include "pizzas/show" }
+          end
+        end
       end 
 
       context "when not admin" do
