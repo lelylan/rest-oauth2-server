@@ -1,6 +1,11 @@
 = Changelog
 
 
+== Release v0.2.3 (2011/04/19)
+
+* Added autoupdate of scopes to all clients when it changes
+
+
 == Release v0.2.2 (2011/04/18)
 
 * Added documentation on scope definition, action authorization, testing 

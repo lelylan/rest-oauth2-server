@@ -117,15 +117,23 @@ describe Client do
 
     before { @client = Factory(:client) }
     before { @read_client = Factory(:client_read) }
-    before { @scope = Factory(:scope_pizzas_read, values: ["pizzas/show"]) }
+    before { @scope = Factory(:scope_pizzas_all) }
+    before { @scope_read = Factory(:scope_pizzas_read, values: ["pizzas/show"]) }
     before { Client.sync_clients_with_scope("pizzas/read") }
 
-    it "should not update client scope" do
-      @client.reload.scope_values.should == ALL_SCOPE
+    context "with indirect scope" do
+      subject { @client.reload.scope_values }
+      it { should include "pizzas/show" }
+      it { should include "pizzas/create" }
+      it { should include "pizzas/update" }
+      it { should include "pizzas/destroy" }
+      it { should_not include "pizzas/index" }
     end
 
-    it "should update read client scope" do
-      @read_client.reload.scope_values.should == ["pizzas/show"]
+    context "with direct scope" do
+      subject { @read_client.reload.scope_values }
+      it { should include "pizzas/show" }
+      it { should_not include "pizzas/index" }
     end
   end
 
