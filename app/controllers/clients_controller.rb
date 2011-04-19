@@ -1,8 +1,9 @@
 class ClientsController < ApplicationController
 
   before_filter :find_clients
-  before_filter :find_client, only: ["show", "edit", "update", "destroy"]
+  before_filter :find_client, only: ["show", "edit", "update", "destroy", "block", "unblock"]
   before_filter :normalize_scope, only: ["create", "update"]
+  before_filter :admin?, only: ["block", "unblock"]
 
   def index
   end
@@ -47,11 +48,26 @@ class ClientsController < ApplicationController
     redirect_to(clients_url, notice: "Resource was successfully destroyed.")
   end
 
+  # TODO: this is not REST way
+  def block
+    @client.block!
+    redirect_to clients_url
+  end
+
+  def unblock
+    @client.unblock!
+    redirect_to clients_url
+  end
+
 
   private 
 
     def find_clients
-      @clients = Client.where(created_from: current_user.uri)
+      if current_user.admin? 
+        @clients = Client.criteria
+      else 
+        @clients = Client.where(created_from: current_user.uri)
+      end
     end
 
     def find_client
@@ -69,4 +85,11 @@ class ClientsController < ApplicationController
       params[:client][:scope] = params[:client][:scope].split(Oauth.settings["scope_separator"])
     end 
 
+    def admin?
+      unless current_user.admin?
+        flash.alert = "Unauthorized access."
+        redirect_to root_path
+        return false
+      end
+    end
 end
