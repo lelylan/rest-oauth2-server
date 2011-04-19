@@ -1,12 +1,20 @@
 require File.expand_path(File.dirname(__FILE__) + '/acceptance_helper')
 
 feature "ClientsController" do
+  before { Client.destroy_all }
+  before { User.destroy_all }
+  before { Scope.destroy_all }
+
   before { host! "http://" + host }
   before { @user = Factory(:user) }
+  before { @user_bob   = Factory(:user_bob) }
+  before { @admin = Factory(:admin) }
+
   before { @client = Factory(:client) }
-  before { @client_not_owned = Factory(:client, created_from: ANOTHER_USER_URI) }
-  before { @scope = Factory(:scope_pizzas_read) }
-  before { @scope = Factory(:scope_pizzas_all) }
+  before { @client_not_owned = Factory(:client_not_owned) }
+
+  before { @scope_read = Factory(:scope_pizzas_read) }
+  before { @scope_all = Factory(:scope_pizzas_all) }
 
 
   context ".index" do
@@ -20,15 +28,27 @@ feature "ClientsController" do
       end
     end
 
-    context "when logged it" do
-      before { login(@user) } 
+    context "when logged in" do
+      context "when not admin" do
+        before { login(@user) } 
 
-      scenario "view the resources" do
-        visit @uri
-        [@client, @read_client].each do |client|
-          should_visualize_client(client)
+        scenario ".index" do
+          visit @uri
+          should_visualize_client(@client)
+          should_visualize_client(@read_client)
+          page.should_not have_content "Not owned client" 
         end
-        page.should_not have_content "Not owned client"
+      end
+
+      context "when admin" do
+        before { login(@admin) }
+
+        scenario ".index" do
+          visit @uri
+          should_visualize_client(@client)
+          should_visualize_client(@read_client)
+          page.should have_content "Not owned client" 
+        end
       end
     end
   end
@@ -45,31 +65,42 @@ feature "ClientsController" do
     end
 
     context "when logged in" do
-      before { login(@user) } 
+      context "when not admin" do
+        before { login(@user) }
 
-      scenario "view a resource" do
-        visit @uri
-        should_visualize_client(@client)
+        scenario "view a resource" do
+          visit @uri
+          should_visualize_client(@client)
+        end
+
+        scenario "resource not found" do
+          @client.destroy
+          visit @uri
+          page.should have_content "not_found"
+          page.should have_content "Resource not found"
+        end
+
+        scenario "resource not owned" do
+          visit "/clients/" + @client_not_owned.id.as_json
+          page.should have_content "not_found"
+          page.should have_content "Resource not found"
+        end
+
+        scenario "illegal id" do
+          visit "/clients/0"
+          page.should have_content "not_found"
+          page.should have_content "Resource not found"
+        end
       end
 
-      scenario "resource not found" do
-        @client.destroy
-        visit @uri
-        page.should have_content "not_found"
-        page.should have_content "Resource not found"
+      context "when admin" do
+        before { login(@admin) }
+        scenario "view not owned resource" do
+          visit "/clients/" + @client_not_owned.id.as_json
+          should_visualize_client @client_not_owned
+        end
       end
 
-      scenario "resource not owned" do
-        visit "/clients/" + @client_not_owned.id.as_json
-        page.should have_content "not_found"
-        page.should have_content "Resource not found"
-      end
-
-      scenario "illegal id" do
-        visit "/clients/0"
-        page.should have_content "not_found"
-        page.should have_content "Resource not found"
-      end
     end
   end
 
@@ -120,6 +151,7 @@ feature "ClientsController" do
     end
   end
 
+
   context ".update" do
     before { @uri = "/clients/" + @client.id.as_json +  "/edit" }
 
@@ -131,36 +163,52 @@ feature "ClientsController" do
     end
 
     context "when logged in" do
-      before { login(@user) } 
+      context "when not admin" do
+        before { login(@user) } 
 
-      scenario "update a resource" do
-        visit @uri
-        fill_client("Example Updated")
-        click_button 'Update Client'
-        should_visualize_client_details(@client.reload)
-        page.should have_content "Example Updated"
-        page.should have_content "was successfully updated"
-      end
-
-      scenario "resource not found" do
-        @client.destroy
-        visit @uri
-        page.should have_content "not_found"
-        page.should have_content "Resource not found"
-      end
-
-      scenario "illegal id" do
-        visit "/clients/0"
-        page.should have_content "not_found"
-        page.should have_content "Resource not found"
-      end
-
-      context "when not valid" do
-        scenario "fails" do
+        scenario "update a resource" do
           visit @uri
-          fill_client("")
+          fill_client("Example Updated")
           click_button 'Update Client'
-          page.should have_content "Name can't be blank"
+          should_visualize_client_details(@client.reload)
+          page.should have_content "Example Updated"
+          page.should have_content "was successfully updated"
+        end
+
+        scenario "resource not found" do
+          @client.destroy
+          visit @uri
+          page.should have_content "not_found"
+          page.should have_content "Resource not found"
+        end
+
+        scenario "resource not owned" do
+          visit "/clients/" + @client_not_owned.id.as_json + "/edit"
+          page.should have_content "not_found"
+          page.should have_content "Resource not found"
+        end
+
+        scenario "illegal id" do
+          visit "/clients/0"
+          page.should have_content "not_found"
+          page.should have_content "Resource not found"
+        end
+
+        context "when not valid" do
+          scenario "fails" do
+            visit @uri
+            fill_client("")
+            click_button 'Update Client'
+            page.should have_content "Name can't be blank"
+          end
+        end
+      end
+
+      context "when admin" do
+        before { login(@admin) }
+        scenario "view not owned resource" do
+          visit "/clients/" + @client_not_owned.id.as_json + "/edit"
+          page.should have_field("Name", with: "Not owned client")
         end
       end
     end

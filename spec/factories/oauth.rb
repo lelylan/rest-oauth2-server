@@ -7,15 +7,22 @@ FactoryGirl.define do
      email "alice@example.com"
      password "example"
      uri USER_URI
-     admin true
+     admin false
   end
 
   factory :user_bob, class: User do
      email "bob@example.com"
      password "example"
      uri ANOTHER_USER_URI
+     admin false
   end
 
+  factory :admin, class: User do
+     email "admin@example.com"
+     password "example"
+     uri ADMIN_URI
+     admin true
+  end
 
   factory :oauth_access do
     client_uri CLIENT_URI

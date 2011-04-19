@@ -1,0 +1,38 @@
+<h3>Show Client</h3>
+
+<p>
+  <b>Client URI:</b>
+  <%= @access.client_uri %>
+</p>
+
+<p>
+  <b>Active:</b>
+  <%= not @access.blocked? %>
+</p>
+
+<p>
+  <b>Today requests:</b>
+  <%= @access.daily_requests.times %>
+</p>
+
+<%= link_to 'Back', accesses_path %>
+
+
+<h3>Detailed daily requests</h3>
+
+<table>
+  <tr>
+    <th>Times</th>
+    <th>Day</th>
+  </tr>
+
+<% @access.oauth_daily_requests.each do |daily_request| %>
+  <tr>
+    <td><%= daily_request.times %></td>
+    <td><%= daily_request.created_at.strftime("%a, %b %e") %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Back', accesses_path %>
+

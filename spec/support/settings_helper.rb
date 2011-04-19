@@ -6,11 +6,12 @@ module SettingsHelper
   ANOTHER_HOST = "http://www.example.com"
 
   # resources
-  USER_URI               = HOST + "/users/example"
-  ANOTHER_USER_URI       = HOST + "/users/another"
-  CLIENT_URI             = HOST + "/users/alice/client/lelylan"
-  ANOTHER_CLIENT_URI     = HOST + "/users/alice/client/riflect"
-  REDIRECT_URI           = HOST + "/app/callback"
+  USER_URI            = HOST + "/users/example"
+  ANOTHER_USER_URI    = HOST + "/users/another"
+  ADMIN_URI           = HOST + "/users/admin"
+  CLIENT_URI          = HOST + "/users/alice/client/lelylan"
+  ANOTHER_CLIENT_URI  = HOST + "/users/alice/client/riflect"
+  REDIRECT_URI        = HOST + "/app/callback"
 
   # scopes
   SCOPE_URI   = HOST + "/scopes/pizzas"

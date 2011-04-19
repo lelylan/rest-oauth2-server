@@ -17,7 +17,16 @@ Lelylan::Application.routes.draw do
   resources :users
   resources :sessions
   resources :scopes
-  resources :clients
+
+  resources :clients do
+    put :block, on: :member
+    put :unblock, on: :member
+  end
+
+  resources :accesses do
+    put :block, on: :member
+    put :unblock, on: :member
+  end
 
   root :to => "users#new"
 

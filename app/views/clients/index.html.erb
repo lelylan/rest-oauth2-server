@@ -2,9 +2,14 @@
 
 <table>
   <tr>
+    <% if current_user.admin? %>
+      <th>User</th>
+    <% end %>
     <th>Name</th>
     <th>Scope</th>
     <th>Secret</th>
+    <th>Active</th>
+    <th></th>
     <th></th>
     <th></th>
     <th></th>
@@ -12,12 +17,25 @@
 
 <% @clients.each do |client| %>
   <tr>
+    <% if current_user.admin? %>
+      <td><%= link_to User, client.created_from %></td>
+    <% end %>
     <td><%= client.name %></td>
     <td><%= client.scope_pretty %></td>
     <td><%= client.secret %></td>
+    <td><%= not client.blocked? %></td>
+   
+    <% if current_user.admin? %>
+      <% if client.blocked? %>
+        <td><%= link_to 'Unblock!', unblock_client_path(client), method: :put %></td>
+      <% else %>
+        <td><%= link_to 'Block!', block_client_path(client), method: :put %></td>
+      <% end %>
+    <% end %>
+    
     <td><%= link_to 'Show', client %></td>
     <td><%= link_to 'Edit', edit_client_path(client) %></td>
-    <td><%= link_to 'Destroy', client, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Destroy', client, confirm: 'Are you sure?', method: :delete %></td>
   </tr>
 <% end %>
 </table>
