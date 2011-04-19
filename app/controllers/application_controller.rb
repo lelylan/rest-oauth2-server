@@ -61,8 +61,11 @@ class ApplicationController < ActionController::Base
       normalize_token
       @token = OauthToken.where(token: params[:token]).all_in(scope: [action]).first
       if @token.nil? or @token.blocked?
-        render text: "Unauthorized access", status: 401
+        render text: "Unauthorized access.", status: 401
         return false
+      else 
+        access = OauthAccess.where(client_uri: @token.client_uri , resource_owner_uri: @token.resource_owner_uri).first
+        access.accessed!
       end
     end
 

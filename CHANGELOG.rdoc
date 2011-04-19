@@ -3,6 +3,9 @@
 
 == Release v0.2.3 (2011/04/19)
 
+* Added functionality to block the access of a user resource in
+behalf of a specific client
+* Added client access and stats to every user in the dashboard
 * Added functionality to block a client (only admin can do this)
 * Added UI to authomatically set admin the first user which 
 register into the OAuth Server

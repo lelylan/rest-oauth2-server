@@ -3,7 +3,7 @@
 <table>
   <tr>
     <% if current_user.admin? %>
-    <th>User</th>
+      <th>User</th>
     <% end %>
     <th>Name</th>
     <th>Scope</th>
@@ -18,7 +18,7 @@
 <% @clients.each do |client| %>
   <tr>
     <% if current_user.admin? %>
-    <td><%= link_to User, client.created_from %></td>
+      <td><%= link_to User, client.created_from %></td>
     <% end %>
     <td><%= client.name %></td>
     <td><%= client.scope_pretty %></td>
