@@ -3,6 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/acceptance_helper')
 feature "ResourceController" do
 
   context "with not existing access token" do
+    before { @token = Factory(:oauth_access) }
     before { @token = Factory(:oauth_token) }
     before { @token_value = @token.token }
     before { @token_json  = {token: @token_value}.to_json }

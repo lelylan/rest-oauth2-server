@@ -4,6 +4,8 @@ feature "UsersController" do
   before { host! "http://" + host }
   before { @user = Factory(:user) }
   before { @bob = Factory(:user_bob) }
+  before { @admin = Factory(:admin) }
+
 
   context ".index" do
     before { @uri = "/users" }
@@ -15,9 +17,9 @@ feature "UsersController" do
       end
     end
 
-    context "when logged it" do
+    context "when logged in" do
       context "when admin" do
-        before { login(@user) } 
+        before { login(@admin) } 
         scenario "list all resources" do
           visit @uri
           [@user, @bob].each do |user|
@@ -27,7 +29,7 @@ feature "UsersController" do
       end
 
       context "when not admin" do
-        before { login(@bob) } 
+        before { login(@user) } 
         scenario "do not list all resources" do
           visit @uri
           page.should have_content "Unauthorized access"

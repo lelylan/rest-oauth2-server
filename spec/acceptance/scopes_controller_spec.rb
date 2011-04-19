@@ -2,8 +2,8 @@ require File.expand_path(File.dirname(__FILE__) + '/acceptance_helper')
 
 feature "ScopesController" do
   before { host! "http://" + host }
-  before { @user = Factory(:user) }
-  before { @bob = Factory(:user_bob) }
+  before { @user  = Factory(:user) }
+  before { @admin = Factory(:admin) }
   before { @scope = Factory(:scope, values: ALL_SCOPE) }
 
 
@@ -20,18 +20,18 @@ feature "ScopesController" do
 
     context "when logged it" do
       context "when admin" do
-        before { login(@user) } 
+        before { login(@admin) } 
 
         scenario "view the resources" do
           visit @uri
-          [@scope, @read_scope].each do |scope|
-            should_visualize_scope(scope)
-          end
+          save_and_open_page
+          should_visualize_scope(@scope)
+          should_visualize_scope(@read_scope)
         end
       end
 
       context "when not admin" do
-        before { login(@bob) } 
+        before { login(@user) } 
         scenario "do not list all resources" do
           visit @uri
           page.should have_content "Unauthorized access"
@@ -53,7 +53,7 @@ feature "ScopesController" do
 
     context "when logged in" do
       context "when admin" do
-        before { login(@user) } 
+        before { login(@admin) } 
 
         scenario "view a resource" do
           visit @uri
@@ -75,7 +75,7 @@ feature "ScopesController" do
       end
 
       context "when not admin" do
-        before { login(@bob) } 
+        before { login(@user) } 
         scenario "do not show a resource" do
           visit @uri
           page.should have_content "Unauthorized access"
@@ -97,7 +97,7 @@ feature "ScopesController" do
 
     context "when logged in" do
       context "when admin" do
-        before { login(@user) } 
+        before { login(@admin) } 
 
         context "when valid" do
           before do
@@ -129,7 +129,7 @@ feature "ScopesController" do
       end
 
       context "when not admin" do
-        before { login(@bob) } 
+        before { login(@user) } 
         scenario "do not create a resource" do
           visit @uri
           page.should have_content "Unauthorized access"
@@ -150,7 +150,7 @@ feature "ScopesController" do
 
     context "when logged in" do
       context "when admin" do
-        before { login(@user) } 
+        before { login(@admin) } 
 
         scenario "update a resource" do
           visit @uri
@@ -217,7 +217,7 @@ feature "ScopesController" do
       end 
 
       context "when not admin" do
-        before { login(@bob) } 
+        before { login(@user) } 
         scenario "do not update a resource" do
           visit @uri
           page.should have_content "Unauthorized access"
