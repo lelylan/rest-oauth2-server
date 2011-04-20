@@ -311,80 +311,43 @@ action and that must be following the convention "<b>{controller name}/{action n
 
 The Rest OAuth 2.0 Server ships with two sample resources called <tt>pizzas</tt> and <tt>pastas</tt>. Each 
 resource have the 5 usual REST actions <tt>index</tt>, <tt>show</tt>, <tt>create</tt> , <tt>update</tt> and 
-<tt>destroy</tt>. Now, lets supppose we want to define the following scopes:
+<tt>destroy</tt>. Now, lets supppose we want to define the following scopes for the pizzas resource:
 
 * <b>all</b>: enable the access to all actions.
 * <b>read</b>: enable the access to the read-only actions.
-* <b>pastas</b>: enable the access to all pastas actions.
-* <b>pizzas</b>: enable the access to all pizzas actions.
 
 To do this we need to define four scopes in the admin dashboard, where each of them will define what can or can 
 not be accessed.
 
-Pizzas scope  (made up of action name values)
-* Name:   <tt>pizzas</tt>
-* Values: <tt>pizzas/index pizzas/show pizzas/create pizzas/update pizzas/destroy</tt>
-
-Pastas scope (made up of action name values)
-* Name:   <tt>pastas</tt>
-* Values: <tt>pastas/index pastas/show pastas/create pastas/update pastas/destroy</tt>
-
 Read scope (made up of action name values)
 * Name:   <tt>read</tt>
-* Values: <tt>pizzas/index pizzas/show pastas/index pastas/show</tt>
+* Values: <tt>pizzas/index pizzas/show</tt>
 
 All actions scope (made up from scope name values)
 * Name:   <tt>all</tt>
-* Values: <tt>pizzas pastas</tt>
+* Values: <tt>read pizzas/create pizzas/update pizzas/destroy</tt>
 
-Note that as values, for the pizzas, pastas and read scope we define the specific action that can be accessed, 
-while for the all pizzas we use scope names already defined. This makes easier to mantain scopes.
+Note that the <b>all</b> scope values contains the string <b>read</b> which automatically include the actions
+defined in the <b>read</b> scope values. Using this system you can easily build complex scope systems. Look at 
+the {test suite}[link:/blob/development/spec/extras/scope_spec.rb] to fully understand how the scope system works.
 
-=== Scope administration
 
-The scope definition consists in the creation of key/actions pairs. In other words, we associate a key to a 
-list of accessible actions. To do this you need to log in as admin, open a browser and reach the /scopes 
-section.
+=== Resource applied
 
-For example, if you want to define a scope <b>read</b> which allows clients to grant authorization for read-only
-actions you need to define a record with an alphanumeric key and a white space list of actions you can access.
-
-* key:    <tt>read</tt>
-* values: <tt>pizzas/index pizzas/show pastas/index pastas/show</tt>
-
-Here the only rule to remember is that the values list is separated from spaces and that every value follow a 
-convention where you put the <b>controller name</b>, the <b>dash "/"</b> and the <b>action name</b>.
-
-To define the <b>all</b> scope the logic is the same. The only difference is that the scope engine allow you to 
-reuse scope keys instead of rewriting all actions. This means that if you want to define a scope to access all 
-of the controller actions, you can use <tt>read</tt> to include read-only actions and then add all others. Here 
-a sample.
-
-* name:   <tt>all</tt>
-* values: <tt>read pizzas/create pizzas/update pizzas/destroy pastas/create pastas/update pastas/destroy</tt>
-
-Look at the {tests}[link:/blob/development/spec/extras/scope_spec.rb] to fully understand the scope engine.
-
-=== Resource protection
-
-Once scopes are defined, you need to add one single line to the controllers you need to protect.
+Once scopes are defined you need one more step. You need to protect your controller just adding the filter 
+<tt>oauth_authorized</tt>
 
   class PizzasController < ApplicationController
     before_filter :oauth_authorized
     ...
 
-  class PastasController < ApplicationController
-    before_filter :oauth_authorized
-    ...
+This filter verify if the client can access the scpecific action, based on the scope has been granted from the user.
+If you like you can make some actions public, just by using the <tt>exclude</tt> key
 
-This filter verify the authorization to all actions on a controller, based on the scope access a client requires. 
-Remember that using the <tt>before_filter</tt> options, you can exclude some actions (making them public) or add 
-any logic you need. For example if we want to make the index action public, we simply exclude the action.
+   before_filter :oauth_authorized, except: %w(index, show)
 
-   before_filter :oauth_authorized, except: "index"
-
-You can also decide to verify authorizations for all actions that accept the JSON format by uncommenting
-<tt>oauth_authorized</tt> in the {ApplicationController}[https://github.com/Lelylan/rest-oauth2-server/blob/development/app/controllers/application_controller.rb]
+You can also decide to apply the OAuth Authorization Filter to all JSON API by uncommenting <tt>oauth_authorized</tt> 
+in the {ApplicationController}[https://github.com/Lelylan/rest-oauth2-server/blob/development/app/controllers/application_controller.rb]
 
 
 == Client definition
