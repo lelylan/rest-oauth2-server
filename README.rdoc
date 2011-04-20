@@ -290,7 +290,7 @@ to access the admin dashboard where you will find the folllowing voices:
 * <b>Accesses</b>: daily accesses of the client on behalf of the user
 * <b>Clients</b>: registered clients (third party application)
 
-While <b>users<b> and <b>scopes</b> are visible only to the admin, <b>accesses</b> and <b>Clients</b> will be 
+While Users and Scopes are visible only to the admin, <b>accesses</b> and <b>Clients</b> will be 
 available to every registered user. To better understand what you can do explore the Dashboard and read the 
 following sections.
 
