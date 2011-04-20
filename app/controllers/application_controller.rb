@@ -19,8 +19,7 @@ class ApplicationController < ActionController::Base
 
     def authenticate
       if api_request
-        # uncomment to make all json API protected
-        # oauth_authorized
+        # oauth_authorized   # uncomment to make all json API protected
       else
         session_auth
       end
@@ -46,6 +45,7 @@ class ApplicationController < ActionController::Base
     end
 
     def session_auth
+      session[:back] = request.url 
       @current_user ||= User.criteria.id(session[:user_id]).first if session[:user_id]
       unless current_user
         redirect_to(log_in_path) and return false

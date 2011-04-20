@@ -1,6 +1,6 @@
 module Oauth
 
-  def self.normalize_scope(scope)
+  def self.normalize_scope(scope = [])
     scope = scope.split(" ") if scope.kind_of? String
     normalized = Scope.any_in(name: scope)
     normalized = normalized.map(&:values).flatten
