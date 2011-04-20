@@ -268,26 +268,14 @@ For the Rest OAuth 2.0 Server to work you must have installed:
 
 Once this is done follows these steps:
 
-  # run MongoDB server
   $ mongod  
-
-  # clone the repository
   $ git clone git@github.com:Lelylan/rest-oauth2-server.git
-
-  # install gems
   $ bundle install
-
-  # run test suite
   $ rake spec</tt>
-
-  # run Rest OAuth 2.0 Server
   $ rails s
 
-
-
-
-We are working at a gem and a generator to easily integrate the Rest OAuth 2.0 server into your project, so any 
-idea or help will be more than appreciated.
+If everything works fine, you have your OAuth server up and running. We are also working at a gem and a 
+generator to easily integrate the Rest OAuth 2.0 server into your project. Any help in this is appreciated.
 
 == Scopes definition
 
