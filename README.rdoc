@@ -261,18 +261,18 @@ in the <b>password credentials flow/b> and <b>refresh token</b> context.
 
 = Installation
 
-For Rest OAuth 2.0 Server to work you must have installed: 
+For the Rest OAuth 2.0 Server to work you must have installed: 
 
 * {Ruby 1.9.2}[www.ruby-lang.org/en/] 
 * {MongoDB}[http://www.mongodb.org/]. 
 
 Once this is done follows these steps:
 
-* <tt>$ git clone git@github.com:Lelylan/rest-oauth2-server.git</tt> (clone the repository)
-* <tt>$ bundle install</tt> (installa gems)
-* <tt>$ mongod</tt> (run MongoDB server)
-* <tt>$ rake spec</tt> (run the test suite)
-* <tt>$ rails s</tt> (run the Rest OAuth 2.0 Server)
+  $ git clone git@github.com:Lelylan/rest-oauth2-server.git</tt> (clone the repository)
+  $ bundle install</tt> (installa gems)
+  $ mongod</tt> (run MongoDB server)
+  $ rake spec</tt> (run the test suite)
+  $ rails s</tt> (run the Rest OAuth 2.0 Server)
 
 
 
