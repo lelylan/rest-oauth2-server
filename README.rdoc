@@ -278,20 +278,68 @@ To install the project run the following commands from your terminal
 If everything works fine, you have your OAuth server up and running. We are also working at a gem and a 
 generator to easily integrate the Rest OAuth 2.0 server into your project. Any help in this is appreciated.
 
-== Scopes definition
 
-The Rest OAuth 2.0 Server ships with an and highly customizable "scope system" which restricts what resources 
-a given user can grant to the client applications. 
+== Admin user definition
 
-The Rest OAuth 2.0 Server ships with two sample resources called <tt>pizza</tt> and <tt><pasta></tt>. Each 
-resource has the 5 usual REST actions <tt>index</tt>, <tt>show</tt>, <tt>create</tt> , <tt>update</tt> and 
-<tt>destroy</tt>. To access this resources, the client usually send a scope, which identify the privileges 
-that the user can give. So, lets suppose we want to define two basic scopes:
+When accessing the application for the first time you will be asked to define the first administrator user 
+(all following users will be created as "not admin" users). Register it and then log in with the new credentials 
+to access the admin dashboard where you will find the folllowing voices:
 
-* <tt>read</tt> which allow the access to the read-only actions <tt>index</tt> and <tt>show</tt>
-* <tt>all</tt> which allow the access to all actions
+* <b>Users</b>: registered users 
+* <b>Scopes</b>: authorization scopes
+* <b>Accesses</b>: daily accesses of the client on behalf of the user
+* <b>Clients</b>: registered clients (third party application)
 
-To do this we need to follow two simple steps which we are going to explain in detail.
+While <b>users<b> and <b>scopes</b> are visible only to the admin, <b>accesses</b> and <b>Clients</b> will be 
+available to every registered user. To better understand what you can do explore the Dashboard and read the 
+following sections.
+
+
+== Scopes explained
+
+The scope is a key that tells you what can and can't be accessed. The Rest OAuth 2.0 Server ships with a 
+flexible scope system which can be dynamically built. To see how it works, access the scope section in the 
+admin dashboard. Click <tt>new</tt> and you will see a simple form with two fields:
+
+* <tt>Name</tt>: unique name that identify a scope.
+* <tt>Values</tt>: list of space separated strings, each of one refers to a specific action or to a scope. 
+
+This means that the values can simply be a Scope Name already defined, or a string that identify a specific 
+action and that <b>must be followint the convention</b> <tt>controller name</tt> + <tt>/</tt> + <tt>action 
+name</tt>
+
+=== Scopes definition
+
+The Rest OAuth 2.0 Server ships with two sample resources called <tt>pizzas</tt> and <tt>pastas</tt>. Each 
+resource have the 5 usual REST actions <tt>index</tt>, <tt>show</tt>, <tt>create</tt> , <tt>update</tt> and 
+<tt>destroy</tt>. Now, lets supppose we want to define the following scopes:
+
+* <b>all</b>: enable the access to all actions.
+* <b>read</b>: enable the access to the read-only actions.
+* <b>pizzas</b>: enable the access to all pizzas actions.
+* <b>pastas</b>: enable the access to all pastas actions.
+
+To do this we need to define four scopes in the admin dashboard, where each of them will define what can or can 
+not be accessed.
+
+Pizzas scope  (made up of action name values)
+* Name:   <tt>pizzas</tt>
+* Values: <tt>pizzas/index pizzas/show pizzas/create pizzas/update pizzas/destroy</tt>
+
+Pastas scope (made up of action name values)
+* Name:   <tt>pastas</tt>
+* Values: <tt>pastas/index pastas/show pastas/create pastas/update pastas/destroy</tt>
+
+Read scope (made up of action name values)
+* Name:   <tt>read</tt>
+* Values: <tt>pizzas/index pizzas/show pastas/index pastas/show<tt>
+
+All actions scope (made up from scope name values)
+* Name:   <tt>all</tt>
+* Values: <tt>pizzas pastas</tt>
+
+
+
 
 * Scope administration (only admin user can do this)
 * Resource protection (inside every controller)
