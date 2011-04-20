@@ -110,6 +110,18 @@ feature "UsersController" do
         page.should have_content "Password can't be blank"
       end
     end
+
+    context "when no admin exists" do
+      before { @admin.destroy }
+      scenario "create admin" do
+        visit @uri
+        page.should have_content "admin"
+        fill_in "Email", with: "new@example.com"
+        fill_in "Password", with: "example"
+        click_button 'Create User'
+        User.last.should be_admin
+      end
+    end
   end
 
 

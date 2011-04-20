@@ -24,7 +24,6 @@ feature "ScopesController" do
 
         scenario "view the resources" do
           visit @uri
-          save_and_open_page
           should_visualize_scope(@scope)
           should_visualize_scope(@read_scope)
         end

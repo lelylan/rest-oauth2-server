@@ -4,15 +4,12 @@ feature "ClientsController" do
   before { Client.destroy_all }
   before { User.destroy_all }
   before { Scope.destroy_all }
-
   before { host! "http://" + host }
   before { @user = Factory(:user) }
   before { @user_bob   = Factory(:user_bob) }
   before { @admin = Factory(:admin) }
-
   before { @client = Factory(:client) }
   before { @client_not_owned = Factory(:client_not_owned) }
-
   before { @scope_read = Factory(:scope_pizzas_read) }
   before { @scope_all = Factory(:scope_pizzas_all) }
 
@@ -32,22 +29,31 @@ feature "ClientsController" do
       context "when not admin" do
         before { login(@user) } 
 
-        scenario ".index" do
+        scenario "view all resources" do
           visit @uri
           should_visualize_client(@client)
           should_visualize_client(@read_client)
           page.should_not have_content "Not owned client" 
+          page.should_not have_content "Block!"
         end
       end
 
       context "when admin" do
-        before { login(@admin) }
-
-        scenario ".index" do
+        before do
+          login(@admin)
           visit @uri
           should_visualize_client(@client)
           should_visualize_client(@read_client)
+        end
+
+        scenario "view all resource" do
           page.should have_content "Not owned client" 
+        end
+
+        scenario "block a resource" do
+          page.should have_link "Block!"
+          page.click_link "Block!"
+          page.should have_link "Unblock!"
         end
       end
     end
