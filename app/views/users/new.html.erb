@@ -4,7 +4,7 @@
 
     <h1>Sign Up</h1>
     <% if admin_does_not_exist %>
-      <h3 style="color: red">Create the first user as admin</h3>
+      <h3 style="color: red">No admin existing. Fill the form and create the first admin</h3>
     <% end %>
 
     <%= form_for @user do |f| %>

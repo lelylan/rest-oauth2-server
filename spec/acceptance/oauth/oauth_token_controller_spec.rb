@@ -182,4 +182,14 @@ feature "OauthTokenController" do
       end
     end
   end
+
+  context "Authorization token flow" do
+    before { @token = Factory(:oauth_token) }
+
+    scenario "block a token" do
+      page.driver.delete("/token/" + @token.token)
+      #@token.reload.should be_blocked
+      #page.status_code.should == 200
+    end
+  end
 end

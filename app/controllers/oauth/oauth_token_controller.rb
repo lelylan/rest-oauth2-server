@@ -20,12 +20,11 @@ class Oauth::OauthTokenController < ApplicationController
   before_filter :find_expired_token
   before_filter :token_blocked?
 
-  before_filter :client_blocked?      # check if the client is blocked
-  before_filter :access_blocked?      # check if user has blocked the client
+  before_filter :client_blocked?, only: "create"  # check if the client is blocked
+  before_filter :access_blocked?, only: "create"  # check if user has blocked the client
 
 
   def create
-
     # section 4.1.3 - authorization code flow
     if @body[:grant_type] == "authorization_code"
       @token = OauthToken.create(client_uri: @client.uri, resource_owner_uri: @authorization.resource_owner_uri, scope: @authorization.scope)
@@ -44,6 +43,18 @@ class Oauth::OauthTokenController < ApplicationController
     if @body[:grant_type] == "refresh_token"
       @token = OauthToken.create(client_uri: @expired_token.client_uri, resource_owner_uri: @expired_token.resource_owner_uri, scope: @expired_token.scope)
       render "/oauth/token" and return
+    end
+  end
+
+  # simulate a logout blocking the token
+  # TODO: refactoring
+  def destroy
+    token = OauthToken.where(token: params[:id]).first
+    if token
+      token.block! 
+      return head 200
+    else
+      return head 404
     end
   end
 
@@ -144,7 +155,6 @@ class Oauth::OauthTokenController < ApplicationController
         render_422 message, info if @expired_token.blocked?
       end 
     end
-
 
 
     # shared
