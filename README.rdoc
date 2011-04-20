@@ -305,8 +305,8 @@ admin dashboard. Click <tt>new</tt> and you will see a simple form with two fiel
 * <tt>Values</tt>: list of space separated strings, each of one refers to a specific action or to a scope. 
 
 This means that the values can simply be a Scope Name already defined, or a string that identify a specific 
-action and that <b>must be followint the convention</b> <tt>controller name</tt> + <tt>/</tt> + <tt>action 
-name</tt>
+action and that must be followint the convention "<tt>controller name</tt>" + "<tt>/</tt>" + "<tt>action 
+name</tt>"
 
 === Scopes definition
 
