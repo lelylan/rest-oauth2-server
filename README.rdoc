@@ -315,8 +315,8 @@ resource have the 5 usual REST actions <tt>index</tt>, <tt>show</tt>, <tt>create
 
 * <b>all</b>: enable the access to all actions.
 * <b>read</b>: enable the access to the read-only actions.
-* <b>pizzas</b>: enable the access to all pizzas actions.
 * <b>pastas</b>: enable the access to all pastas actions.
+* <b>pizzas</b>: enable the access to all pizzas actions.
 
 To do this we need to define four scopes in the admin dashboard, where each of them will define what can or can 
 not be accessed.
@@ -331,17 +331,14 @@ Pastas scope (made up of action name values)
 
 Read scope (made up of action name values)
 * Name:   <tt>read</tt>
-* Values: <tt>pizzas/index pizzas/show pastas/index pastas/show<tt>
+* Values: <tt>pizzas/index pizzas/show pastas/index pastas/show</tt>
 
 All actions scope (made up from scope name values)
 * Name:   <tt>all</tt>
 * Values: <tt>pizzas pastas</tt>
 
-
-
-
-* Scope administration (only admin user can do this)
-* Resource protection (inside every controller)
+Note that as values, for the pizzas, pastas and read scope we define the specific action that can be accessed, 
+while for the all pizzas we use scope names already defined. This makes easier to mantain scopes.
 
 === Scope administration
 
