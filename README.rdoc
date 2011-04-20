@@ -261,22 +261,24 @@ in the <b>password credentials flow/b> and <b>refresh token</b> context.
 
 = Installation
 
-For the project to work is required ruby 1.9.2 and MongoDB[http://www.mongodb.org/], which is the default database
-system (we use the handy Mondoid[mongoid.org] library to access it). To install it clone the repository, install the
-gems with bundler and run the tests. If everything works correctly you will have an OAuth2 server up and running!
+For Rest OAuth 2.0 Server to work you must have installed: 
 
-  # clone the repository
-  git clone git@github.com:Lelylan/rest-oauth2-server.git
-  # install gems
-  bundle install
-  # run tests
-  rake spec
-  # run server
-  rails server
+* {Ruby 1.9.2}[www.ruby-lang.org/en/] 
+* {MongoDB}[http://www.mongodb.org/]. 
 
-We are working on a gem and a generator to easily integrate the Rest OAuth 2.0 server into your project, so stay tuned!
+Once this is done follows these steps:
 
-= Up and running
+* <tt>$ git clone git@github.com:Lelylan/rest-oauth2-server.git</tt> (clone the repository)
+* <tt>$ bundle install</tt> (installa gems)
+* <tt>$ mongod</tt> (run MongoDB server)
+* <tt>$ rake spec</tt> (run the test suite)
+* <tt>$ rails s</tt> (run the Rest OAuth 2.0 Server)
+
+
+
+
+We are working at a gem and a generator to easily integrate the Rest OAuth 2.0 server into your project, so any 
+idea or help will be more than appreciated.
 
 == Scopes definition
 
@@ -361,12 +363,6 @@ Rest OAuth 2.0 Server allows you to personalize some options changing {oauth.yml
 * <b>authorization_expires_in</b>: define the seconds after which the authorization code expires. 
 * <b>secure_random</b>: define the lenght of tokens, code and secret keys.
 * <b>scope_separator</b>: define the separator used between different scope keys.
-
-
-
-= OAuth 2.0 Controllers
-
-
 
 
 
