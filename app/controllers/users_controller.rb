@@ -43,16 +43,11 @@ class UsersController < ApplicationController
     def find_user
       @user = current_user.admin? ? User.criteria : User.where(uri: current_user.uri)
       @user = @user.id(params[:id]).first
-      resource_not_found unless @user
+      unless @user
+        redirect_to root_path, alert: "Resource not found."
+      end  
     end
 
-    def resource_not_found
-      flash.now.alert = "notifications.document.not_found"
-      @info = { id: params[:id] }
-      render "shared/html/404" and return
-    end 
-
-    
     def admin?
       unless current_user.admin?
         flash.alert = "Unauthorized access."

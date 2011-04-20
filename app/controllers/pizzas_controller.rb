@@ -20,5 +20,4 @@ class PizzasController < ApplicationController
   def destroy
     render json: {action: :destroy}
   end
-
 end

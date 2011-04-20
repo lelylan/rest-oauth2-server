@@ -62,13 +62,11 @@ feature "ScopesController" do
         scenario "resource not found" do
           @scope.destroy
           visit @uri
-          page.should have_content "not_found"
           page.should have_content "Resource not found"
         end
 
         scenario "illegal id" do
           visit "/scopes/0"
-          page.should have_content "not_found"
           page.should have_content "Resource not found"
         end
       end
@@ -162,13 +160,11 @@ feature "ScopesController" do
         scenario "resource not found" do
           @scope.destroy
           visit @uri
-          page.should have_content "not_found"
           page.should have_content "Resource not found"
         end
 
         scenario "illegal id" do
           visit "/scopes/0"
-          page.should have_content "not_found"
           page.should have_content "Resource not found"
         end
 

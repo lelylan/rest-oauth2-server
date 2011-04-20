@@ -3,21 +3,15 @@ module Lelylan
     module Helpers
 
       def bson_invalid_object_id(e)
-        flash.now.alert =  "notifications.document.not_found"
-        @info = { id: params[:id] }
-        render "shared/html/404" and return
+        redirect_to root_path, alert: "Resource not found."
       end
 
       def json_parse_error(e)
-        flash.now.alert =  "notifications.json.not_valid"
-        @info = { id: params[:id] }
-        render "shared/html/404" and return
+        redirect_to root_path, alert: "Json not valid"
       end
 
       def mongoid_errors_invalid_type(e)
-        flash.now.alert =  "notifications.json.not_array"
-        @info = e.message.gsub(/ActiveSupport::HashWithIndifferentAccess/, "Hash")
-        render "shared/html/404" and return
+        redirect_to root_path, alert: "Json values is not an array"
       end
 
     end

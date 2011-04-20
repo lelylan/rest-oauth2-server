@@ -66,13 +66,11 @@ feature "UsersController" do
       scenario "access other users profile" do
         login @bob
         visit @uri
-        page.should have_content "not_found"
         page.should have_content "Resource not found" 
       end
 
       scenario "access with illegal id" do
         visit "/users/0"
-        page.should have_content "not_found"
         page.should have_content "Resource not found"
       end
     end
@@ -187,14 +185,12 @@ feature "UsersController" do
 
       scenario "when illegal id" do
         visit "/users/0"
-        page.should have_content "not_found"
         page.should have_content "Resource not found"
       end
 
       scenario "when edit other users profile" do
         login @bob
         visit @uri
-        page.should have_content "not_found"
         page.should have_content "Resource not found" 
       end
     end

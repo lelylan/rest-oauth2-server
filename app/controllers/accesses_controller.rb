@@ -28,7 +28,9 @@ class AccessesController < ApplicationController
 
     def find_access
       @access = @accesses.id(params[:id]).first
-      resource_not_found unless @access
+      unless @access
+        redirect_to root_path, alert: "Resource not found."
+      end
     end
 
     # TODO: change this behavior with a simple redirect

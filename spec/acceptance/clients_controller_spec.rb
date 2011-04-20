@@ -82,19 +82,16 @@ feature "ClientsController" do
         scenario "resource not found" do
           @client.destroy
           visit @uri
-          page.should have_content "not_found"
           page.should have_content "Resource not found"
         end
 
         scenario "resource not owned" do
           visit "/clients/" + @client_not_owned.id.as_json
-          page.should have_content "not_found"
           page.should have_content "Resource not found"
         end
 
         scenario "illegal id" do
           visit "/clients/0"
-          page.should have_content "not_found"
           page.should have_content "Resource not found"
         end
       end
@@ -184,19 +181,16 @@ feature "ClientsController" do
         scenario "resource not found" do
           @client.destroy
           visit @uri
-          page.should have_content "not_found"
           page.should have_content "Resource not found"
         end
 
         scenario "resource not owned" do
           visit "/clients/" + @client_not_owned.id.as_json + "/edit"
-          page.should have_content "not_found"
           page.should have_content "Resource not found"
         end
 
         scenario "illegal id" do
           visit "/clients/0"
-          page.should have_content "not_found"
           page.should have_content "Resource not found"
         end
 

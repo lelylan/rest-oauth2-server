@@ -72,14 +72,10 @@ class ClientsController < ApplicationController
 
     def find_client
       @client = @clients.id(params[:id]).first
-      resource_not_found unless @client
+      unless @client
+        redirect_to root_path, alert: "Resource not found."
+      end
     end
-
-    def resource_not_found
-      flash.now.alert = "notifications.document.not_found"
-      @info = { id: params[:id] }
-      render "shared/html/404" and return
-    end 
 
     def normalize_scope
       params[:client][:scope] = params[:client][:scope].split(Oauth.settings["scope_separator"])

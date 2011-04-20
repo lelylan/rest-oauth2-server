@@ -15,6 +15,7 @@ feature "OauthAuthorizeController" do
   before { @scope = Factory(:scope_pizzas_read) }
   before { @scope = Factory(:scope_pizzas_all) }
 
+
   context "Authorization code flow" do
     before { login(user) }
 
