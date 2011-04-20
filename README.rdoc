@@ -301,8 +301,8 @@ The scope is a key that tells you what can and can't be accessed. The Rest OAuth
 flexible scope system which can be dynamically built. To see how it works, access the scope section in the 
 admin dashboard. Click <tt>new</tt> and you will see a simple form with two fields:
 
-* <tt>Name</tt>: unique name that identify a scope.
-* <tt>Values</tt>: list of space separated strings, each of one refers to a specific action or to a scope. 
+* <b>Name</b>: unique name that identify a scope.
+* <b>Values</b>: list of space separated strings, each of one refers to a specific action or to a scope. 
 
 This means that the values can simply be a Scope Name already defined, or a string that identify a specific 
 action and that must be followint the convention "<tt>controller name</tt>" + "<tt>/</tt>" + "<tt>action 
