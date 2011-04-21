@@ -36,5 +36,11 @@ pre, code { font-family: monospace, sans-serif; font-size: 1em; color:#080; }
 .field, .actions { margin: 0 0 1.333em; }
 .field_show { margin: 0 0 0.666em; }
 
-.admin_notice { color: #980905 }
-.create_button { margin: -8px 0px 20px 0px }
+.admin_notice { color: green }
+.details { color: #CCC }
+
+.header_buttons { margin: -8px 0px 20px 0px }
+.footer_buttons { margin: 1em 0 0 0 }
+
+.flash_notice { margin: 0 0 1em 0; color: green; font-weight: bold }
+.flash_alert { margin: 0 0 1em 0; color: #980905; font-weight: bold }

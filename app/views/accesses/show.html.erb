@@ -25,10 +25,12 @@
 <%#<% end %>
 <%#</table>%>
 
+<div class="footer_buttons"> 
 <%= link_to 'Back', accesses_path, class: "button icon arrowleft" %>
 <% if @access.blocked? %>
   <%= link_to 'Unblock!', unblock_access_path(@access), method: :put, class: "button danger" %>
 <% else %>
   <%= link_to 'Block!', block_access_path(@access), method: :put, class: "button danger" %>
 <% end %>
+<div>
 

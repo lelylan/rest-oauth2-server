@@ -1,42 +1,44 @@
-<h3>Show Client</h3>
+<h2>Show Client</h2>
 
-<p>
+<div class="field_show">
+  <b>Client URI:</b>
+  <%= @client.uri %>
+</div>
+
+<div class="field_show">
   <b>Name:</b>
   <%= @client.name %>
-</p>
+</div>
 
-<p>
-  <b>URI:</b>
-  <%= @client.uri %>
-</p>
-
-<p>
+<div class="field_show">
   <b>Secret:</b>
   <%= @client.secret %>
-</p>
+</div>
 
-<p>
+<div class="field_show">
   <b>Site URI:</b>
   <%= @client.site_uri %>
-</p>
+</div>
 
-<p>
+<div class="field_show">
   <b>Redirect URI:</b>
   <%= @client.redirect_uri %>
-</p>
+</div>
 
-<p>
+<div class="field_show">
   <b>Scope:</b>
   <%= @client.scope_pretty %> 
-  (<%= @client.scope_values_pretty %>)
-</p>
+  <span class="details">(includes <%= @client.scope_values_pretty %>)</span>
+</div>
 
-<p>
+<div class="field_show">
   <b>Info:</b>
   <%= @client.info %>
-</p>
+</div>
 
-<%= link_to 'Edit', edit_client_path(@client) %> |
-<%= link_to 'Back', clients_path %> | 
-<%= link_to 'Destroy', @client, :confirm => 'Are you sure?', :method => :delete %>
+<div class="button-group footer_buttons">
+  <%= link_to 'Back', clients_path, class: "button icon arrowleft" %>
+  <%= link_to 'Edit', edit_client_path(@client), class: "button" %>
+  <%= link_to 'Destroy', @client, :confirm => 'Are you sure?', :method => :delete, class: "button danger" %>
+</div>
 
