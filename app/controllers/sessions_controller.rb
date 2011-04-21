@@ -1,11 +1,8 @@
 class SessionsController < ApplicationController
 
-  before_filter :check_authentication, only: "new"
   skip_before_filter :authenticate
 
   def new
-    puts "::::" + current_user.inspect
-    redirect_to current_user if current_user
   end
 
   def create
@@ -25,11 +22,5 @@ class SessionsController < ApplicationController
     session[:user_id] = nil
     redirect_to root_url, :notice => "Logged out!"
   end
-
-  private 
-
-    def check_authentication
-      session_auth
-    end
 
 end
