@@ -44,3 +44,5 @@ pre, code { font-family: monospace, sans-serif; font-size: 1em; color:#080; }
 
 .flash_notice { margin: 0 0 1em 0; color: green; font-weight: bold }
 .flash_alert { margin: 0 0 1em 0; color: #980905; font-weight: bold }
+
+.field input { width: 260px; height: 20px; }
