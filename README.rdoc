@@ -15,6 +15,127 @@ OAuth has often been described as a "valet key for the web." It lets application
 data they need and no more, giving them the ability to enable and disable the accesses whenever they want, most of 
 the time without sharing their secret credentials.
 
+
+
+= Installation
+
+For the Rest OAuth 2.0 Server to work you need to have
+
+* {Ruby 1.9.2}[www.ruby-lang.org/en/] 
+* {MongoDB}[http://www.mongodb.org/]. 
+
+To install the project run the following commands from your terminal (remember to have mongod deamon running)
+
+  $ git clone git@github.com:Lelylan/rest-oauth2-server.git
+  $ cd rest-oauth2-server
+  $ bundle install
+  $ rake spec
+  $ rails s
+
+If everything works fine, you have your OAuth server up and running. We are also working at a gem and a 
+generator to easily integrate the Rest OAuth 2.0 server into your project. Any help in this is appreciated.
+
+
+== Admin user definition
+
+When accessing the application for the first time you will be asked to define the first administrator user 
+(all following users will be created as "not admin" users). Register it and then log in with the new credentials 
+to access the admin dashboard where you will find the following voices:
+
+* <b>Users</b>: registered users 
+* <b>Scopes</b>: authorization scopes
+* <b>Accesses</b>: daily accesses of the client on behalf of the user
+* <b>Clients</b>: registered clients (third party application)
+
+While Users and Scopes are visible only to the admin, Accesses and Clients will be available to every 
+registered user. To better understand what you can do explore the Dashboard and read the following sections.
+
+
+== Scopes explained
+
+The scope is a key that tells you what can and can't be accessed. The Rest OAuth 2.0 Server ships with a 
+flexible scope system which can be dynamically built. To see how it works, access the scope section in the 
+admin dashboard. Click <tt>new</tt> and you will see a simple form with two fields:
+
+* <b>Name</b>: unique name that identify a scope.
+* <b>Values</b>: list of space separated strings, each of one refers to a specific action or to a scope. 
+
+This means that the values can simply be a Scope Name already defined, or a string that identify a specific 
+action and that must be following the convention "<b>{controller name}/{action name}</b>"
+
+
+=== Scopes creation
+
+The Rest OAuth 2.0 Server ships with two sample resources called <tt>pizzas</tt> and <tt>pastas</tt>. Each 
+resource have the 5 usual REST actions <tt>index</tt>, <tt>show</tt>, <tt>create</tt> , <tt>update</tt> and 
+<tt>destroy</tt>. Now, lets supppose we want to define the following scopes for the pizzas resource:
+
+* <b>read</b>: enable the access to the read-only actions.
+* <b>all</b>: enable the access to all actions.
+
+To do this we need to define four scopes in the admin dashboard, where each of them will define what can or can 
+not be accessed.
+
+Read scope (made up of action name values)
+* Name:   <tt>read</tt>
+* Values: <tt>pizzas/index pizzas/show</tt>
+
+All actions scope (made up from scope name values)
+* Name:   <tt>all</tt>
+* Values: <tt>read pizzas/create pizzas/update pizzas/destroy</tt>
+
+Note that the <b>all</b> scope values contains the string <b>read</b> which automatically include the actions
+defined in the <b>read</b> scope values. Using this system you can easily build complex scope systems. Look at 
+the {test suite}[link:/blob/development/spec/extras/scope_spec.rb] to fully understand how the scope system works.
+
+
+=== Resource applied
+
+Once scopes are defined you need one more step. You need to protect your controller just adding the filter 
+<tt>oauth_authorized</tt>
+
+  class PizzasController < ApplicationController
+    before_filter :oauth_authorized
+    ...
+
+This filter verify if the client can access the scpecific action, based on the scope has been granted from the user.
+If you like you can make some actions public, just by using the <tt>exclude</tt> key
+
+   before_filter :oauth_authorized, except: %w(index, show)
+
+You can also decide to apply the OAuth Authorization Filter to all JSON requests by uncommenting <tt>oauth_authorized</tt> 
+in the {ApplicationController}[https://github.com/Lelylan/rest-oauth2-server/blob/master/app/controllers/application_controller.rb]
+
+
+== Client definition
+
+Once the scope configuration is done, every registered user can define a client, which represents a third party application. To do 
+this access the dashboard and create your first client, which is composed from:
+
+* <b>Name</b>: client name.
+* <b>Siti URI</b>: client URI.
+* <b>Redirect URI</b>: client redirect URI, used as callback after the resource owner grant or deny the access.
+* <b>Scope</b>: one or more scope names, separated by spaces.
+* <b>Info</b>: extra information.
+
+Right now the scope field is kept "open", but based on your necessity, you could set a default one. For example you could decide that 
+some users can request access to all resources, while others can not. In this case add some logic on the client creation/update on the 
+{ClientController}[link:blob/development/app/controllers/clients_controller.rb]. Once the client is defined, the third party application 
+will use its credentials during the authorization flow.
+
+Last, the admin can access to all created clients and decide to block any of them. This is pretty useful in the case a client is considered
+"not safe", improving in this way the security of your projects. Once the client is blocked, it can't be used, until the admin decide to 
+unblock it.
+
+
+== Client accesses
+
+Every user can see a list of clients that have access to their resources through the accesses menu in the dashboard. Here there is the name 
+of the granted client and some basic statistics showing the daily access. One important functionality lies in the ability of users to block 
+a specific client whenever they want stop the access to their resources.
+
+
+
 Today Rest OAuth 2.0 Server supports three flows of OAuth 2.0
 * The server-side flow for web applications with servers that can securely store persistent information ({Authorization Code Flow}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.1])
 * The client-side flow for JavaScript applications running in a browser ({Implicit Grant Flow}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.2]) 
@@ -258,109 +379,9 @@ in the <b>password credentials flow/b> and <b>refresh token</b> context.
 
 
 
+= Miscellaneous 
 
-= Installation
-
-For the Rest OAuth 2.0 Server to work you need to have
-
-* {Ruby 1.9.2}[www.ruby-lang.org/en/] 
-* {MongoDB}[http://www.mongodb.org/]. 
-
-To install the project run the following commands from your terminal
-
-  $ mongod
-  $ git clone git@github.com:Lelylan/rest-oauth2-server.git
-  $ cd rest-oauth2-server
-  $ bundle install
-  $ rake spec
-  $ rails s
-
-If everything works fine, you have your OAuth server up and running. We are also working at a gem and a 
-generator to easily integrate the Rest OAuth 2.0 server into your project. Any help in this is appreciated.
-
-
-== Admin user definition
-
-When accessing the application for the first time you will be asked to define the first administrator user 
-(all following users will be created as "not admin" users). Register it and then log in with the new credentials 
-to access the admin dashboard where you will find the folllowing voices:
-
-* <b>Users</b>: registered users 
-* <b>Scopes</b>: authorization scopes
-* <b>Accesses</b>: daily accesses of the client on behalf of the user
-* <b>Clients</b>: registered clients (third party application)
-
-While Users and Scopes are visible only to the admin, Accesses and Clients will be available to every 
-registered user. To better understand what you can do explore the Dashboard and read the following sections.
-
-
-== Scopes explained
-
-The scope is a key that tells you what can and can't be accessed. The Rest OAuth 2.0 Server ships with a 
-flexible scope system which can be dynamically built. To see how it works, access the scope section in the 
-admin dashboard. Click <tt>new</tt> and you will see a simple form with two fields:
-
-* <b>Name</b>: unique name that identify a scope.
-* <b>Values</b>: list of space separated strings, each of one refers to a specific action or to a scope. 
-
-This means that the values can simply be a Scope Name already defined, or a string that identify a specific 
-action and that must be following the convention "<b>{controller name}/{action name}</b>"
-
-
-=== Scopes creation
-
-The Rest OAuth 2.0 Server ships with two sample resources called <tt>pizzas</tt> and <tt>pastas</tt>. Each 
-resource have the 5 usual REST actions <tt>index</tt>, <tt>show</tt>, <tt>create</tt> , <tt>update</tt> and 
-<tt>destroy</tt>. Now, lets supppose we want to define the following scopes for the pizzas resource:
-
-* <b>all</b>: enable the access to all actions.
-* <b>read</b>: enable the access to the read-only actions.
-
-To do this we need to define four scopes in the admin dashboard, where each of them will define what can or can 
-not be accessed.
-
-Read scope (made up of action name values)
-* Name:   <tt>read</tt>
-* Values: <tt>pizzas/index pizzas/show</tt>
-
-All actions scope (made up from scope name values)
-* Name:   <tt>all</tt>
-* Values: <tt>read pizzas/create pizzas/update pizzas/destroy</tt>
-
-Note that the <b>all</b> scope values contains the string <b>read</b> which automatically include the actions
-defined in the <b>read</b> scope values. Using this system you can easily build complex scope systems. Look at 
-the {test suite}[link:/blob/development/spec/extras/scope_spec.rb] to fully understand how the scope system works.
-
-
-=== Resource applied
-
-Once scopes are defined you need one more step. You need to protect your controller just adding the filter 
-<tt>oauth_authorized</tt>
-
-  class PizzasController < ApplicationController
-    before_filter :oauth_authorized
-    ...
-
-This filter verify if the client can access the scpecific action, based on the scope has been granted from the user.
-If you like you can make some actions public, just by using the <tt>exclude</tt> key
-
-   before_filter :oauth_authorized, except: %w(index, show)
-
-You can also decide to apply the OAuth Authorization Filter to all JSON API by uncommenting <tt>oauth_authorized</tt> 
-in the {ApplicationController}[https://github.com/Lelylan/rest-oauth2-server/blob/development/app/controllers/application_controller.rb]
-
-
-== Client definition
-
-Before a client application can request access, you must create it. Every registered user have a dashboard where
-is possible to create new clients. Registration provides the client application with a client ID and secret. The 
-client uses these to authenticate itself, as described in the section <b>OAuth 2.0 flows explained</b>. To create 
-it open a browser, login with your credentials and click on the <b>clients</b> link and fill the needed fields. At 
-this point you have all you need to use your Rest OAuth 2.0 Server.
-
-
-
-= OAuth 2.0 options
+== OAuth 2.0 options
 
 Rest OAuth 2.0 Server allows you to personalize some options changing {oauth.yml}[link:blob/master/config/oauth.yml]
 
@@ -370,8 +391,7 @@ Rest OAuth 2.0 Server allows you to personalize some options changing {oauth.yml
 * <b>scope_separator</b>: define the separator used between different scope keys.
 
 
-
-= OAuth 2.0 Models
+== OAuth 2.0 Models
 
 Rest OAuth 2.0 Server is working on top of 5 models. They are pretty simple so if you want to have more information about
 them, check the source code, which is clearly documented.
@@ -383,7 +403,7 @@ them, check the source code, which is clearly documented.
 * {OauthDailyRequests}[link:blob/master/app/models/oauth/oauth_daily_request.rb]: represents a daily request from the client on behalf of a specific user.
 
 
-= Basic auth system
+== Basic auth system
 
 In addition to the models above there is a basic authentication system
 
@@ -391,13 +411,12 @@ In addition to the models above there is a basic authentication system
 * {UsersController}[blob/master/app/controllers/users_controller.rb]: represents the user definition
 * {SessionsController}[blob/master/app/controllers/sessions_controller.rb]: represents the session definition
 
-This model is kept simple on porpuse, but you can easily change it with the authentication system you prefer like {Authlogic}[https://github.com/binarylogic/authlogic],
+This model is kept simple on purpose, but you can easily change it with the authentication system you prefer like {Authlogic}[https://github.com/binarylogic/authlogic],
 {Devise}[https://github.com/plataformatec/devise] or {Warden}[https://github.com/hassox/warden]. Just remember that your user model <b>must</b> 
-define an <tt>uri</tt> field, which is used as identifier on the OAuth 2.0 flows.
+define an <tt>uri</tt> field, which is used as identifier on the OAuth 2.0 flows. Any help on integration is appreciated.
 
 
-
-= Blocking System
+== Blocking system explained
 
 One important feature lie in the ability of to block a client. Rest OAuth 2.0 server enables you two possibilities:
 
@@ -408,10 +427,9 @@ One important feature lie in the ability of to block a client. Rest OAuth 2.0 se
 In the first two cases it is possible to unblock the client using the <tt>unblock!</tt> method.
 
 
+== Testing solutions
 
-= Testing solutions
-
-The tests are made using {Steak}[https://github.com/cavalle/steak], {Capybara}[https://github.com/jnicklas/capybara] 
+Tests are made using {Steak}[https://github.com/cavalle/steak], {Capybara}[https://github.com/jnicklas/capybara] 
 and {RSpec}[https://github.com/rspec/rspec-rails]. If you want to know more check the tests on the {models}[https://github.com/Lelylan/rest-oauth2-server/tree/development/spec/models]
 and the [acceptance tests]{https://github.com/Lelylan/rest-oauth2-server/tree/development/spec/acceptance} for the controllers
 and the views.
@@ -440,26 +458,26 @@ If the way OAuth2 works is not clear, you can find great documentation on the we
 
 
 
-= Author
+= Contributing
+
+Follow {MongoID guidelines}[http://mongoid.org/docs/contributing.html]
+
+
+= Authors
 
 Andrea Reginato & The Lelylan Project
 
 A special thanks to the OAuth 2.0 specification team, to the Flowtown Rack Oauth2 Server which gave the 
-initial bases of the project and to Google OAuth 2.0 specification which are so clear to understand.
-
-= TODOs
-
-* Implement refresh token flow 
-* Add scope definition
+initial ideas of the project and to Google OAuth 2.0 specification for making them so clear to understand.
 
 
 
 = Changelog
 
-See CHANGELOG
+See {CHANGELOG}[link:blob/master/CHANGELOG.rdoc]
 
 
 
 = License
 
-Rest OAuth2 Server is available under the MIT license.
+Rest OAuth 2.0 Server is available under the MIT license.
