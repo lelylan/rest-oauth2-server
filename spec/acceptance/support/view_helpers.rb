@@ -13,15 +13,12 @@ module ViewHelperMethods
 
   # User
   def should_visualize_user(user)
-    page.should have_content(user.uri)
     page.should have_content(user.email)
   end
 
   # Client
   def should_visualize_client(client)
     page.should have_content(client.name)
-    page.should have_content(client.scope_pretty)
-    page.should have_content(client.secret)
   end
 
   def should_visualize_client_details(client)

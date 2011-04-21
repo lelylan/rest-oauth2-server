@@ -54,6 +54,11 @@
   <% if flash.alert %>
     <div class=flash_alert>
       <%= flash.alert %>
+      <% if @info %>
+        <p>Additional information: 
+        <%= @info.to_json%>
+        </p>
+      <% end %>
     </div>
   <% end %>
 
