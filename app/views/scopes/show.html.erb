@@ -1,17 +1,19 @@
-<h3>Show Scope</h3>
+<h2>Show Scope</h2>
 
-<p>
+<div class="field_show">
   <b>Name:</b>
   <%= @scope.name %>
-</p>
+</div>
 
-<p>
+<div class="field_show">
   <b>Values:</b>
   <%= @scope.values_pretty %>
-</p>
+  <span class="details">(includes <%= Oauth.normalize_scope(@scope.values_pretty).join(" ") %></span>
+</div>
 
 
-<%= link_to 'Edit', edit_scope_path(@scope) %> |
-<%= link_to 'Back', scopes_path %> | 
-<%= link_to 'Destroy', @scope, :confirm => 'Are you sure?', :method => :delete %>
-
+<div class="button-group footer_buttons">
+<%= link_to 'Back', scopes_path, class: "button icon arrowleft" %> 
+<%= link_to 'Edit', edit_scope_path(@scope), class: "button" %>
+<%= link_to 'Destroy', @scope, :confirm => 'Are you sure?', :method => :delete, class: "button danger" %>
+</div>

@@ -9,7 +9,6 @@
       <th>User</th>
     <% end %>
     <th>Name</th>
-    <th>Site</th>
     <th>Active</th>
     <th></th>
     <th></th>
@@ -23,9 +22,9 @@
       <td><%= link_to User, client.created_from %></td>
     <% end %>
     <td><%= client.name %></td>
-    <td><%= client.site_uri %></td>
-    <td><%= client.blocked? ? "Not Active" : "Active" %></td>
-
+    <% unless current_user.admin? %>
+      <td><%= client.blocked? ? "Not Active" : "Active" %></td>
+    <% end %>
     <td><%= link_to 'Show', client, class: "button" %></td>
     <td><%= link_to 'Edit', edit_client_path(client), class: "button" %></td>
     <td><%= link_to 'Destroy', client, confirm: 'Are you sure?', method: :delete, class: "button danger" %></td>

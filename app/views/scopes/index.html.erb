@@ -1,4 +1,8 @@
-<h3>Show Scopes | <%= link_to 'new', new_scope_path %></h3>
+<h2>Show Scope</h2>
+
+<div class="header_buttons">
+  <%= link_to 'Create a new scope', new_scope_path, class: "button" %>
+</div>
 
 <table>
   <tr>
@@ -11,11 +15,11 @@
 
 <% @scopes.each do |scope| %>
   <tr>
-    <td><%= scope.name %></td>
+    <td><b><%= scope.name %></b></td>
     <td><%= scope.values_pretty %></td>
-    <td><%= link_to 'Show', scope %></td>
-    <td><%= link_to 'Edit', edit_scope_path(scope) %></td>
-    <td><%= link_to 'Destroy', scope, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Show', scope, class: "button" %></td>
+    <td><%= link_to 'Edit', edit_scope_path(scope), class: "button" %></td>
+    <td><%= link_to 'Destroy', scope, :confirm => 'Are you sure?', :method => :delete, class: "button danger" %></td>
   </tr>
 <% end %>
 </table>
