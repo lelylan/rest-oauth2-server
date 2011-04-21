@@ -128,16 +128,13 @@ a specific client whenever they want stop the access to their resources.
 
 
 
+= OAuth 2.0 flows explained
+
 Today Rest OAuth 2.0 Server supports three flows of OAuth 2.0
 * The server-side flow for web applications with servers that can securely store persistent information ({Authorization Code Flow}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.1])
 * The client-side flow for JavaScript applications running in a browser ({Implicit Grant Flow}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.2]) 
 * The native application flow for desktop and mobile applications ({Resource Owner Password Credentials Flow}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13#section-4.3])
 
-
-
-= OAuth 2.0 flows explained
-
-Before diving into the code we want to give an overview on how Rest OAuth 2.0 Server supports the 3 authorization flows.
 
 == OAuth 2.0 for server-side web applications
 
