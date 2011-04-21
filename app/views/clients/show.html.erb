@@ -36,9 +36,14 @@
   <%= @client.info %>
 </div>
 
-<div class="button-group footer_buttons">
-  <%= link_to 'Back', clients_path, class: "button icon arrowleft" %>
-  <%= link_to 'Edit', edit_client_path(@client), class: "button" %>
-  <%= link_to 'Destroy', @client, :confirm => 'Are you sure?', :method => :delete, class: "button danger" %>
-</div>
+<div class="actions button-container footer_buttons">
+  <div class="button-group">
+    <%= link_to 'Back', clients_path, class: "button icon arrowleft" %>
+    <%= link_to 'Edit', edit_client_path(@client), class: "button" %>
+    <%= link_to 'Destroy', @client, :confirm => 'Are you sure?', :method => :delete, class: "button danger" %>
+  </div>
 
+  <div class="button-group">
+    <%= link_to 'Simulate Authorization', authorization_uri(@client, "all"), class: "button icon search" %>
+  </div>
+</div>

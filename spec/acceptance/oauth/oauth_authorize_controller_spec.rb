@@ -22,7 +22,7 @@ feature "OauthAuthorizeController" do
     context "when valid" do
       background do
         visit authorization_grant_page(client, write_scope)
-        page.should have_link(client.name, href: client.uri)
+        page.should have_content client.name
       end
 
       scenario "#grant", do
@@ -72,13 +72,13 @@ feature "OauthAuthorizeController" do
       scenario "fails with not valid client uri" do
         client.uri = "http://not.existing/"
         visit authorization_grant_page(client, write_scope)
-        page.should_not have_link(client.name, href: client.uri)
+        page.should_not have_content client.name
         page.should have_content("Client not found")
       end
 
       scenario "fails with not valid scope" do
         visit authorization_grant_page(client_read, write_scope)
-        page.should_not have_link(client.name, href: client.uri)
+        page.should_not have_content client.name
         page.should have_content("Client not authorized")
       end
     end
@@ -86,7 +86,7 @@ feature "OauthAuthorizeController" do
     context "when not valid scope hacked in HTML page" do
       background do
         visit authorization_grant_page(client_read, read_scope)
-        page.should have_link(client_read.name, href: client_read.uri)
+        page.should have_content client_read.name
       end
 
       scenario "fails #grant" do
@@ -111,7 +111,7 @@ feature "OauthAuthorizeController" do
     context "when valid" do
       background do
         visit implicit_grant_page(client, write_scope)
-        page.should have_link(client.name, href: client.uri)
+        page.should have_content client.name
       end
 
       scenario "#grant" do
@@ -161,13 +161,13 @@ feature "OauthAuthorizeController" do
       scenario "fails with not valid client uri" do
         client.uri = "http://not.existing/"
         visit implicit_grant_page(client, write_scope)
-        page.should_not have_link(client.name, href: client.uri)
+        page.should_not have_content client.name
         page.should have_content("Client not found")
       end
 
       scenario "fails with not valid scope" do
         visit implicit_grant_page(client_read, write_scope)
-        page.should_not have_link(client_read.name, href: client_read.uri)
+        page.should_not have_content client_read.name
         page.should have_content("Client not authorized")
       end
     end
@@ -224,13 +224,13 @@ feature "OauthAuthorizeController" do
       scenario "fails with not valid client uri" do
         client.uri = "http://not.existing/"
         visit implicit_grant_page(client, write_scope)
-        page.should_not have_link(client.name, href: client.uri)
+        page.should_not have_content client.name
         page.should have_content("Client not found")
       end
 
       scenario "fails with not valid scope" do
         visit implicit_grant_page(client_read, write_scope)
-        page.should_not have_link(client_read.name, href: client_read.uri)
+        page.should_not have_content client_read.name
         page.should have_content("Client not authorized")
       end
     end
