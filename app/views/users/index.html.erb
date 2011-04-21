@@ -1,9 +1,8 @@
-<h3>Show Users | <%= link_to 'New', new_user_path %></h3>
+<h2>Show Users</h2>
 
 <table>
   <tr>
     <th>Email</th>
-    <th>URI</th>
     <th>Name</th>
     <th></th>
     <th></th>
@@ -13,9 +12,9 @@
 <% @users.each do |user| %>
   <tr>
     <td><%= user.email %></td>
-    <td><%= user.uri %></td>
     <td><%= user.name %></td>
-    <td><%= link_to 'Show', user %></td>
+    <td><%= link_to 'Show', user, class: "button" %></td>
+    <td><%= link_to 'Edit', edit_user_path(user), class: "button" %></td>
   </tr>
 <% end %>
 </table>

@@ -1,6 +1,8 @@
-<h3>Editing Scope</h3>
+<h2>Editing Scope</h2>
+
+<div class="button-group header_buttons">
+  <%= link_to 'Back', scopes_path, class: "button icon arrowleft" %>
+  <%= link_to 'Show', @scope, class: "button" %>
+</div>
 
 <%= render 'form' %>
-
-<%= link_to 'Show', @scope %> |
-<%= link_to 'Back', scopes_path %>

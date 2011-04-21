@@ -53,7 +53,6 @@ feature "AccessesController" do
       scenario "view a resource" do
         visit @uri
         page.should have_content @access.client_uri
-        page.should have_content Time.now.strftime("%a, %b %e")
       end
 
       scenario "resource not found" do

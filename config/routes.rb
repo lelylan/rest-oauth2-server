@@ -29,7 +29,7 @@ Lelylan::Application.routes.draw do
     put :unblock, on: :member
   end
 
-  root :to => "users#new"
+  root :to => "sessions#new"
 
   # sample resources
   resources :pizzas, defaults: { format: "json" }

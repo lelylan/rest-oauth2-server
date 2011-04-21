@@ -82,31 +82,31 @@ class Oauth::OauthAuthorizeController < ApplicationController
     # helper methods
 
     def client_not_found
-      flash.now.alert = "notifications.oauth.client.not_found"
+      flash.now.alert = I18n.t "notifications.oauth.client.not_found"
       @info = { client_id: params[:client_id], redirect_uri: params[:redirect_uri] }
       render "oauth/authorize" and return
     end
 
     def scope_not_valid
-      flash.now.alert = "notifications.oauth.client.not_authorized"
+      flash.now.alert = I18n.t "notifications.oauth.client.not_authorized"
       @info = { scope: params[:scope] }
       render "oauth/authorize" and return
     end
 
     def client_blocked
-      flash.now.alert = "notifications.oauth.client.blocked"
+      flash.now.alert = I18n.t "notifications.oauth.client.blocked"
       @info = { client_id: params[:client_id] }
       render "oauth/authorize" and return
     end
 
     def access_blocked
-      flash.now.alert = "notifications.oauth.resource_owner.blocked_client"
+      flash.now.alert = I18n.t "notifications.oauth.resource_owner.blocked_client"
       @info = { client_id: params[:client_id] }
       render "oauth/authorize" and return
     end
 
     def token_blocked
-      flash.now.alert = "notifications.oauth.token.blocked_token"
+      flash.now.alert = I18n.t "notifications.oauth.token.blocked_token"
       @info = { client_id: params[:client_id], token: @token.token }
       render "oauth/authorize" and return
     end

@@ -33,23 +33,13 @@ class ApplicationController < ActionController::Base
       request.format == "application/json"
     end
 
-    def basic_auth
-      authenticate_or_request_with_http_basic do |username, password|
-        user = User.where(email: username).first
-        if user and user.verify(password)
-          @current_user = user
-        else
-          false
-        end
-      end
-    end
-
     def session_auth
-      session[:back] = request.url 
       @current_user ||= User.criteria.id(session[:user_id]).first if session[:user_id]
       unless current_user
+        session[:back] = request.url 
         redirect_to(log_in_path) and return false
       end
+      return @current_user
     end
 
     def current_user

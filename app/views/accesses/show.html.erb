@@ -1,38 +1,36 @@
-<h3>Show Client</h3>
+<h2>Show Access</h2>
 
-<p>
+<div class="field_show">
   <b>Client URI:</b>
   <%= @access.client_uri %>
-</p>
+</div>
 
-<p>
-  <b>Active:</b>
-  <%= not @access.blocked? %>
-</p>
-
-<p>
+<div class="field_show">
   <b>Today requests:</b>
   <%= @access.daily_requests.times %>
-</p>
+</div>
 
-<%= link_to 'Back', accesses_path %>
+<%#TODO: Add a simple graph%>
+<%#<table>%>
+  <%#<tr>%>
+    <%#<th>Times</th>%>
+    <%#<th>Day</th>%>
+  <%#</tr>%>
 
+<%#<% @access.oauth_daily_requests.each do |daily_request| %>
+  <%#<tr>%>
+    <%#<td><%= daily_request.times %>
+    <%#<td><%= daily_request.created_at.strftime("%a, %b %e") %>
+  <%#</tr>%>
+<%#<% end %>
+<%#</table>%>
 
-<h3>Detailed daily requests</h3>
-
-<table>
-  <tr>
-    <th>Times</th>
-    <th>Day</th>
-  </tr>
-
-<% @access.oauth_daily_requests.each do |daily_request| %>
-  <tr>
-    <td><%= daily_request.times %></td>
-    <td><%= daily_request.created_at.strftime("%a, %b %e") %></td>
-  </tr>
+<div class="footer_buttons"> 
+<%= link_to 'Back', accesses_path, class: "button icon arrowleft" %>
+<% if @access.blocked? %>
+  <%= link_to 'Unblock!', unblock_access_path(@access), method: :put, class: "button danger" %>
+<% else %>
+  <%= link_to 'Block!', block_access_path(@access), method: :put, class: "button danger" %>
 <% end %>
-</table>
-
-<%= link_to 'Back', accesses_path %>
+<div>
 

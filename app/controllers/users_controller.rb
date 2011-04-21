@@ -2,7 +2,7 @@ class UsersController < ApplicationController
 
   skip_before_filter :authenticate, only: ["new", "create"]
   before_filter :admin?, only: ["index"]
-  before_filter :find_user, only: ["show", "edit", "update"]
+  before_filter :find_user, only: ["show", "edit", "update", "destroy"]
 
   def index
     @users = User.all
@@ -37,6 +37,7 @@ class UsersController < ApplicationController
       render action: "edit"
     end
   end
+
 
   private 
 

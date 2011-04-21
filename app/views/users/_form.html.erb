@@ -12,16 +12,16 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :name%>
+    <%= f.label :name%><br />
     <%= f.text_field :name%>
   </div>
 
   <div class="field">
-    <%= f.label :password %>
+    <%= f.label :password %><br />
     <%= f.text_field :password %>
   </div>
 
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit nil, {class: "button"} %>
   </div>
 <% end %>

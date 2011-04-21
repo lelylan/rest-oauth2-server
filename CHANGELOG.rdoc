@@ -8,7 +8,7 @@
 behalf of a specific client
 * Added client access and stats to every user in the dashboard
 * Added functionality to block a client (only admin can do this)
-* Added UI to authomatically set admin the first user which 
+* Added UI to automatically set admin the first user which 
 register into the OAuth Server
 * Added autoupdate of scopes to all clients when one of them 
 changes
@@ -17,7 +17,7 @@ changes
 == Release v0.2.2 (2011/04/18)
 
 * Added documentation on scope definition, action authorization, testing 
-framewors and oauth flow testing code.
+framework and oauth flow testing code.
 
 
 == Release v0.2.1 (2011/04/15)

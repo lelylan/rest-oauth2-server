@@ -1,5 +1,4 @@
 class ClientsController < ApplicationController
-
   before_filter :find_clients
   before_filter :find_client, only: ["show", "edit", "update", "destroy", "block", "unblock"]
   before_filter :normalize_scope, only: ["create", "update"]
@@ -88,4 +87,5 @@ class ClientsController < ApplicationController
         return false
       end
     end
+
 end
