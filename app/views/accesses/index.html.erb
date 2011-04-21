@@ -1,9 +1,8 @@
-<h3>Show Accesses</h3>
+<h2>Show Accesses</h2>
 
 <table>
   <tr>
     <th>Client URI</th>
-    <th>Active</th>
     <th></th>
     <th></th>
   </tr>
@@ -11,15 +10,14 @@
 <% @accesses.each do |access| %>
   <tr>
     <td><%= access.client_uri %></td>
-    <td><%= not access.blocked? %></td>
+    <td><%= link_to 'Show stats', access_path(access), class: "button icon settings" %></td>
    
     <% if access.blocked? %>
-      <td><%= link_to 'Unblock!', unblock_access_path(access), method: :put %></td>
+      <td><%= link_to 'Unblock!', unblock_access_path(access), method: :put, class: "button danger" %></td>
     <% else %>
-      <td><%= link_to 'Block!', block_access_path(access), method: :put %></td>
+      <td><%= link_to 'Block!', block_access_path(access), method: :put, class: "button danger" %></td>
     <% end %>
 
-    <td><%= link_to 'Show stats', access_path(access) %></td>
   </tr>
 <% end %>
 </table>

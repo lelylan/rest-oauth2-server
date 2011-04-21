@@ -10,10 +10,10 @@ p { margin: 0 0 1.333em; }
 em { font-style: italic; }
 table { border-collapse: separate; border-spacing: 0; margin: 0; vertical-align: middle; }
 th { font-weight: bold; }
-th, td { padding: 5px 25px 5px 5px; text-align: left; vertical-align: middle; }
+th, td { padding: 5px 8px 5px 5px; text-align: left; vertical-align: middle; }
 pre, code { font-family: monospace, sans-serif; font-size: 1em; color:#080; }
 
-.container { position:relative; overflow:hidden; width: 600px; padding: 40px 60px; border: 1px solid #ccc; margin: 40px auto 20px; background: #fff; -webkit-box-shadow: 0 0 15px rgba(0,0,0,0.1); -moz-box-shadow: 0 0 15px rgba(0,0,0,0.1); box-shadow: 0 0 15px rgba(0,0,0,0.1); }
+.container { position:relative; overflow:hidden; width: 780px; padding: 40px 60px; border: 1px solid #ccc; margin: 40px auto 20px; background: #fff; -webkit-box-shadow: 0 0 15px rgba(0,0,0,0.1); -moz-box-shadow: 0 0 15px rgba(0,0,0,0.1); box-shadow: 0 0 15px rgba(0,0,0,0.1); }
 
 .container pre,
 .container .prettyprint { padding: 0; border: 0; margin: 0 0 20px; font-size: 13px; background: #fff; }
@@ -24,7 +24,7 @@ pre, code { font-family: monospace, sans-serif; font-size: 1em; color:#080; }
 
 .header { padding-right:80px; }
 .header, .navigation { border-bottom: 1px solid #ccc; }
-.navigation { padding: 10px 5px; margin: 0px; background-color: #EEE }
+.navigation { padding: 10px; margin: 0px; background-color: #EEE }
 
 .section { margin: 40px 0 20px; }
 
@@ -34,4 +34,7 @@ pre, code { font-family: monospace, sans-serif; font-size: 1em; color:#080; }
 .footer a { color: #666; }
 
 .field, .actions { margin: 0 0 1.333em; }
+.field_show { margin: 0 0 0.666em; }
+
 .admin_notice { color: #980905 }
+.create_button { margin: -8px 0px 20px 0px }
