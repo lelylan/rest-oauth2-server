@@ -45,9 +45,10 @@ class ApplicationController < ActionController::Base
     #end
 
     def session_auth
-      session[:back] = request.url 
       @current_user ||= User.criteria.id(session[:user_id]).first if session[:user_id]
       unless current_user
+        session[:back] = request.url 
+        puts ":::::" +  session[:back]
         redirect_to(log_in_path) and return false
       end
     end
