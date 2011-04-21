@@ -1,18 +1,20 @@
-<h3>Show user <%= @user.name %></h3>
+<h2>Show User</h2>
 
-<p>
+<div class="field_show">
   <b>URI:</b>
   <%= @user.uri %>
-</p>
+</div>
 
-<p>
+<div class="field_show">
   <b>Email:</b>
   <%= @user.email %>
-</p>
+</div>
 
-<p>
+<div class="field_show">
   <b>Name:</b>
   <%= @user.name %>
-</p>
+</div>
 
-<%= link_to 'Edit', edit_user_path(@user) %>
+<div class="button-group footer_buttons">
+  <%= link_to 'Edit', edit_user_path(@user), class: "button" %>
+</div>

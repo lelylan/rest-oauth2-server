@@ -1,5 +1,8 @@
-<h3>Editing <%=@user.email%></h3>
+<h2>Editing <%=@user.email%></h2>
+
+<div class="button-group header_buttons">
+  <%= link_to 'Back', @user, class: "button icon arrowleft" %>
+</div>
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @user %>
