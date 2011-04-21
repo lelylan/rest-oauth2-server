@@ -33,16 +33,16 @@ class ApplicationController < ActionController::Base
       request.format == "application/json"
     end
 
-    def basic_auth
-      authenticate_or_request_with_http_basic do |username, password|
-        user = User.where(email: username).first
-        if user and user.verify(password)
-          @current_user = user
-        else
-          false
-        end
-      end
-    end
+    #def basic_auth
+      #authenticate_or_request_with_http_basic do |username, password|
+        #user = User.where(email: username).first
+        #if user and user.verify(password)
+          #@current_user = user
+        #else
+          #false
+        #end
+      #end
+    #end
 
     def session_auth
       session[:back] = request.url 

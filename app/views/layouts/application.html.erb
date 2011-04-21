@@ -32,12 +32,13 @@
             <%= link_to "Log out", log_out_path %>
           </div>
           <div>
-            <% if current_user.admin? %>
-              <%= link_to("Users", users_path) %> |
-              <%= link_to("Scopes", scopes_path) %> | 
-            <% end %>
+            <%= link_to("Home", current_user)  %> |
             <%= link_to("Accesses", accesses_path)  %> |
             <%= link_to("Clients", clients_path)  %>
+            <% if current_user.admin? %> |
+              <%= link_to("Users", users_path) %> |
+              <%= link_to("Scopes", scopes_path) %> 
+            <% end %>
           </div>
         <% else %>
           <%= link_to "Sign up", sign_up_path %> or
