@@ -310,7 +310,7 @@ to the <tt>redirect_uri</tt> you pass us with a new access token.
 === Going deep
 
 If you are curious and you want to find more check the {acceptance tests}[https://github.com/Lelylan/rest-oauth2-server/blob/master/spec/acceptance/oauth/oauth_authorize_controller_spec.rb] 
-in the <b>implicit token flow</b> and <b>refresh implicit token flow</b>context.
+in the <b>implicit token flow</b> and <b>refresh implicit token flow</b> context.
 
 
 
@@ -387,7 +387,7 @@ The response is a JSON Object containing the new access token.
 === Going deep
 
 If you are curious and you want to find more check the {acceptance tests}[https://github.com/Lelylan/rest-oauth2-server/blob/master/spec/acceptance/oauth/oauth_token_controller_spec.rb] 
-in the <b>password credentials flow/b> and <b>refresh token</b> context.
+in the <b>password credentials flow</b> and <b>refresh token</b> context.
 
 
 
