@@ -91,7 +91,7 @@ add the filter <tt>oauth_authorized</tt> in any controller you want to protect.
 
 This filter verify if the client can access the specific action, regarding the scope that has been granted from the user.
 You can also decide to protect all of your resources (they must accept JSON format) by uncommenting <tt>oauth_authorized</tt> 
-line in the {ApplicationController}[https://github.com/Lelylan/rest-oauth2-server/blob/master/app/controllers/application_controller.rb]
+line in the {ApplicationController}[https://github.com/Lelylan/rest-oauth2-server/blob/master/app/controllers/application_controller.rb].
 
 Last, you can make some actions public by using the <tt>exclude</tt> option.
 
@@ -100,14 +100,16 @@ Last, you can make some actions public by using the <tt>exclude</tt> option.
 
 == Client definition
 
-Once the scope configuration is done, every registered user can define a client, which represents a third party application. To do 
-this access the dashboard and create your first client, which is composed from:
+Every registered user can define a client (third party application). To do this access the dashboard and create your first 
+client filling these fields.
 
 * <b>Name</b>: client name.
-* <b>Siti URI</b>: client URI.
-* <b>Redirect URI</b>: client redirect URI, used as callback after the resource owner grant or deny the access.
-* <b>Scope</b>: one or more scope names, separated by spaces.
-* <b>Info</b>: extra information.
+* <b>Siti URI</b>: client web site URI.
+* <b>Redirect URI</b>: client redirect URI, used as callback after the user grant or deny the access.
+* <b>Scope</b>: one or more scope names, separated by spaces (limit the possible access to a client).
+* <b>Info</b>: additional information.
+
+http://github.com/Lelylan/rest-oauth2-server/raw/development/public/images/screenshots/all-scope.png
 
 Right now the scope field is kept "open", but based on your necessity, you could set a default one. For example you could decide that 
 some users can request access to all resources, while others can not. In this case add some logic on the client creation/update on the 
