@@ -52,8 +52,7 @@ http://github.com/Lelylan/rest-oauth2-server/raw/development/public/images/scree
 == Scopes explained
 
 In a short way, scopes tell you <b>what can and can't be accessed</b>. The Rest OAuth 2.0 Server ships with a 
-flexible and powerful scope system which can be dynamically built. Access the scope section as admin and start
-to explore how it works. 
+flexible and powerful scope system which can be dynamically built.
 
 http://github.com/Lelylan/rest-oauth2-server/raw/development/public/images/screenshots/scopes.png
 
@@ -62,17 +61,17 @@ To create a new scope click <b>Create a new scope</b> and you will get a simple 
 * <b>Name</b>: unique alphanumeric key that identify a scope.
 * <b>Values</b>: list of space separated alphanumeric strings, each of one refers to an action (built following the convention <b>{controller name}/{action name}</b>) or to an existing scope name. 
 
-As you can see the values define the accessible actions in two ways. 
+Going a bit deeper you can define the accessible actions in two ways. 
 
-<b>Action based</b>. You can specify *any* action present in your rails app. For example if you want to allow the access 
-to the action <b>create</b> in the controller <b>pizzas</b> you just add the string <b>pizzas/create</b>. Here you 
-can see an example on defining the access to all RESTful actions in a sample pizzas controller.
+<b>Action based</b>. You can specify *any* action present in your rails app. For example if you want to allow 
+the access to the action create< in the controller pizzas you just add the string "pizzas/create". Here you can 
+see an example on defining the access to all RESTful actions in a sample pizzas controller.
 
 http://github.com/Lelylan/rest-oauth2-server/raw/development/public/images/screenshots/pizzas-scope.png
 
 <b>Scope name based</b>. You can specify any group of actions adding a name scope. For example if the scope pizzas
 allows the access to all actions in the pizzas controller and the scope pastas allow the access to all actions in 
-pastas controller, then the <b>all</b> scope could have as values the list <b>pizzas pastas</b>
+pastas controller, then the "all" "cope could have as values the list "pizzas pastas"
 
 http://github.com/Lelylan/rest-oauth2-server/raw/development/public/images/screenshots/all-scope.png
 
