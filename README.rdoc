@@ -51,15 +51,17 @@ http://github.com/Lelylan/rest-oauth2-server/raw/development/public/images/scree
 
 == Scopes explained
 
-The scope is a key that tells you what can and can't be accessed. The Rest OAuth 2.0 Server ships with a 
-flexible scope system which can be dynamically built. To see how it works, access the scope section in the 
-admin dashboard. Click <tt>new</tt> and you will see a simple form with two fields:
+In a short way, scopes tell you <b>what can and can't be accessed</b>. The Rest OAuth 2.0 Server ships with a 
+flexible and powerful scope system which can be dynamically built. Access the scope section as admin and start
+to explore how it works. 
 
-* <b>Name</b>: unique name that identify a scope.
-* <b>Values</b>: list of space separated strings, each of one refers to a specific action or to a scope. 
+http://github.com/Lelylan/rest-oauth2-server/raw/development/public/images/screenshots/scope.png
 
-This means that the values can simply be a Scope Name already defined, or a string that identify a specific 
-action and that must be following the convention "<b>{controller name}/{action name}</b>"
+To create a new scope click <b>Create a new scope</b> and you will get a simple form with two fields
+
+* <b>Name</b>: unique alphanumeric key that identify a scope.
+* <b>Values</b>: list of space separated alphanumeric strings, each of one refers to an action (built following
+the convention <b>{controller name}/{action name}</b>) or to an existing scope name. 
 
 
 === Scopes creation
