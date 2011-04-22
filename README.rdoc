@@ -1,6 +1,6 @@
 = Rest OAuth 2.0 Server
 
-<b>Rest OAuth 2.0 Server</b> is a gem that easily allow the generation of an OAuth 2.0 Server following the {draft 13}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13]
+<b>Rest OAuth 2.0 Server</b> is a project that easily allows the generation of an OAuth 2.0 Server following the {draft 13}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13]
 of the OAuth 2.0 protocol with {bearer tokens}[http://tools.ietf.org/html/draft-ietf-oauth-v2-bearer-02]. The spec 
 is close to settling down, and we intend to update our code to match the final OAuth 2.0 and bearer token standards. 
 OAuth has often been described as a "valet key for the web." It lets applications ask users for access to just the 
@@ -13,10 +13,10 @@ the time without sharing their secret credentials.
 
 For the Rest OAuth 2.0 Server to work you need to have
 
-* {Ruby 1.9.2}[www.ruby-lang.org/en/] 
+* {Ruby 1.9.2}[www.ruby-lang.org/en/] (use rvm[http://screencasts.org/episodes/how-to-use-rvm?utm_source=rubyweekly&utm_medium=email] to manage versions).
 * {MongoDB}[http://www.mongodb.org/]. 
 
-To install the project run the following commands from your terminal (remember to have mongod deamon running)
+To install the project run the following commands (remember to run <tt>$ mongod</tt> before)
 
   $ git clone git@github.com:Lelylan/rest-oauth2-server.git
   $ cd rest-oauth2-server
@@ -24,7 +24,7 @@ To install the project run the following commands from your terminal (remember t
   $ rake spec
   $ rails s
 
-If everything works fine, you have your OAuth server up and running. We are also working at a gem and a 
+If everything works fine, you have your OAuth 2.0 Server up and running! We are also working at a gem and a 
 generator to easily integrate the Rest OAuth 2.0 server into your project. Any help in this is appreciated.
 
 
