@@ -423,7 +423,7 @@ Rest OAuth 2.0 Server allows you to personalize some options changing {oauth.yml
 Rest OAuth 2.0 Server is working on top of 5 models. They are pretty simple so if you want to have more information about
 them, check the source code, which is clearly documented.
 
-* {OauthClient}[https://github.com/Lelylan/rest-oauth2-server/blob/master/app/models/oauth/oauth_client.rb]: represents the credentials of a client application.
+* {OauthClient}[https://github.com/Lelylan/rest-oauth2-server/blob/master/app/models/client.rb]: represents the credentials of a client application.
 * {OauthToken}[https://github.com/Lelylan/rest-oauth2-server/blob/master/app/models/oauth/oauth_token.rb]: represents the token used to access user's resources.
 * {OauthAuthorizarion}[https://github.com/Lelylan/rest-oauth2-server/blob/master/app/models/oauth/oauth_authorization.rb]: represents the authorization token used to exchange an access token.
 * {OauthAccess}[https://github.com/Lelylan/rest-oauth2-server/blob/master/app/models/oauth/oauth_access.rb]: represents the relation between a client and a user, whenever a user grant an authorization.
