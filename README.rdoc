@@ -62,6 +62,20 @@ To create a new scope click <b>Create a new scope</b> and you will get a simple 
 * <b>Name</b>: unique alphanumeric key that identify a scope.
 * <b>Values</b>: list of space separated alphanumeric strings, each of one refers to an action (built following the convention <b>{controller name}/{action name}</b>) or to an existing scope name. 
 
+As you can see the values define the accessible actions in two ways. 
+
+1) <b>Action based</b>. You can specify *any* action in a controller. For example if you want to allow the access 
+to the action <b>create</b> in the controller <b>pizzas</b> you just add the string <b>pizzas/create</b>. Here you 
+can see an example on defining the access to all RESTful actions in a sample pizzas controller.
+
+http://github.com/Lelylan/rest-oauth2-server/raw/development/public/images/screenshots/pizzas-scope.png
+
+2) <b>Scope name based</b>. You can specify any group of actions adding a name scope. For example if the scope pizzas
+allows the access to all actions in the pizzas controller and the scope pastas allow the access to all actions in 
+pastas controller, then the <b>all</b> scope could have as values the list <b>pizzas pastas</b>
+
+http://github.com/Lelylan/rest-oauth2-server/raw/development/public/images/screenshots/all-scope.png
+
 
 === Scopes creation
 
