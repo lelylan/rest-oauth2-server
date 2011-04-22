@@ -60,8 +60,8 @@ http://github.com/Lelylan/rest-oauth2-server/raw/development/public/images/scree
 To create a new scope click <b>Create a new scope</b> and you will get a simple form with two fields
 
 * <b>Name</b>: unique alphanumeric key that identify a scope.
-* <b>Values</b>: list of space separated alphanumeric strings, each of one refers to an action (built following
-the convention <b>{controller name}/{action name}</b>) or to an existing scope name. 
+* <b>Values</b>: list of space separated alphanumeric strings, each of one refers to an action (built following the 
+convention <b>{controller name}/{action name}</b>) or to an existing scope name. 
 
 
 === Scopes creation
