@@ -161,7 +161,7 @@ that code along with its client secret to the Rest OAuth 2.0 Server in order to 
 
 === Getting an access token
 
-This flow begins by sending the user to the authorization endpoint <tt>http://localhost:3000/oauth/authorization</tt>
+This flow begins by sending the user to the authorization endpoint <tt>/oauth/authorization</tt>
 with the following query parameters
 
 * <b>response_type</b> (REQUIRED): always use "code" as response type
@@ -189,7 +189,7 @@ If the user approves access will be appended an authorization code in the query 
   https://example.com/callback?code=g2VDXwrT0S6iZeUeYQBYi2stxRy&state=2af5D3vds
 
 Now, the client reached through the <tt>redirect_uri</tt> should swap that authorization code for an access token by POSTing 
-it along the following params to the token endpoint <tt>http://localhost:3000/oauth/token</tt> using the JSON format.
+it along the following params to the token endpoint <tt>/oauth/token</tt> using the JSON format.
 
 * <b>code</b> (REQUIRED): authorization code (from the previous step)
 * <b>grant_type</b> (REQUIRED): always use "authorization_code" as grant type
@@ -261,7 +261,7 @@ and SilverLight).
 === Getting a user's permission
 
 
-This flow begins by sending the user to the authorization endpoint <tt>http://localhost:3000/oauth/authorization</tt>
+This flow begins by sending the user to the authorization endpoint <tt>/oauth/authorization</tt>
 with the following query parameters
 
 * <b>response_type</b> (REQUIRED): always use "token" as response type
@@ -316,7 +316,7 @@ system or a highly privileged application. The authorization server should take 
 
 === Getting an access token
 
-The client should POST to the token endpoint <tt>http://localhost:3000/oauth/token</tt> along with the following params
+The client should POST to the token endpoint <tt>/oauth/token</tt> along with the following params
 using the JSON format:
 
 * <b>grant_type</b> (REQUIRED): always use "password" as grant type
@@ -423,20 +423,20 @@ Rest OAuth 2.0 Server allows you to personalize some options changing {oauth.yml
 Rest OAuth 2.0 Server is working on top of 5 models. They are pretty simple so if you want to have more information about
 them, check the source code, which is clearly documented.
 
-* {OauthClient}[link:blob/master/app/models/oauth/oauth_client.rb]: represents the credentials of a client application.
-* {OauthToken}[link:blob/master/app/models/oauth/oauth_token.rb]: represents the token used to access user's resources.
-* {OauthAuthorizarion}[link:blob/master/app/models/oauth/oauth_authorization.rb]: represents the authorization token used to exchange an access token.
-* {OauthAccess}[link:blob/master/app/models/oauth/oauth_access.rb]: represents the relation between a client and a user, whenever a user grant an authorization.
-* {OauthDailyRequests}[link:blob/master/app/models/oauth/oauth_daily_request.rb]: represents a daily request from the client on behalf of a specific user.
+* {OauthClient}[link:tree/master/app/models/oauth/oauth_client.rb]: represents the credentials of a client application.
+* {OauthToken}[link:tree/master/app/models/oauth/oauth_token.rb]: represents the token used to access user's resources.
+* {OauthAuthorizarion}[link:tree/master/app/models/oauth/oauth_authorization.rb]: represents the authorization token used to exchange an access token.
+* {OauthAccess}[link:tree/master/app/models/oauth/oauth_access.rb]: represents the relation between a client and a user, whenever a user grant an authorization.
+* {OauthDailyRequests}[link:tree/master/app/models/oauth/oauth_daily_request.rb]: represents a daily request from the client on behalf of a specific user.
 
 
 == Basic auth system
 
 In addition to the models above there is a basic authentication system
 
-* {User}[link:blob/master/app/models/user.rb]: represents the basic user authentication functionalities
-* {UsersController}[blob/master/app/controllers/users_controller.rb]: represents the user definition
-* {SessionsController}[blob/master/app/controllers/sessions_controller.rb]: represents the session definition
+* {User}[link:tree/master/app/models/user.rb]: represents the basic user authentication functionalities
+* {UsersController}[link:tree/master/app/controllers/users_controller.rb]: represents the user definition
+* {SessionsController}[link:tree/master/app/controllers/sessions_controller.rb]: represents the session definition
 
 This model is kept simple on purpose, but you can easily change it with the authentication system you prefer like {Authlogic}[https://github.com/binarylogic/authlogic],
 {Devise}[https://github.com/plataformatec/devise] or {Warden}[https://github.com/hassox/warden]. Just remember that your user model <b>must</b> 

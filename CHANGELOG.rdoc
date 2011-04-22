@@ -1,5 +1,10 @@
 = Changelog
 
+== Release v0.3.1 (2011/04/22)
+
+* Added documentation with screenshots
+*
+
 
 == Release v0.3.0 (2011/04/21)
 
