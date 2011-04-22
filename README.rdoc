@@ -466,8 +466,7 @@ In the first two cases it is possible to unblock the client using the <tt>unbloc
 
 Tests are made using {Steak}[https://github.com/cavalle/steak], {Capybara}[https://github.com/jnicklas/capybara] 
 and {RSpec}[https://github.com/rspec/rspec-rails]. If you want to know more check the tests about {models}[https://github.com/Lelylan/rest-oauth2-server/tree/development/spec/models]
-and {acceptance tests}[https://github.com/Lelylan/rest-oauth2-server/tree/development/spec/acceptance] about
-controllers and views.
+and {acceptance tests}[https://github.com/Lelylan/rest-oauth2-server/tree/development/spec/acceptance].
 
 
 
