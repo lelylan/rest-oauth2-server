@@ -47,6 +47,21 @@ class OauthAccess
     find_or_create_daily_requests(time)
   end
 
+  # Give back the last days in a friendly format.It is used to 
+  # generate graph for statistics
+  def chart_days
+    daily_requests = self.oauth_daily_requests.limit(10)
+    days = daily_requests.map(&:created_at)
+    days.map { |d| d.strftime("%b %e") }
+  end
+
+  # Give the number of accesses for the last days. It is used
+  # to generate graph for statistics
+  def chart_times
+    access_times = self.oauth_daily_requests.limit(10)
+    access_times.map(&:times)
+  end
+
 
   private
 

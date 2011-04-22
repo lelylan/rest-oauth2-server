@@ -27,8 +27,8 @@
   </div>
 
   <div class="field">
-    <%= f.label :scope %><br />
-    <input id="client_scope" name="client[scope]" size="30" type="text" value="<%=@client.scope_pretty%>">
+    <%= f.label :scope %> (separated by spaces)<br />
+    <input id="client_scope" class="tags" name="client[scope]" size="30" type="text" value="<%=@client.scope_pretty%>">
   </div>
 
   <div class="field">

@@ -106,8 +106,8 @@ client filling these fields.
 * <b>Name</b>: client name.
 * <b>Siti URI</b>: client web site URI.
 * <b>Redirect URI</b>: client redirect URI, used as callback after the user grant or deny the access.
-* <b>Scope</b>: one or more scope names, separated by spaces (limit the possible access to a client). This defines what a 
-client can access.
+* <b>Scope</b>: one or more scope names, separated by spaces (limit the possible accesses a client can have). By default a
+scope named "all" is set as default. For this reason follow the convention to call "all" the scope that give all accesses.
 * <b>Info</b>: additional information.
 
 Once the client is create the additional field <b>client uri</b> and <b>secret</b> are generated. You will use these info

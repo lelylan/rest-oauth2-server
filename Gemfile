@@ -11,6 +11,7 @@ gem "bcrypt-ruby", :require => "bcrypt"
 gem 'validate_url', '0.1.6'
 gem 'email_validator'
 gem 'chronic'
+gem 'jquery-rails'
 
 group :development, :test do
   gem 'rspec-rails', '2.4.1'

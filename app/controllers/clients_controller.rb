@@ -12,6 +12,7 @@ class ClientsController < ApplicationController
 
   def new
     @client = Client.new
+    @client.scope = ["all"]
   end
 
   def create
