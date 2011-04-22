@@ -1,9 +1,11 @@
 = Changelog
 
+
 == Release v0.3.1 (2011/04/22)
 
 * Added documentation with screenshots
-*
+* Added tag system on scope definition
+* Added basic graph with access token stats
 
 
 == Release v0.3.0 (2011/04/21)
