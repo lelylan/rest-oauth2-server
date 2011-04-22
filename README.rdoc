@@ -109,7 +109,10 @@ client filling these fields.
 * <b>Scope</b>: one or more scope names, separated by spaces (limit the possible access to a client).
 * <b>Info</b>: additional information.
 
-http://github.com/Lelylan/rest-oauth2-server/raw/development/public/images/screenshots/all-scope.png
+Once the client is create the additional field <b>client uri</b> and <b>secret</b> are generated. You will use these info
+later on, during the authorization flows.
+
+http://github.com/Lelylan/rest-oauth2-server/raw/development/public/images/screenshots/client-show.png
 
 Right now the scope field is kept "open", but based on your necessity, you could set a default one. For example you could decide that 
 some users can request access to all resources, while others can not. In this case add some logic on the client creation/update on the 
