@@ -410,7 +410,7 @@ Note that all requests must be done using HTTPS.
 
 == OAuth 2.0 options
 
-Rest OAuth 2.0 Server allows you to personalize some options changing {oauth.yml}[link:blob/master/config/oauth.yml]
+Rest OAuth 2.0 Server allows you to personalize some options changing {oauth.yml}[https://github.com/Lelylan/rest-oauth2-server/blob/master/config/oauth.yml]
 
 * <b>token_expires_in</b>: define the seconds after which the access token expires. 
 * <b>authorization_expires_in</b>: define the seconds after which the authorization code expires. 
@@ -423,20 +423,20 @@ Rest OAuth 2.0 Server allows you to personalize some options changing {oauth.yml
 Rest OAuth 2.0 Server is working on top of 5 models. They are pretty simple so if you want to have more information about
 them, check the source code, which is clearly documented.
 
-* {OauthClient}[link:tree/master/app/models/oauth/oauth_client.rb]: represents the credentials of a client application.
-* {OauthToken}[link:tree/master/app/models/oauth/oauth_token.rb]: represents the token used to access user's resources.
-* {OauthAuthorizarion}[link:tree/master/app/models/oauth/oauth_authorization.rb]: represents the authorization token used to exchange an access token.
-* {OauthAccess}[link:tree/master/app/models/oauth/oauth_access.rb]: represents the relation between a client and a user, whenever a user grant an authorization.
-* {OauthDailyRequests}[link:tree/master/app/models/oauth/oauth_daily_request.rb]: represents a daily request from the client on behalf of a specific user.
+* {OauthClient}[https://github.com/Lelylan/rest-oauth2-server/blob/master/app/models/oauth/oauth_client.rb]: represents the credentials of a client application.
+* {OauthToken}[https://github.com/Lelylan/rest-oauth2-server/blob/master/app/models/oauth/oauth_token.rb]: represents the token used to access user's resources.
+* {OauthAuthorizarion}[https://github.com/Lelylan/rest-oauth2-server/blob/master/app/models/oauth/oauth_authorization.rb]: represents the authorization token used to exchange an access token.
+* {OauthAccess}[https://github.com/Lelylan/rest-oauth2-server/blob/master/app/models/oauth/oauth_access.rb]: represents the relation between a client and a user, whenever a user grant an authorization.
+* {OauthDailyRequests}[https://github.com/Lelylan/rest-oauth2-server/blob/master/app/models/oauth/oauth_daily_request.rb]: represents a daily request from the client on behalf of a specific user.
 
 
-== Basic auth system
+== Basic authentication system
 
 In addition to the models above there is a basic authentication system
 
-* {User}[link:tree/master/app/models/user.rb]: represents the basic user authentication functionalities
-* {UsersController}[link:tree/master/app/controllers/users_controller.rb]: represents the user definition
-* {SessionsController}[link:tree/master/app/controllers/sessions_controller.rb]: represents the session definition
+* {User}[https://github.com/Lelylan/rest-oauth2-server/blob/master/app/models/user.rb]: represents the basic user authentication functionalities
+* {UsersController}[https://github.com/Lelylan/rest-oauth2-server/blob/master/app/controllers/users_controller.rb]: represents the user definition
+* {SessionsController}[https://github.com/Lelylan/rest-oauth2-server/blob/master/app/controllers/sessions_controller.rb]: represents the session definition
 
 This model is kept simple on purpose, but you can easily change it with the authentication system you prefer like {Authlogic}[https://github.com/binarylogic/authlogic],
 {Devise}[https://github.com/plataformatec/devise] or {Warden}[https://github.com/hassox/warden]. Just remember that your user model <b>must</b> 
