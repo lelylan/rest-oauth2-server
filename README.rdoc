@@ -33,7 +33,7 @@ generator to easily integrate the Rest OAuth 2.0 server into your project, so st
 When accessing the application for the first time, click to {sign up}[http://localhost:3000/sign_up]. A message will ask
 you to create the first administrator user as no one have been found. 
 
-https://github.com/Lelylan/rest-oauth2-server/blob/development/public/images/screenshots/first-user-creation.png
+http://github.com/Lelylan/rest-oauth2-server/blob/development/public/images/screenshots/first-user-creation.png
 
 Register, log in and access the admin dashboard where you will find the following sections.
 
@@ -46,7 +46,7 @@ While the Users and Scopes sections are visible only to the admin, Accesses and 
 registered user, also the ones that will grant access for their resources. To better understand what you can do 
 explore the Dashboard and read the following sections.
 
-https://github.com/Lelylan/rest-oauth2-server/blob/development/public/images/screenshots/admin-dashboard.png
+http://github.com/Lelylan/rest-oauth2-server/blob/development/public/images/screenshots/admin-dashboard.png
 
 
 == Scopes explained
