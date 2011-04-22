@@ -30,8 +30,8 @@ generator to easily integrate the Rest OAuth 2.0 server into your project, so st
 
 == Admin user definition
 
-When accessing the application for the first time, click to {sign up}[http://localhost:3000/sign_up]. A message will ask
-you to create the first administrator user as no one have been found. 
+When accessing the application for the first time, click to sign up. A message will ask you to create the first 
+administrator user as no one have been found. 
 
 http://github.com/Lelylan/rest-oauth2-server/raw/development/public/images/screenshots/first-user-creation.png
 
