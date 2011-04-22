@@ -25,22 +25,28 @@ To install the project run the following commands (remember to run <tt>$ mongod<
   $ rails s
 
 If everything works fine, you have your OAuth 2.0 Server up and running! We are also working at a gem and a 
-generator to easily integrate the Rest OAuth 2.0 server into your project. Any help in this is appreciated.
+generator to easily integrate the Rest OAuth 2.0 server into your project, so stay tuned.
 
 
 == Admin user definition
 
-When accessing the application for the first time you will be asked to define the first administrator user 
-(all following users will be created as "not admin" users). Register it and then log in with the new credentials 
-to access the admin dashboard where you will find the following voices:
+When accessing the application for the first time, click to {sign up}[http://localhost:3000/sign_up]. A message will ask
+you to create the first administrator user as no one have been found. 
 
-* <b>Users</b>: registered users 
-* <b>Scopes</b>: authorization scopes
-* <b>Accesses</b>: daily accesses of the client on behalf of the user
+https://github.com/Lelylan/rest-oauth2-server/blob/development/public/images/screenshots/first-user-creation.png
+
+Register, log in and access the admin dashboard where you will find the following sections.
+
+* <b>Users</b>: list with all registered users.
+* <b>Scopes</b>: authorization scopes administration.
+* <b>Accesses</b>: clients that access the user's data.
 * <b>Clients</b>: registered clients (third party application)
 
-While Users and Scopes are visible only to the admin, Accesses and Clients will be available to every 
-registered user. To better understand what you can do explore the Dashboard and read the following sections.
+While the Users and Scopes sections are visible only to the admin, Accesses and Clients are available to every 
+registered user, also the ones that will grant access for their resources. To better understand what you can do 
+explore the Dashboard and read the following sections.
+
+https://github.com/Lelylan/rest-oauth2-server/blob/development/public/images/screenshots/admin-dashboard.png
 
 
 == Scopes explained
