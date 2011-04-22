@@ -114,6 +114,12 @@ later on, during the authorization flows.
 
 http://github.com/Lelylan/rest-oauth2-server/raw/development/public/images/screenshots/client-show.png
 
+If you define a scope named <b>all</b> you can use one more functionality. You can click the button <b>simulate authorization</b>
+that you can find in the end of the client detail page, and you will see the authorization page that a user would normally see 
+when granting access to a client.
+
+http://github.com/Lelylan/rest-oauth2-server/raw/development/public/images/screenshots/authorization.png
+
 Right now the scope field is kept "open", but based on your necessity, you could set a default one. For example you could decide that 
 some users can request access to all resources, while others can not. In this case add some logic on the client creation/update on the 
 {ClientController}[link:blob/development/app/controllers/clients_controller.rb]. Once the client is defined, the third party application 
