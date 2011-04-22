@@ -77,31 +77,6 @@ pastas controller, then the <b>all</b> scope could have as values the list <b>pi
 http://github.com/Lelylan/rest-oauth2-server/raw/development/public/images/screenshots/all-scope.png
 
 
-=== Scopes creation
-
-The Rest OAuth 2.0 Server ships with two sample resources called <tt>pizzas</tt> and <tt>pastas</tt>. Each 
-resource have the 5 usual REST actions <tt>index</tt>, <tt>show</tt>, <tt>create</tt> , <tt>update</tt> and 
-<tt>destroy</tt>. Now, lets supppose we want to define the following scopes for the pizzas resource:
-
-* <b>read</b>: enable the access to the read-only actions.
-* <b>all</b>: enable the access to all actions.
-
-To do this we need to define four scopes in the admin dashboard, where each of them will define what can or can 
-not be accessed.
-
-Read scope (made up of action name values)
-* Name:   <tt>read</tt>
-* Values: <tt>pizzas/index pizzas/show</tt>
-
-All actions scope (made up from scope name values)
-* Name:   <tt>all</tt>
-* Values: <tt>read pizzas/create pizzas/update pizzas/destroy</tt>
-
-Note that the <b>all</b> scope values contains the string <b>read</b> which automatically include the actions
-defined in the <b>read</b> scope values. Using this system you can easily build complex scope systems. Look at 
-the {test suite}[link:/blob/development/spec/extras/scope_spec.rb] to fully understand how the scope system works.
-
-
 === Resource applied
 
 Once scopes are defined you need one more step. You need to protect your controller just adding the filter 
