@@ -10,20 +10,7 @@
   <%= @access.daily_requests.times %>
 </div>
 
-<%#TODO: Add a simple graph%>
-<%#<table>%>
-  <%#<tr>%>
-    <%#<th>Times</th>%>
-    <%#<th>Day</th>%>
-  <%#</tr>%>
-
-<%#<% @access.oauth_daily_requests.each do |daily_request| %>
-  <%#<tr>%>
-    <%#<td><%= daily_request.times %>
-    <%#<td><%= daily_request.created_at.strftime("%a, %b %e") %>
-  <%#</tr>%>
-<%#<% end %>
-<%#</table>%>
+<div id="chart" style="width: 100%; height: 250px"></div>
 
 <div class="footer_buttons"> 
 <%= link_to 'Back', accesses_path, class: "button icon arrowleft" %>
@@ -33,4 +20,23 @@
   <%= link_to 'Block!', block_access_path(@access), method: :put, class: "button danger" %>
 <% end %>
 <div>
+
+  
+<%#
+  accesses = @access.oauth_daily_requests.limit(12)
+  @days = accesses.map(&:created_at)
+  @days.map! { |d| d.strftime("%b %e") }
+  @times = accesses.map(&:times)
+%>
+
+<script>
+  $(document).ready(function() {
+    createChart(
+      <%=raw @access.chart_days %>,
+      <%= @access.chart_times.to_json %>,
+      "<%= @access.client_uri %>"
+    )  
+  });
+</script>
+
 
