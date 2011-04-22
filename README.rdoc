@@ -245,33 +245,10 @@ The response is a JSON Object containing the new access token.
   }
 
 
-= How to use Access Token
-
-To make API requests on the behalf of a user, pass the OAuth token in the query string, as a header, or as a parameter 
-in the request body when making a POST request. 
-
-Query string example.
-  
-  GET /pizzas?token=AlYZ892hsKs
-
-Header example.
-
-  GET /pizzas
-  Authorization: OAuth2 AlYZ892hsKs
-
-Request body example.
-
-  POST /pizzas
-  oauth_token=AlYZ892hsKs&...
-
-Note that all requests must be done using HTTPS.
-
-
-
-= Going deep
+=== Going deep
 
 If you are curious and you want to find more check the {acceptance}[link:blob/development/spec/acceptance/oauth/oauth_authorize_controller_spec.rb] 
-{tests}[link:blob/development/spec/acceptance/oauth/oauth_token_controller_spec.rb] in the <b>Authorization token 
+{tests}[link:blob/development/spec/acceptance/oauth/oauth_token_controller_spec.rb] in the <b>authorization token 
 flow</b> and <b>refresh token</b> context.
 
 
@@ -403,6 +380,29 @@ The response is a JSON Object containing the new access token.
 
 If you are curious and you want to find more check the {acceptance tests}[link:blob/development/spec/acceptance/oauth/oauth_token_controller_spec.rb] 
 in the <b>password credentials flow/b> and <b>refresh token</b> context.
+
+
+
+= How to use Access Token
+
+To make API requests on the behalf of a user, pass the OAuth token in the query string, as a header, or as a parameter 
+in the request body when making a POST request. 
+
+Query string example.
+  
+  GET /pizzas?token=AlYZ892hsKs
+
+Header example.
+
+  GET /pizzas
+  Authorization: OAuth2 AlYZ892hsKs
+
+Request body example.
+
+  POST /pizzas
+  oauth_token=AlYZ892hsKs&...
+
+Note that all requests must be done using HTTPS.
 
 
 
