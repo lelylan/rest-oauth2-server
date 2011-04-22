@@ -131,11 +131,14 @@ will be disabled, until the admin unblock it.
 http://github.com/Lelylan/rest-oauth2-server/raw/development/public/images/screenshots/block-clients.png
 
 
-== Client accesses
+== Granted Clients (aka accesses)
 
-Every user can see a list of clients that have access to their resources through the accesses menu in the dashboard. Here there is the name 
-of the granted client and some basic statistics showing the daily access. One important functionality lies in the ability of users to block 
-a specific client whenever they want stop the access to their resources.
+Once users grant the access to their resources, the accesses list is updated. Here a user can see which clients are accessing
+their resources, and with which frequency. One important functionality lies on the possibility for a user to block a specific 
+client, whenever it is considered "not safe".
+
+http://github.com/Lelylan/rest-oauth2-server/raw/development/public/images/screenshots/access.png
+
 
 
 
@@ -241,7 +244,31 @@ The response is a JSON Object containing the new access token.
     "refresh_token": "Da8i1930LSj"
   }
 
-=== Going deep
+
+= How to use Access Token
+
+To make API requests on the behalf of a user, pass the OAuth token in the query string, as a header, or as a parameter 
+in the request body when making a POST request. 
+
+Query string example.
+  
+  GET /pizzas?token=AlYZ892hsKs
+
+Header example.
+
+  GET /pizzas
+  Authorization: OAuth2 AlYZ892hsKs
+
+Request body example.
+
+  POST /pizzas
+  oauth_token=AlYZ892hsKs&...
+
+Note that all requests must be done using HTTPS.
+
+
+
+= Going deep
 
 If you are curious and you want to find more check the {acceptance}[link:blob/development/spec/acceptance/oauth/oauth_authorize_controller_spec.rb] 
 {tests}[link:blob/development/spec/acceptance/oauth/oauth_token_controller_spec.rb] in the <b>Authorization token 

@@ -112,7 +112,7 @@ feature "ResourceController" do
     end
 
     context "with token in the header" do
-      before { @headers = Hash["Authorization", "OAuth #{@token_value}"] }
+      before { @headers = Hash["Authorization", "OAuth2 #{@token_value}"] }
       before { page.driver.hacked_env.merge!(@headers) }
 
       scenario ".index" do
