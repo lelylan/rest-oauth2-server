@@ -80,22 +80,22 @@ actions in the pizzas controller and the scope pastas allow the access to all ac
 http://github.com/Lelylan/rest-oauth2-server/raw/development/public/images/screenshots/all-scope.png
 
 
-=== Resource applied
+== Protect your resources
 
-Once scopes are defined you need one more step. You need to protect your controller just adding the filter 
-<tt>oauth_authorized</tt>
+After scopes are defined there is one more step. You need to protect the actions you want to authorize. To do thi
+add the filter <tt>oauth_authorized</tt> in any controller you want to protect.
 
   class PizzasController < ApplicationController
     before_filter :oauth_authorized
     ...
 
-This filter verify if the client can access the scpecific action, based on the scope has been granted from the user.
-If you like you can make some actions public, just by using the <tt>exclude</tt> key
+This filter verify if the client can access the specific action, regarding the scope that has been granted from the user.
+You can also decide to protect all of your resources (they must accept JSON format) by uncommenting <tt>oauth_authorized</tt> 
+line in the {ApplicationController}[https://github.com/Lelylan/rest-oauth2-server/blob/master/app/controllers/application_controller.rb]
+
+Last, you can make some actions public by using the <tt>exclude</tt> option.
 
    before_filter :oauth_authorized, except: %w(index, show)
-
-You can also decide to apply the OAuth Authorization Filter to all JSON requests by uncommenting <tt>oauth_authorized</tt> 
-in the {ApplicationController}[https://github.com/Lelylan/rest-oauth2-server/blob/master/app/controllers/application_controller.rb]
 
 
 == Client definition
