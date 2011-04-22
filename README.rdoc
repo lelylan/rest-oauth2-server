@@ -106,7 +106,8 @@ client filling these fields.
 * <b>Name</b>: client name.
 * <b>Siti URI</b>: client web site URI.
 * <b>Redirect URI</b>: client redirect URI, used as callback after the user grant or deny the access.
-* <b>Scope</b>: one or more scope names, separated by spaces (limit the possible access to a client).
+* <b>Scope</b>: one or more scope names, separated by spaces (limit the possible access to a client). This defines what a 
+client can access.
 * <b>Info</b>: additional information.
 
 Once the client is create the additional field <b>client uri</b> and <b>secret</b> are generated. You will use these info
@@ -114,20 +115,20 @@ later on, during the authorization flows.
 
 http://github.com/Lelylan/rest-oauth2-server/raw/development/public/images/screenshots/client-show.png
 
-If you define a scope named <b>all</b> you can use one more functionality. You can click the button <b>simulate authorization</b>
+If you define a scope named <b>all</b> you can use one more functionality. You can click the button <b>Simulate Authorization</b>
 that you can find in the end of the client detail page, and you will see the authorization page that a user would normally see 
 when granting access to a client.
 
 http://github.com/Lelylan/rest-oauth2-server/raw/development/public/images/screenshots/authorization.png
 
-Right now the scope field is kept "open", but based on your necessity, you could set a default one. For example you could decide that 
-some users can request access to all resources, while others can not. In this case add some logic on the client creation/update on the 
-{ClientController}[link:blob/development/app/controllers/clients_controller.rb]. Once the client is defined, the third party application 
-will use its credentials during the authorization flow.
 
-Last, the admin can access to all created clients and decide to block any of them. This is pretty useful in the case a client is considered
-"not safe", improving in this way the security of your projects. Once the client is blocked, it can't be used, until the admin decide to 
-unblock it.
+=== Block clients
+
+The admin can access to all created clients and decide to block any of them, meaning all related access tokens are disabled. 
+This is pretty useful in cases where a client is considered "not safe". When a client is blocked every authorization request
+will be disabled, until the admin unblock it.
+
+http://github.com/Lelylan/rest-oauth2-server/raw/development/public/images/screenshots/block-clients.png
 
 
 == Client accesses
