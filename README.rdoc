@@ -55,7 +55,7 @@ In a short way, scopes tell you <b>what can and can't be accessed</b>. The Rest 
 flexible and powerful scope system which can be dynamically built. Access the scope section as admin and start
 to explore how it works. 
 
-http://github.com/Lelylan/rest-oauth2-server/raw/development/public/images/screenshots/scope.png
+http://github.com/Lelylan/rest-oauth2-server/raw/development/public/images/screenshots/scopes.png
 
 To create a new scope click <b>Create a new scope</b> and you will get a simple form with two fields
 
