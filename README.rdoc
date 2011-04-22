@@ -179,6 +179,10 @@ Here's an example URL for a hypothetical app called "Example App" running on htt
     scope=write&
     state=2af5D3vds
 
+And this is what you should see.
+
+http://github.com/Lelylan/rest-oauth2-server/raw/development/public/images/screenshots/authorization.png
+
 After the user approves access or chooses not to, we'll redirect to the <tt>redirect_uri</tt> you pass us. If the 
 user denies access, an error code is appended:
 
@@ -278,6 +282,10 @@ Here's an example URL for a hypothetical app called "Example App" running on htt
     redirect_uri=httsp://www.example.com/callback&
     scope=write&
     state=2af5D3vds
+
+And this is what you should see.
+
+http://github.com/Lelylan/rest-oauth2-server/raw/development/public/images/screenshots/authorization.png
 
 After the user approves access or chooses not to, we'll redirect to the <tt>redirect_uri</tt> you pass. If the 
 user denies access, an error code is appended:
