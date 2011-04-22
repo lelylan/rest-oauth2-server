@@ -18,7 +18,7 @@
 
   <div class="field">
     <%= f.label :values %> (separated by spaces)<br />
-    <input id="scope_values" name="scope[values]" size="30" type="text" value="<%=@scope.values.join(" ") if @scope.values%>">
+    <input id="scope_values" class="tags" name="scope[values]" size="30" type="text" value="<%=@scope.values.join(" ") if @scope.values%>">
   </div>
 
   <div class="actions">
