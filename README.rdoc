@@ -1,6 +1,6 @@
 http://github.com/Lelylan/rest-oauth2-server/raw/development/public/images/help-us.png
 
-{The Lelylan Team}[https://lelylan.com]
+{The Lelylan Team}[http://lelylan.com]
 
 
 = Rest OAuth 2.0 Server
