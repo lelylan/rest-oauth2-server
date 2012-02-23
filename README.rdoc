@@ -503,7 +503,8 @@ Follow {MongoID guidelines}[http://mongoid.org/docs/contributing.html]
 
 = Authors
 
-Andrea Reginato & The Lelylan Project
+{Andrea Reginato}[mailto:andrea.reginato@gmail.com] & 
+{The Lelylan Team}[http://lelylan.com]
 
 A special thanks to the OAuth 2.0 specification team, to the Flowtown Rack Oauth2 Server which gave the 
 initial ideas of the project and to Google OAuth 2.0 specification for making them so clear to understand.
