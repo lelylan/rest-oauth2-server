@@ -1,3 +1,8 @@
+http://github.com/Lelylan/rest-oauth2-server/raw/development/public/images/help-us.png
+
+{The Lelylan Team}[https://lelylan.com]
+
+
 = Rest OAuth 2.0 Server
 
 <b>Rest OAuth 2.0 Server</b> is a project that easily allows the generation of an OAuth 2.0 Server following the {draft 13}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13]
@@ -6,7 +11,6 @@ is close to settling down, and we intend to update our code to match the final O
 OAuth has often been described as a "valet key for the web." It lets applications ask users for access to just the 
 data they need and no more, giving them the ability to enable and disable the accesses whenever they want, most of 
 the time without sharing their secret credentials.
-
 
 
 = Installation
