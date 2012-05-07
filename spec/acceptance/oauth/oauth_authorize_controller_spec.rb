@@ -25,7 +25,7 @@ feature "OauthAuthorizeController" do
         page.should have_content client.name
       end
 
-      scenario "#grant", do
+      scenario "#grant" do
         click_button("Grant")
         current_url.should == authorization_grant_uri(client)
       end
