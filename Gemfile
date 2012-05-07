@@ -1,5 +1,4 @@
 source 'http://rubygems.org'
-source 'http://gemcutter.org'
 
 gem 'rails', '3.0.5'
 gem 'mongoid', '2.0.0.beta.20'
@@ -14,8 +13,8 @@ gem 'chronic'
 gem 'jquery-rails'
 
 group :development, :test do
+  gem 'debugger'
   gem 'rspec-rails', '2.4.1'
-  gem 'cucumber-rails'
   gem 'steak'
   gem 'capybara'
   gem 'selenium-client'
