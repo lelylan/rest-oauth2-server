@@ -8,6 +8,8 @@ Lelylan::Application.routes.draw do
     post   "token" => "oauth_token#create", defaults: { format: "json" }
   end
 
+  get "domains/example/app/callback" => "sessions#new" if Rails.env == 'test'
+
   get "log_out" => "sessions#destroy", as: "log_out"
   get "log_in"  => "sessions#new",     as: "log_in"
 

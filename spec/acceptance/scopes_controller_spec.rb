@@ -2,14 +2,14 @@ require File.expand_path(File.dirname(__FILE__) + '/acceptance_helper')
 
 feature "ScopesController" do
   before { host! "http://" + host }
-  before { @user  = Factory(:user) }
-  before { @admin = Factory(:admin) }
-  before { @scope = Factory(:scope, values: ALL_SCOPE) }
+  before { @user  = FactoryGirl.create(:user) }
+  before { @admin = FactoryGirl.create(:admin) }
+  before { @scope = FactoryGirl.create(:scope, values: ALL_SCOPE) }
 
 
   context ".index" do
     before { @uri = "/scopes" }
-    before { @read_scope = Factory(:scope, name: "read", values: READ_SCOPE) }
+    before { @read_scope = FactoryGirl.create(:scope, name: "read", values: READ_SCOPE) }
 
     context "when not logged in" do
       scenario "is not authorized" do
@@ -20,7 +20,7 @@ feature "ScopesController" do
 
     context "when logged it" do
       context "when admin" do
-        before { login(@admin) } 
+        before { login(@admin) }
 
         scenario "view the resources" do
           visit @uri
@@ -30,7 +30,7 @@ feature "ScopesController" do
       end
 
       context "when not admin" do
-        before { login(@user) } 
+        before { login(@user) }
         scenario "do not list all resources" do
           visit @uri
           page.should have_content "Unauthorized access"
@@ -52,7 +52,7 @@ feature "ScopesController" do
 
     context "when logged in" do
       context "when admin" do
-        before { login(@admin) } 
+        before { login(@admin) }
 
         scenario "view a resource" do
           visit @uri
@@ -72,7 +72,7 @@ feature "ScopesController" do
       end
 
       context "when not admin" do
-        before { login(@user) } 
+        before { login(@user) }
         scenario "do not show a resource" do
           visit @uri
           page.should have_content "Unauthorized access"
@@ -94,7 +94,7 @@ feature "ScopesController" do
 
     context "when logged in" do
       context "when admin" do
-        before { login(@admin) } 
+        before { login(@admin) }
 
         context "when valid" do
           before do
@@ -126,7 +126,7 @@ feature "ScopesController" do
       end
 
       context "when not admin" do
-        before { login(@user) } 
+        before { login(@user) }
         scenario "do not create a resource" do
           visit @uri
           page.should have_content "Unauthorized access"
@@ -147,7 +147,7 @@ feature "ScopesController" do
 
     context "when logged in" do
       context "when admin" do
-        before { login(@admin) } 
+        before { login(@admin) }
 
         scenario "update a resource" do
           visit @uri
@@ -180,12 +180,12 @@ feature "ScopesController" do
 
         context "update clients'scopes" do
 
-          before do 
+          before do
             Scope.destroy_all
-            @scope = Factory(:scope_pizzas_all)
-            @scope_read = Factory(:scope_pizzas_read)
-            @client = Factory(:client)
-            @client_read = Factory(:client_read)
+            @scope = FactoryGirl.create(:scope_pizzas_all)
+            @scope_read = FactoryGirl.create(:scope_pizzas_read)
+            @client = FactoryGirl.create(:client)
+            @client_read = FactoryGirl.create(:client_read)
           end
 
           before do
@@ -209,10 +209,10 @@ feature "ScopesController" do
             it { @client_read.reload.scope_values.should include "pizzas/show" }
           end
         end
-      end 
+      end
 
       context "when not admin" do
-        before { login(@user) } 
+        before { login(@user) }
         scenario "do not update a resource" do
           visit @uri
           page.should have_content "Unauthorized access"

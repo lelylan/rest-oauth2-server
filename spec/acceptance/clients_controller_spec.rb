@@ -5,18 +5,18 @@ feature "ClientsController" do
   before { User.destroy_all }
   before { Scope.destroy_all }
   before { host! "http://" + host }
-  before { @user = Factory(:user) }
-  before { @user_bob   = Factory(:user_bob) }
-  before { @admin = Factory(:admin) }
-  before { @client = Factory(:client) }
-  before { @client_not_owned = Factory(:client_not_owned) }
-  before { @scope_read = Factory(:scope_pizzas_read) }
-  before { @scope_all = Factory(:scope_pizzas_all) }
+  before { @user = FactoryGirl.create(:user) }
+  before { @user_bob   = FactoryGirl.create(:user_bob) }
+  before { @admin = FactoryGirl.create(:admin) }
+  before { @client = FactoryGirl.create(:client) }
+  before { @client_not_owned = FactoryGirl.create(:client_not_owned) }
+  before { @scope_read = FactoryGirl.create(:scope_pizzas_read) }
+  before { @scope_all = FactoryGirl.create(:scope_pizzas_all) }
 
 
   context ".index" do
     before { @uri = "/clients" }
-    before { @read_client = Factory(:client_read) }
+    before { @read_client = FactoryGirl.create(:client_read) }
 
     context "when not logged in" do
       scenario "is not authorized" do
@@ -27,13 +27,13 @@ feature "ClientsController" do
 
     context "when logged in" do
       context "when not admin" do
-        before { login(@user) } 
+        before { login(@user) }
 
         scenario "view all resources" do
           visit @uri
           should_visualize_client(@client)
           should_visualize_client(@read_client)
-          page.should_not have_content "Not owned client" 
+          page.should_not have_content "Not owned client"
           page.should_not have_content "Block!"
         end
       end
@@ -47,7 +47,7 @@ feature "ClientsController" do
         end
 
         scenario "view all resource" do
-          page.should have_content "Not owned client" 
+          page.should have_content "Not owned client"
         end
 
         scenario "block a resource" do
@@ -119,7 +119,7 @@ feature "ClientsController" do
     end
 
     context "when logged in" do
-      before { login(@user) } 
+      before { login(@user) }
 
       context "when valid" do
         before do
@@ -137,7 +137,7 @@ feature "ClientsController" do
         scenario "assign URI field" do
           @client.uri.should == host + "/clients/" + @client.id.as_json
         end
-        
+
         scenario "assign created_from field" do
           @client.created_from == @user.uri
         end
@@ -167,7 +167,7 @@ feature "ClientsController" do
 
     context "when logged in" do
       context "when not admin" do
-        before { login(@user) } 
+        before { login(@user) }
 
         scenario "update a resource" do
           visit @uri

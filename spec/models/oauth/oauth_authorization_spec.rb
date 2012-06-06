@@ -1,13 +1,13 @@
 require 'spec_helper'
 
 describe OauthAuthorization do
-  before  { @authorization = Factory.create(:oauth_authorization) }
+  before  { @authorization = FactoryGirl.create(:oauth_authorization) }
   subject { @authorization }
 
   it { should validate_presence_of(:client_uri) }
-  it { should allow_value(VALID_URIS).for(:client_uri) }
+  it { VALID_URIS.each{|uri| should allow_value(uri).for(:client_uri) } }
   it { should validate_presence_of(:resource_owner_uri) }
-  it { should allow_value(VALID_URIS).for(:resource_owner_uri) }
+  it { VALID_URIS.each{|uri| should allow_value(uri).for(:resource_owner_uri) } }
 
   its(:code) { should_not be_nil }
   its(:expire_at) { should_not be_nil }
@@ -19,7 +19,7 @@ describe OauthAuthorization do
   end
 
   context ".block_client!" do
-    before { @another_client_authorization = Factory.create(:oauth_authorization, client_uri: ANOTHER_CLIENT_URI) }
+    before { @another_client_authorization = FactoryGirl.create(:oauth_authorization, client_uri: ANOTHER_CLIENT_URI) }
     before { OauthAuthorization.block_client!(CLIENT_URI) }
 
     it { @authorization.reload.should be_blocked }
@@ -27,8 +27,8 @@ describe OauthAuthorization do
   end
 
   context ".block_access!" do
-    before { @another_client_authorization = Factory.create(:oauth_authorization, client_uri: ANOTHER_CLIENT_URI)}
-    before { @another_owner_authorization  = Factory.create(:oauth_authorization, resource_owner_uri: ANOTHER_USER_URI) }
+    before { @another_client_authorization = FactoryGirl.create(:oauth_authorization, client_uri: ANOTHER_CLIENT_URI)}
+    before { @another_owner_authorization  = FactoryGirl.create(:oauth_authorization, resource_owner_uri: ANOTHER_USER_URI) }
     before { OauthAuthorization.block_access!(CLIENT_URI, USER_URI) }
 
     it { @authorization.reload.should be_blocked }

@@ -5,15 +5,15 @@ feature "OauthAuthorizeController" do
   before { OauthAccess.destroy_all }
   before { OauthToken.destroy_all }
 
-  let(:user)        { Factory(:user) }
-  let(:client)      { Factory(:client) }
-  let(:client_read) { Factory(:client_read) }
-  let(:access)      { Factory(:oauth_access) }
+  let(:user)        { FactoryGirl.create(:user) }
+  let(:client)      { FactoryGirl.create(:client) }
+  let(:client_read) { FactoryGirl.create(:client_read) }
+  let(:access)      { FactoryGirl.create(:oauth_access) }
   let(:write_scope) { "pizzas" }
   let(:read_scope)  { "pizzas/read" }
 
-  before { @scope = Factory(:scope_pizzas_read) }
-  before { @scope = Factory(:scope_pizzas_all) }
+  before { @scope = FactoryGirl.create(:scope_pizzas_read) }
+  before { @scope = FactoryGirl.create(:scope_pizzas_all) }
 
 
   context "Authorization code flow" do
@@ -25,7 +25,7 @@ feature "OauthAuthorizeController" do
         page.should have_content client.name
       end
 
-      scenario "#grant", do
+      scenario "#grant" do
         click_button("Grant")
         current_url.should == authorization_grant_uri(client)
       end
@@ -178,7 +178,7 @@ feature "OauthAuthorizeController" do
 
   context "Refresh implicit token flow" do
     before { use_javascript }
-    before { @token = Factory(:oauth_token) }
+    before { @token = FactoryGirl.create(:oauth_token) }
     before { login(user) }
 
     scenario "should create new token" do
@@ -219,7 +219,7 @@ feature "OauthAuthorizeController" do
         page.should have_content("Access token blocked from the user")
       end
     end
-    
+
     context "when not valid" do
       scenario "fails with not valid client uri" do
         client.uri = "http://not.existing/"
@@ -234,7 +234,7 @@ feature "OauthAuthorizeController" do
         page.should have_content("Client not authorized")
       end
     end
-    
+
     after { use_default }
   end
 end

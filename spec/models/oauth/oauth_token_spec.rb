@@ -1,13 +1,13 @@
 require 'spec_helper'
 
 describe OauthToken do
-  before  { @token = Factory.create(:oauth_token) }
+  before  { @token = FactoryGirl.create(:oauth_token) }
   subject { @token }
 
   it { should validate_presence_of(:client_uri) }
-  it { should allow_value(VALID_URIS).for(:client_uri) }
+  it { VALID_URIS.each{|uri| should allow_value(uri).for(:client_uri) } }
   it { should validate_presence_of(:resource_owner_uri) }
-  it { should allow_value(VALID_URIS).for(:resource_owner_uri) }
+  it { VALID_URIS.each{|uri| should allow_value(uri).for(:resource_owner_uri) } }
 
   its(:token) { should_not be_nil }
   its(:refresh_token) { should_not be_nil }
@@ -19,7 +19,7 @@ describe OauthToken do
   end
 
   context ".block_client!" do
-    before { @another_client_token = Factory.create(:oauth_token, client_uri: ANOTHER_CLIENT_URI) }
+    before { @another_client_token = FactoryGirl.create(:oauth_token, client_uri: ANOTHER_CLIENT_URI) }
     before { OauthToken.block_client!(CLIENT_URI) }
 
     it { @token.reload.should be_blocked }
@@ -27,8 +27,8 @@ describe OauthToken do
   end
 
   context ".block_access!" do
-    before { @another_client_token = Factory.create(:oauth_token, client_uri: ANOTHER_CLIENT_URI)}
-    before { @another_owner_token  = Factory.create(:oauth_token, resource_owner_uri: ANOTHER_USER_URI) }
+    before { @another_client_token = FactoryGirl.create(:oauth_token, client_uri: ANOTHER_CLIENT_URI)}
+    before { @another_owner_token  = FactoryGirl.create(:oauth_token, resource_owner_uri: ANOTHER_USER_URI) }
     before { OauthToken.block_access!(CLIENT_URI, USER_URI) }
 
     it { @token.reload.should be_blocked }
@@ -38,8 +38,8 @@ describe OauthToken do
 
   context ".exist" do
     it "should find the token" do
-      existing = OauthToken.exist(@token.client_uri, 
-                                  @token.resource_owner_uri, 
+      existing = OauthToken.exist(@token.client_uri,
+                                  @token.resource_owner_uri,
                                   @token.scope).first
       existing.should_not be_nil
     end

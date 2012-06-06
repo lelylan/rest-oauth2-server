@@ -5,25 +5,25 @@ feature "OauthTokenController" do
   before { OauthAccess.destroy_all }
   before { OauthRefreshToken.destroy_all }
 
-  let(:user)          { Factory(:user) }
-  let(:client)        { Factory(:client) }
-  let(:client_read)   { Factory(:client_read) }
-  let(:authorization) { Factory(:oauth_authorization) }
-  let(:access)        { Factory(:oauth_access) }
+  let(:user)          { FactoryGirl.create(:user) }
+  let(:client)        { FactoryGirl.create(:client) }
+  let(:client_read)   { FactoryGirl.create(:client_read) }
+  let(:authorization) { FactoryGirl.create(:oauth_authorization) }
+  let(:access)        { FactoryGirl.create(:oauth_access) }
   let(:write_scope)   { "pizzas" }
   let(:read_scope)    { "pizzas/read" }
 
-  before { @scope = Factory(:scope_pizzas_read) }
-  before { @scope = Factory(:scope_pizzas_all) }
+  before { @scope = FactoryGirl.create(:scope_pizzas_read) }
+  before { @scope = FactoryGirl.create(:scope_pizzas_all) }
 
   context "Authorization token flow" do
 
-    let(:attributes) { { 
+    let(:attributes) { {
       grant_type: "authorization_code",
       client_id: client.uri,
       client_secret: client.secret,
       code: authorization.code,
-      redirect_uri: client.redirect_uri 
+      redirect_uri: client.redirect_uri
     } }
 
     scenario "create a token" do
@@ -74,13 +74,13 @@ feature "OauthTokenController" do
 
 
   context "Password credentials flow" do
-    let(:attributes) { { 
+    let(:attributes) { {
       grant_type: "password",
       client_id: client.uri,
       client_secret: client.secret,
       username: user.email,
       password: user.password,
-      scope: write_scope 
+      scope: write_scope
     } }
 
     scenario "create a token" do
@@ -128,14 +128,14 @@ feature "OauthTokenController" do
 
 
   context "Refresh Token" do
-    let(:token)         { Factory(:oauth_token) }
+    let(:token)         { FactoryGirl.create(:oauth_token) }
     let(:refresh_token) { OauthRefreshToken.create(access_token: token.token) }
 
-    let(:attributes) { { 
+    let(:attributes) { {
       grant_type: "refresh_token",
       refresh_token: refresh_token.refresh_token,
       client_id: client.uri,
-      client_secret: client.secret 
+      client_secret: client.secret
     } }
 
     scenario "create an access token" do
@@ -184,10 +184,10 @@ feature "OauthTokenController" do
   end
 
   context "Authorization token flow" do
-    before { @token = Factory(:oauth_token) }
+    before { @token = FactoryGirl.create(:oauth_token) }
 
     scenario "block a token" do
-      page.driver.delete("/token/" + @token.token)
+      page.driver.delete("/oauth/token/" + @token.token)
       #@token.reload.should be_blocked
       #page.status_code.should == 200
     end

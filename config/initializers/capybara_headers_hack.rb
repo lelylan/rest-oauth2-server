@@ -6,7 +6,7 @@ module RackTestMixin
       def hacked_env
         @hacked_env ||= {}
       end
-      
+
       # Alias the original method for further use.
       alias_method  :original_env, :env
 
@@ -20,6 +20,4 @@ module RackTestMixin
 
 end
 
-Capybara::Driver::RackTest.send :include, RackTestMixin
-
-
+Capybara::RackTest::Browser.send :include, RackTestMixin

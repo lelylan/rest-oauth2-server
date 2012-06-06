@@ -1,16 +1,16 @@
 require 'spec_helper'
 
 describe Client do
-  before  { @client = Factory.create(:client) }
+  before  { @client = FactoryGirl.create(:client) }
   subject { @client }
 
   it { should validate_presence_of(:name) }
   it { should validate_presence_of(:uri) }
-  it { should allow_value(VALID_URIS).for(:uri) }
+  it { VALID_URIS.each{|uri| should allow_value(uri).for(:uri) } }
   it { should validate_presence_of(:created_from) }
-  it { should allow_value(VALID_URIS).for(:created_from) }
+  it { VALID_URIS.each{|uri| should allow_value(uri).for(:created_from) } }
   it { should validate_presence_of(:redirect_uri) }
-  it { should allow_value(VALID_URIS).for(:redirect_uri) }
+  it { VALID_URIS.each{|uri| should allow_value(uri).for(:redirect_uri) } }
 
   its(:secret) { should_not be_nil }
 
@@ -24,10 +24,10 @@ describe Client do
 
   it { should_not be_blocked }
   context "#block!" do
-    before { @authorization         = Factory.create(:oauth_authorization) }
-    before { @another_authorization = Factory.create(:oauth_authorization, client_uri: ANOTHER_CLIENT_URI) }
-    before { @token                 = Factory.create(:oauth_token) }
-    before { @another_token         = Factory.create(:oauth_token, client_uri: ANOTHER_CLIENT_URI) }
+    before { @authorization         = FactoryGirl.create(:oauth_authorization) }
+    before { @another_authorization = FactoryGirl.create(:oauth_authorization, client_uri: ANOTHER_CLIENT_URI) }
+    before { @token                 = FactoryGirl.create(:oauth_token) }
+    before { @another_token         = FactoryGirl.create(:oauth_token, client_uri: ANOTHER_CLIENT_URI) }
 
     before { subject.block! }
 
@@ -90,12 +90,12 @@ describe Client do
   end
 
   context "#destroy" do
-    subject { Factory.create(:client) }
+    subject { FactoryGirl.create(:client) }
     before do
       OauthAuthorization.destroy_all
-      3.times { Factory.create(:oauth_authorization) }
+      3.times { FactoryGirl.create(:oauth_authorization) }
       OauthToken.destroy_all
-      3.times { Factory.create(:oauth_token) }
+      3.times { FactoryGirl.create(:oauth_token) }
     end
 
     it "should remove related authorizations" do
@@ -115,10 +115,10 @@ describe Client do
     before { Client.destroy_all }
     before { Scope.destroy_all }
 
-    before { @client = Factory(:client) }
-    before { @read_client = Factory(:client_read) }
-    before { @scope = Factory(:scope_pizzas_all) }
-    before { @scope_read = Factory(:scope_pizzas_read, values: ["pizzas/show"]) }
+    before { @client = FactoryGirl.create(:client) }
+    before { @read_client = FactoryGirl.create(:client_read) }
+    before { @scope = FactoryGirl.create(:scope_pizzas_all) }
+    before { @scope_read = FactoryGirl.create(:scope_pizzas_read, values: ["pizzas/show"]) }
     before { Client.sync_clients_with_scope("pizzas/read") }
 
     context "with indirect scope" do

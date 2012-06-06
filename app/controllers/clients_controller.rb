@@ -60,18 +60,18 @@ class ClientsController < ApplicationController
   end
 
 
-  private 
+  private
 
     def find_clients
-      if current_user.admin? 
+      if current_user.admin?
         @clients = Client.criteria
-      else 
+      else
         @clients = Client.where(created_from: current_user.uri)
       end
     end
 
     def find_client
-      @client = @clients.id(params[:id]).first
+      @client = @clients.where(_id: params[:id]).first
       unless @client
         redirect_to root_path, alert: "Resource not found."
       end
@@ -79,7 +79,7 @@ class ClientsController < ApplicationController
 
     def normalize_scope
       params[:client][:scope] = params[:client][:scope].split(Oauth.settings["scope_separator"])
-    end 
+    end
 
     def admin?
       unless current_user.admin?

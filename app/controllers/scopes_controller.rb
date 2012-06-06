@@ -1,8 +1,8 @@
 class ScopesController < ApplicationController
- 
+
   before_filter :admin?
   before_filter :find_resource, only: ["show", "edit", "update", "destroy"]
-  after_filter  :sync_existing_scopes, only: ["update", "destroy"] 
+  after_filter  :sync_existing_scopes, only: ["update", "destroy"]
 
   def index
     @scopes = Scope.all
@@ -49,10 +49,10 @@ class ScopesController < ApplicationController
   private
 
     def find_resource
-      @scope = Scope.criteria.id(params[:id]).first
+      @scope = Scope.where(_id: params[:id]).first
       unless @scope
         redirect_to root_path, alert: "Resource not found."
-      end        
+      end
     end
 
     # TODO: put into a background process

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe OauthRefreshToken do
-  before  { @token = Factory(:oauth_token) }
+  before  { @token = FactoryGirl.create(:oauth_token) }
   before  { @refresh_token = OauthRefreshToken.create(access_token: @token.token) }
   subject { @refresh_token }
 

@@ -1,25 +1,10 @@
-defaults: &defaults
-  host: localhost
-  slaves:
-    - host: slave1.local
-      port: 27018
-    - host: slave2.local
-      port: 27019
-  autocreate_indexes: false
-  allow_dynamic_fields: false
-  include_root_in_json: false
-  parameterize_keys: true
-  persist_in_safe_mode: false
-  raise_not_found_error: true
-  reconnect_time: 3
-
 development:
-  <<: *defaults
-  database: oauth_development
+  host: localhost
+  database: lelylan_development
 
 test:
-  <<: *defaults
-  database: oauth_test
+  host: localhost
+  database: lelylan_test
 
 # set these environment variables on your prod server
 production:
@@ -28,3 +13,8 @@ production:
   username: <%= ENV['MONGOID_USERNAME'] %>
   password: <%= ENV['MONGOID_PASSWORD'] %>
   database: <%= ENV['MONGOID_DATABASE'] %>
+  # slaves:
+  #   - host: slave1.local
+  #     port: 27018
+  #   - host: slave2.local
+  #     port: 27019

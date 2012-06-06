@@ -20,14 +20,14 @@ class AccessesController < ApplicationController
   end
 
 
-  private 
-  
+  private
+
     def find_accesses
       @accesses = OauthAccess.where(resource_owner_uri: current_user.uri)
     end
 
     def find_access
-      @access = @accesses.id(params[:id]).first
+      @access = @accesses.where(_id: params[:id]).first
       unless @access
         redirect_to root_path, alert: "Resource not found."
       end
@@ -38,6 +38,6 @@ class AccessesController < ApplicationController
       flash.now.alert = "notifications.document.not_found"
       @info = { id: params[:id] }
       render "shared/html/404" and return
-    end 
+    end
 
 end

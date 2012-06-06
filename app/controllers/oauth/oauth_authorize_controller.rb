@@ -33,7 +33,7 @@ class Oauth::OauthAuthorizeController < ApplicationController
 
   def destroy
     @client.revoked!
-    redirect_to deny_redirect_uri(params[:response_type], params[:state])
+    redirect_to deny_redirect_uri(@client, params[:response_type], params[:state])
   end
 
 
@@ -62,7 +62,7 @@ class Oauth::OauthAuthorizeController < ApplicationController
       access = OauthAccess.find_or_create_by(:client_uri => @client.uri, resource_owner_uri: current_user.uri)
       access_blocked if access.blocked?
     end
-    
+
     def token_blocked?
       if params[:response_type] == "token"
         @token = OauthToken.exist(@client.uri, current_user.uri, params[:scope]).first
@@ -126,8 +126,8 @@ class Oauth::OauthAuthorizeController < ApplicationController
       return uri
     end
 
-    def deny_redirect_uri(response_type, state)
-      uri = @client.redirect_uri
+    def deny_redirect_uri(client, response_type, state)
+      uri = client.redirect_uri
       uri += (response_type == "code") ? "?" : "#"
       uri += "error=access_denied"
       uri += "&state=" + state if state

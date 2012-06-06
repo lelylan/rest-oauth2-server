@@ -2,10 +2,10 @@ require File.expand_path(File.dirname(__FILE__) + '/acceptance_helper')
 
 feature "AccessesController" do
   before { host! "http://" + host }
-  before { @user   = Factory(:user) }
-  before { @client = Factory(:client) }
-  before { @token  = Factory(:oauth_token) }
-  before { @access = Factory(:oauth_access) }
+  before { @user   = FactoryGirl.create(:user) }
+  before { @client = FactoryGirl.create(:client) }
+  before { @token  = FactoryGirl.create(:oauth_token) }
+  before { @access = FactoryGirl.create(:oauth_access) }
 
   context ".index" do
     before { @uri = "/accesses" }
@@ -18,11 +18,11 @@ feature "AccessesController" do
     end
 
     context "when logged in" do
-      before { login(@user) } 
+      before { login(@user) }
 
       scenario "view all resources" do
         visit @uri
-        page.should have_content @access.client_uri 
+        page.should have_content @access.client_uri
         page.should have_content "Block!"
       end
 
@@ -48,7 +48,7 @@ feature "AccessesController" do
 
     context "when logged in" do
       before { login(@user) }
-      before { @access_not_owned = Factory(:oauth_access, resource_owner_uri: ANOTHER_USER_URI) }
+      before { @access_not_owned = FactoryGirl.create(:oauth_access, resource_owner_uri: ANOTHER_USER_URI) }
 
       scenario "view a resource" do
         visit @uri

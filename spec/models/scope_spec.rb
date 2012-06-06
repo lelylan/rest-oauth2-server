@@ -1,14 +1,14 @@
 require 'spec_helper'
 
 describe Scope do
-  before  { @scope = Factory(:scope, values: ALL_SCOPE) }
+  before  { @scope = FactoryGirl.create(:scope, values: ALL_SCOPE) }
   subject { @scope }
 
   it { should validate_presence_of(:name) }
   it { should validate_presence_of(:name) }
 
-  it { should allow_value(VALID_URIS).for(:uri) }
-  it { should_not allow_value(INVALID_URIS).for(:uri) }
+  it { VALID_URIS.each{|uri| should allow_value(uri).for(:uri) } }
+  it { INVALID_URIS.each{|uri| should_not allow_value(uri).for(:uri) } }
 
   it { should_not allow_mass_assignment_of(:values) }
   it { should_not allow_mass_assignment_of(:uri) }

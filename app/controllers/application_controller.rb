@@ -14,7 +14,12 @@ class ApplicationController < ActionController::Base
   protected
 
     def json_body
-      @body = HashWithIndifferentAccess.new(JSON.parse(request.body.read.to_s))
+      body = request.body.read.to_s
+      @body = if body.empty?
+        HashWithIndifferentAccess.new({})
+      else
+        HashWithIndifferentAccess.new(JSON.parse(body))
+      end
     end
 
     def authenticate
@@ -34,9 +39,9 @@ class ApplicationController < ActionController::Base
     end
 
     def session_auth
-      @current_user ||= User.criteria.id(session[:user_id]).first if session[:user_id]
+      @current_user ||= User.where(:_id => session[:user_id]).first if session[:user_id]
       unless current_user
-        session[:back] = request.url 
+        session[:back] = request.url
         redirect_to(log_in_path) and return false
       end
       return @current_user
@@ -53,7 +58,7 @@ class ApplicationController < ActionController::Base
       if @token.nil? or @token.blocked?
         render text: "Unauthorized access.", status: 401
         return false
-      else 
+      else
         access = OauthAccess.where(client_uri: @token.client_uri , resource_owner_uri: @token.resource_owner_uri).first
         access.accessed!
       end

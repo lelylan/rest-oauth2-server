@@ -62,7 +62,7 @@ class Client
     self.revoked_times += 1
     self.save
   end
-  
+
   def scope_pretty
     separator = Oauth.settings["scope_separator"]
     scope.join(separator)
@@ -116,7 +116,7 @@ class Client
     end
 
     def random_secret
-      self.secret = ActiveSupport::SecureRandom.hex(Oauth.settings["random_length"])
+      self.secret = SecureRandom.hex(Oauth.settings["random_length"])
     end
 
     def clean

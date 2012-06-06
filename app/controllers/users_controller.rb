@@ -39,14 +39,14 @@ class UsersController < ApplicationController
   end
 
 
-  private 
+  private
 
     def find_user
       @user = current_user.admin? ? User.criteria : User.where(uri: current_user.uri)
-      @user = @user.id(params[:id]).first
+      @user = @user.where(_id: params[:id]).first
       unless @user
         redirect_to root_path, alert: "Resource not found."
-      end  
+      end
     end
 
     def admin?

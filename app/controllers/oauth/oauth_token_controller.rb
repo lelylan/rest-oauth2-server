@@ -51,7 +51,7 @@ class Oauth::OauthTokenController < ApplicationController
   def destroy
     token = OauthToken.where(token: params[:id]).first
     if token
-      token.block! 
+      token.block!
       return head 200
     else
       return head 404
@@ -99,7 +99,7 @@ class Oauth::OauthTokenController < ApplicationController
     end
 
     def client_where_secret
-      if @body[:grant_type] == "password" or @body[:grant_type] == "refresh_token" 
+      if @body[:grant_type] == "password" or @body[:grant_type] == "refresh_token"
         @client = Client.where_secret(@body[:client_secret], @body[:client_id])
         message = "notifications.oauth.client.not_found"
         info = { client_secret: @body[:client_secret], client_id: @body[:client_id] }
@@ -145,7 +145,7 @@ class Oauth::OauthTokenController < ApplicationController
         message = "notifications.oauth.token.not_found"
         info = { token: @refresh_token.access_token }
         render_422 message, info unless @refresh_token
-      end 
+      end
     end
 
     def token_blocked?
@@ -153,7 +153,7 @@ class Oauth::OauthTokenController < ApplicationController
         message = "notifications.oauth.token.blocked_token"
         info = { token: @refresh_token.access_token }
         render_422 message, info if @expired_token.blocked?
-      end 
+      end
     end
 
 

@@ -2,9 +2,9 @@ require File.expand_path(File.dirname(__FILE__) + '/acceptance_helper')
 
 feature "UsersController" do
   before { host! "http://" + host }
-  before { @user = Factory(:user) }
-  before { @bob = Factory(:user_bob) }
-  before { @admin = Factory(:admin) }
+  before { @user = FactoryGirl.create(:user) }
+  before { @bob = FactoryGirl.create(:user_bob) }
+  before { @admin = FactoryGirl.create(:admin) }
 
 
   context ".index" do
@@ -19,7 +19,7 @@ feature "UsersController" do
 
     context "when logged in" do
       context "when admin" do
-        before { login(@admin) } 
+        before { login(@admin) }
         scenario "list all resources" do
           visit @uri
           [@user, @bob].each do |user|
@@ -29,7 +29,7 @@ feature "UsersController" do
       end
 
       context "when not admin" do
-        before { login(@user) } 
+        before { login(@user) }
         scenario "do not list all resources" do
           visit @uri
           page.should have_content "Unauthorized access"
@@ -50,7 +50,7 @@ feature "UsersController" do
     end
 
     context "when logged in" do
-      before { login(@user) } 
+      before { login(@user) }
 
       scenario "view a resource" do
         visit @uri
@@ -66,7 +66,7 @@ feature "UsersController" do
       scenario "access other users profile" do
         login @bob
         visit @uri
-        page.should have_content "Resource not found" 
+        page.should have_content "Resource not found"
       end
 
       scenario "access with illegal id" do
@@ -134,7 +134,7 @@ feature "UsersController" do
     end
 
     context "when logged in" do
-      before { login(@user) } 
+      before { login(@user) }
       let(:name) { "Alice is my name" }
 
       scenario "when update fields" do
@@ -191,7 +191,7 @@ feature "UsersController" do
       scenario "when edit other users profile" do
         login @bob
         visit @uri
-        page.should have_content "Resource not found" 
+        page.should have_content "Resource not found"
       end
     end
   end

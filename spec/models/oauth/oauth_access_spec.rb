@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe OauthAccess do
-  before { @access = Factory.create(:oauth_access) }
+  before { @access = FactoryGirl.create(:oauth_access) }
   subject { @access }
 
   it { should validate_presence_of(:client_uri) }
@@ -9,10 +9,10 @@ describe OauthAccess do
   it { should_not be_blocked }
 
   context "#block!" do
-    before { @authorization = Factory.create(:oauth_authorization) }
-    before { @another_authorization = Factory.create(:oauth_authorization, client_uri: ANOTHER_CLIENT_URI) }
-    before { @token = Factory.create(:oauth_token) }
-    before { @another_token = Factory.create(:oauth_token, client_uri: ANOTHER_CLIENT_URI) }
+    before { @authorization = FactoryGirl.create(:oauth_authorization) }
+    before { @another_authorization = FactoryGirl.create(:oauth_authorization, client_uri: ANOTHER_CLIENT_URI) }
+    before { @token = FactoryGirl.create(:oauth_token) }
+    before { @another_token = FactoryGirl.create(:oauth_token, client_uri: ANOTHER_CLIENT_URI) }
 
     before { subject.block! }
 

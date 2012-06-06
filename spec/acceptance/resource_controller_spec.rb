@@ -3,8 +3,8 @@ require File.expand_path(File.dirname(__FILE__) + '/acceptance_helper')
 feature "ResourceController" do
 
   context "with not existing access token" do
-    before { @token = Factory(:oauth_access) }
-    before { @token = Factory(:oauth_token) }
+    before { @token = FactoryGirl.create(:oauth_access) }
+    before { @token = FactoryGirl.create(:oauth_token) }
     before { @token_value = @token.token }
     before { @token_json  = {token: @token_value}.to_json }
     before { @token.destroy }
@@ -36,7 +36,7 @@ feature "ResourceController" do
   end
 
   context "with single action accesses" do
-    before { @token_value = Factory(:oauth_token, scope: ["pizzas/index"]).token }
+    before { @token_value = FactoryGirl.create(:oauth_token, scope: ["pizzas/index"]).token }
     before { @token_json  = {token: @token_value}.to_json }
 
     scenario ".index" do
@@ -52,7 +52,7 @@ feature "ResourceController" do
 
 
   context "with read accesses on a resource" do
-    before { @token_value = Factory(:oauth_token_read).token }
+    before { @token_value = FactoryGirl.create(:oauth_token_read).token }
     before { @token_json  = {token: @token_value}.to_json }
 
     scenario ".index" do
@@ -83,7 +83,7 @@ feature "ResourceController" do
 
 
   context "with all accesses" do
-    before { @token_value = Factory(:oauth_token).token }
+    before { @token_value = FactoryGirl.create(:oauth_token).token }
     before { @token_json  = {token: @token_value}.to_json }
 
     scenario ".index" do
@@ -113,7 +113,9 @@ feature "ResourceController" do
 
     context "with token in the header" do
       before { @headers = Hash["Authorization", "OAuth2 #{@token_value}"] }
-      before { page.driver.hacked_env.merge!(@headers) }
+      before do
+        page.driver.browser.hacked_env.merge!(@headers)
+      end
 
       scenario ".index" do
         visit "/pizzas"
