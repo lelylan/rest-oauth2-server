@@ -61,7 +61,9 @@ module HelperMethods
 
   # Token generation (via POST requests)
   def create_token_uri(attributes)
-    page.driver.post("/oauth/token", attributes.to_json)
+    uri = Addressable::URI.new
+    uri.query_values = attributes
+    page.driver.post("/oauth/token", uri.query)
   end
 
   def response_should_have_access_token

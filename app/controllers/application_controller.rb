@@ -18,13 +18,13 @@ class ApplicationController < ActionController::Base
       @body = if body.empty?
         HashWithIndifferentAccess.new({})
       else
-        HashWithIndifferentAccess.new(JSON.parse(body))
+        HashWithIndifferentAccess.new(Rack::Utils.parse_nested_query body)
       end
     end
 
     def authenticate
       if api_request
-        # oauth_authorized   # uncomment to make all json API protected
+        oauth_authorized   # uncomment to make all json API protected
       else
         session_auth
       end
@@ -61,6 +61,7 @@ class ApplicationController < ActionController::Base
       else
         access = OauthAccess.where(client_uri: @token.client_uri , resource_owner_uri: @token.resource_owner_uri).first
         access.accessed!
+        @current_user = User.where(:_id => @token.resource_owner_uri.split('/').last).first
       end
     end
 

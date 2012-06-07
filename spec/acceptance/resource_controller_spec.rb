@@ -6,7 +6,11 @@ feature "ResourceController" do
     before { @token = FactoryGirl.create(:oauth_access) }
     before { @token = FactoryGirl.create(:oauth_token) }
     before { @token_value = @token.token }
-    before { @token_json  = {token: @token_value}.to_json }
+    before do
+      uri = Addressable::URI.new
+      uri.query_values = {token: @token_value}
+      @token_query = uri.query
+    end
     before { @token.destroy }
 
     scenario ".index" do
@@ -20,24 +24,28 @@ feature "ResourceController" do
     end
 
     scenario ".create" do
-      page.driver.post("/pizzas", @token_json)
+      page.driver.post("/pizzas", @token_query)
       should_not_be_authorized
     end
 
     scenario ".update" do
-      page.driver.put("/pizzas/0", @token_json)
+      page.driver.put("/pizzas/0", @token_query)
       should_not_be_authorized
     end
 
     scenario ".destroy" do
-      page.driver.delete("/pizzas/0", @token_json)
+      page.driver.delete("/pizzas/0", @token_query)
       should_not_be_authorized
     end
   end
 
   context "with single action accesses" do
     before { @token_value = FactoryGirl.create(:oauth_token, scope: ["pizzas/index"]).token }
-    before { @token_json  = {token: @token_value}.to_json }
+    before do
+      uri = Addressable::URI.new
+      uri.query_values = {token: @token_value}
+      @token_query = uri.query
+    end
 
     scenario ".index" do
       visit "/pizzas?token=" + @token_value
@@ -53,7 +61,11 @@ feature "ResourceController" do
 
   context "with read accesses on a resource" do
     before { @token_value = FactoryGirl.create(:oauth_token_read).token }
-    before { @token_json  = {token: @token_value}.to_json }
+    before do
+      uri = Addressable::URI.new
+      uri.query_values = {token: @token_value}
+      @token_query = uri.query
+    end
 
     scenario ".index" do
       visit "/pizzas?token=" + @token_value
@@ -66,17 +78,17 @@ feature "ResourceController" do
     end
 
     scenario ".create" do
-      page.driver.post("/pizzas", @token_json)
+      page.driver.post("/pizzas", @token_query)
       should_not_be_authorized
     end
 
     scenario ".update" do
-      page.driver.put("/pizzas/0", @token_json)
+      page.driver.put("/pizzas/0", @token_query)
       should_not_be_authorized
     end
 
     scenario ".destroy" do
-      page.driver.delete("/pizzas/0", @token_json)
+      page.driver.delete("/pizzas/0", @token_query)
       should_not_be_authorized
     end
   end
@@ -84,7 +96,11 @@ feature "ResourceController" do
 
   context "with all accesses" do
     before { @token_value = FactoryGirl.create(:oauth_token).token }
-    before { @token_json  = {token: @token_value}.to_json }
+    before do
+      uri = Addressable::URI.new
+      uri.query_values = {token: @token_value}
+      @token_query = uri.query
+    end
 
     scenario ".index" do
       visit "/pizzas?token=" + @token_value
@@ -97,17 +113,17 @@ feature "ResourceController" do
     end
 
     scenario ".create" do
-      page.driver.post("/pizzas", @token_json)
+      page.driver.post("/pizzas", @token_query)
       page.should have_content "create"
     end
 
     scenario ".update" do
-      page.driver.put("/pizzas/0", @token_json)
+      page.driver.put("/pizzas/0", @token_query)
       page.should have_content "update"
     end
 
     scenario ".destroy" do
-      page.driver.delete("/pizzas/0", @token_json)
+      page.driver.delete("/pizzas/0", @token_query)
       page.should have_content "destroy"
     end
 

@@ -27,21 +27,21 @@ class Oauth::OauthTokenController < ApplicationController
   def create
     # section 4.1.3 - authorization code flow
     if @body[:grant_type] == "authorization_code"
-      @token = OauthToken.create(client_uri: @client.uri, resource_owner_uri: @authorization.resource_owner_uri, scope: @authorization.scope)
-      @refresh_token = OauthRefreshToken.create(access_token: @token.token)
+      @token = ::OauthToken.create(client_uri: @client.uri, resource_owner_uri: @authorization.resource_owner_uri, scope: @authorization.scope)
+      @refresh_token = ::OauthRefreshToken.create(access_token: @token.token)
       render "/oauth/token" and return
     end
 
     # section 4.3.1 (password credentials flow)
     if @body[:grant_type] == "password"
-      @token = OauthToken.create(client_uri: @client.uri, resource_owner_uri: @resource_owner.uri, scope: @body[:scope])
-      @refresh_token = OauthRefreshToken.create(access_token: @token.token)
+      @token = ::OauthToken.create(client_uri: @client.uri, resource_owner_uri: @resource_owner.uri, scope: @body[:scope])
+      @refresh_token = ::OauthRefreshToken.create(access_token: @token.token)
       render "/oauth/token" and return
     end
 
     # section 6.0 (refresh token)
     if @body[:grant_type] == "refresh_token"
-      @token = OauthToken.create(client_uri: @expired_token.client_uri, resource_owner_uri: @expired_token.resource_owner_uri, scope: @expired_token.scope)
+      @token = ::OauthToken.create(client_uri: @expired_token.client_uri, resource_owner_uri: @expired_token.resource_owner_uri, scope: @expired_token.scope)
       render "/oauth/token" and return
     end
   end
@@ -49,7 +49,7 @@ class Oauth::OauthTokenController < ApplicationController
   # simulate a logout blocking the token
   # TODO: refactoring
   def destroy
-    token = OauthToken.where(token: params[:id]).first
+    token = ::OauthToken.where(token: params[:id]).first
     if token
       token.block!
       return head 200
