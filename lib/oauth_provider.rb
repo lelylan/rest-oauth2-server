@@ -1,4 +1,7 @@
-module Oauth
+module OauthProvider
+  def self.settings
+    @settings ||= YAML.load_file("#{Rails.root}/config/oauth.yml")
+  end
 
   def self.normalize_scope(scope = [])
     scope = scope.split(" ") if scope.kind_of? String
@@ -15,9 +18,9 @@ module Oauth
   # Remove 'no action' keys. For example during normalization
   # we add keys like 'pizza' (resource names) or 'pizza/read'
   # wihch we have to remove to easily make the access recognition
-  # with the bearer token. 
+  # with the bearer token.
   #
-  # NOTE: at the moment are not allowed methods which contain 
+  # NOTE: at the moment are not allowed methods which contain
   # the word "read" because it will be removed
   def self.clean(scope)
     scope = scope.keep_if   {|scope| scope =~ /\// }
@@ -26,3 +29,4 @@ module Oauth
     return scope
   end
 end
+

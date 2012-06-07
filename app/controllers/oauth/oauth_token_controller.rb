@@ -94,7 +94,7 @@ class Oauth::OauthTokenController < ApplicationController
     def normalize_scope
       if @body[:grant_type] == "password"
         @body[:scope] ||= ""
-        @body[:scope] = Oauth.normalize_scope(@body[:scope])
+        @body[:scope] = OauthProvider.normalize_scope(@body[:scope])
       end
     end
 

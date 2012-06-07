@@ -62,15 +62,15 @@ class OauthToken
   private
 
     def random_token
-      self.token = SecureRandom.hex(Oauth.settings["random_length"])
+      self.token = SecureRandom.hex(OauthProvider.settings["random_length"])
     end
 
     def random_refresh_token
-      self.refresh_token = SecureRandom.hex(Oauth.settings["random_length"])
+      self.refresh_token = SecureRandom.hex(OauthProvider.settings["random_length"])
     end
 
     def create_expiration
-      self.expire_at = Chronic.parse("in #{Oauth.settings["token_expires_in"]} seconds")
+      self.expire_at = Chronic.parse("in #{OauthProvider.settings["token_expires_in"]} seconds")
     end
 
 end

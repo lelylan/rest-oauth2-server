@@ -8,7 +8,7 @@
 <div class="field_show">
   <b>Values:</b>
   <%= @scope.values_pretty %>
-  <span class="details">(includes <%= Oauth.normalize_scope(@scope.values_pretty).join(" ") %></span>
+  <span class="details">(includes <%= OauthProvider.normalize_scope(@scope.values_pretty).join(" ") %></span>
 </div>
 
 

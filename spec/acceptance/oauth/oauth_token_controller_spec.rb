@@ -63,7 +63,7 @@ feature "OauthTokenController" do
 
       scenario "fails when authorization is expired" do
         authorization.expire_at # hack (otherwise do not set the time)
-        Delorean.time_travel_to("in #{Oauth.settings["authorization_expires_in"]} seconds")
+        Delorean.time_travel_to("in #{OauthProvider.settings["authorization_expires_in"]} seconds")
         create_token_uri(attributes)
         page.should have_content "Authorization expired"
         page.should have_content "less than 5 seconds"

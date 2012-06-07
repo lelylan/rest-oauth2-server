@@ -64,12 +64,12 @@ class Client
   end
 
   def scope_pretty
-    separator = Oauth.settings["scope_separator"]
+    separator = OauthProvider.settings["scope_separator"]
     scope.join(separator)
   end
 
   def scope_values_pretty
-    separator = Oauth.settings["scope_separator"]
+    separator = OauthProvider.settings["scope_separator"]
     scope_values.join(separator)
   end
 
@@ -95,8 +95,8 @@ class Client
     # scope is modified (changed or removed)
     def sync_clients_with_scope(scope)
       Client.all.each do |client|
-        scope_string = client.scope.join(Oauth.settings["scope_separator"])
-        client.scope_values = Oauth.normalize_scope(scope_string)
+        scope_string = client.scope.join(OauthProvider.settings["scope_separator"])
+        client.scope_values = OauthProvider.normalize_scope(scope_string)
         client.save
       end
     end
@@ -116,7 +116,7 @@ class Client
     end
 
     def random_secret
-      self.secret = SecureRandom.hex(Oauth.settings["random_length"])
+      self.secret = SecureRandom.hex(OauthProvider.settings["random_length"])
     end
 
     def clean

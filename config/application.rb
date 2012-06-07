@@ -16,9 +16,8 @@ module Lelylan
     # -- all .rb files in that directory are automatically loaded.
 
     # Custom directories with classes and modules you want to be autoloadable.
-    # TODO: move in lib/extras the initializers when it makes sense
     config.autoload_paths += %W[
-      #{config.root}/lib/extras
+      #{config.root}/lib
       #{config.root}/app/models/oauth
     ]
 

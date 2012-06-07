@@ -19,7 +19,7 @@ class ClientsController < ApplicationController
     @client = Client.new(params[:client])
     @client.created_from = current_user.uri
     @client.uri          = @client.base_uri(request)
-    @client.scope_values = Oauth.normalize_scope(params[:client][:scope].clone)
+    @client.scope_values = OauthProvider.normalize_scope(params[:client][:scope].clone)
 
     if @client.save
       redirect_to @client, notice: "Resource was successfully created."
@@ -33,7 +33,7 @@ class ClientsController < ApplicationController
 
   def update
     @client.scope = params[:client][:scope]
-    @client.scope_values = Oauth.normalize_scope(params[:client][:scope].clone)
+    @client.scope_values = OauthProvider.normalize_scope(params[:client][:scope].clone)
 
     if @client.update_attributes(params[:client])
       flash.now.notice = "Resource was successfully updated."
@@ -78,7 +78,7 @@ class ClientsController < ApplicationController
     end
 
     def normalize_scope
-      params[:client][:scope] = params[:client][:scope].split(Oauth.settings["scope_separator"])
+      params[:client][:scope] = params[:client][:scope].split(OauthProvider.settings["scope_separator"])
     end
 
     def admin?

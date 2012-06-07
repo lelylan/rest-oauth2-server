@@ -40,7 +40,7 @@ class Oauth::OauthAuthorizeController < ApplicationController
   private
 
     def normalize_scope
-      params[:scope] = Oauth.normalize_scope(params[:scope])
+      params[:scope] = OauthProvider.normalize_scope(params[:scope])
     end
 
 
@@ -121,7 +121,7 @@ class Oauth::OauthAuthorizeController < ApplicationController
     def implicit_redirect_uri(client, token, state)
       uri  = client.redirect_uri
       uri += "#token=" + token.token
-      uri += "&expires_in=" + Oauth.settings["token_expires_in"]
+      uri += "&expires_in=" + OauthProvider.settings["token_expires_in"]
       uri += "&state=" + state if state
       return uri
     end
