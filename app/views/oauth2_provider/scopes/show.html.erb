@@ -1,0 +1,19 @@
+<h2>Show Scope</h2>
+
+<div class="field_show">
+  <b>Name:</b>
+  <%= @scope.name %>
+</div>
+
+<div class="field_show">
+  <b>Values:</b>
+  <%= @scope.values_pretty %>
+  <span class="details">(includes <%= OauthProvider.normalize_scope(@scope.values_pretty).join(" ") %></span>
+</div>
+
+
+<div class="button-group footer_buttons">
+<%= link_to 'Back', oauth2_provider_engine.oauth2_provider_scopes_path, class: "button icon arrowleft" %> 
+<%= link_to 'Edit', oauth2_provider_engine.edit_oauth2_provider_scope_path(@scope), class: "button" %>
+<%= link_to 'Destroy', oauth2_provider_engine.oauth2_provider_scope_path(@scope), :confirm => 'Are you sure?', :method => :delete, class: "button danger" %>
+</div>

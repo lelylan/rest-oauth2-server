@@ -1,0 +1,31 @@
+en:
+  notifications:
+    oauth:
+      client:
+        not_found: "Client not found with the provided params"
+        not_authorized: "Client not authorized with the provided scope"
+        blocked: "Client blocked"
+      response_type:
+        not_valid: "Not valid response type"
+      authorization:
+        not_found: "Authorization not found with the provided params"
+        expired: "Authorization expired"
+      resource_owner:
+        not_found: "User not found with the provided params"
+        blocked_client: "Client blocked from the user (check preferences)"
+      token:
+        not_found: "Access token not found with the provided params"
+        expired: "Access token authorization expired"
+        blocked_token: "Access token blocked from the user (logged out)"
+      refresh_token:
+        not_found: "Refresh token not found with the provided params"
+    document:
+      not_found: "Resource not found"
+      not_valid: "Not valid attributes"
+    json:
+      not_valid: "Not valid JSON"
+      not_array: "Not a valid JSON type associated"
+    pagination:
+      not_valid_page: "Not a valid page"
+      not_valid_per_page: "Not a valid per_page"
+ 

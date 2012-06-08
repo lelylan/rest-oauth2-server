@@ -1,0 +1,9 @@
+<h2>Editing Client</h2>
+
+<div class="header_buttons button-group">
+  <%= link_to 'Back', oauth2_provider_engine.oauth2_provider_clients_path, class: "button icon arrowleft" %>
+  <%= link_to 'Show', oauth2_provider_engine.oauth2_provider_client_path(@client), class: "button" %>
+</div>
+
+<%= render 'form' %>
+

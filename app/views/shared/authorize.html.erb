@@ -1,0 +1,34 @@
+<% unless flash.alert %>
+    <h2>Authorization request</h2>
+    <div>
+      <b>The application <span class="green"><%=@client.name%></span> would like to access your resources</b>
+      <div class="details"> You are giving access to <%= params[:scope].join(" ") %></div>
+
+    <div id="grant" class="footer_buttons">
+      <form method="POST" action="/oauth/authorize">
+        <input type="text" style="display:none" name="response_type" value="<%=params[:response_type]%>">
+        <input type="text" style="display:none" name="client_id" value="<%=params[:client_id]%>">
+        <input type="text" style="display:none" name="redirect_uri" value="<%=params[:redirect_uri]%>">
+        <input type="text" style="display:none" name="scope" value="<%=params[:scope].join(" ")%>">
+        <% if params[:state] %>
+          <input type="text" style="display:none" name="state" value="<%=params[:state]%>">
+        <% end %>
+        <button class="button big icon approve">Grant Access</button>
+      </form>
+    </div>
+
+    <div id="deny">
+      <form method="POST" action="/oauth/authorize">
+        <input type="text" style="display:none" name="_method" value="delete">
+        <input type="text" style="display:none" name="response_type" value="<%=params[:response_type]%>">
+        <input type="text" style="display:none" name="client_id" value="<%=params[:client_id]%>">
+        <input type="text" style="display:none" name="redirect_uri" value="<%=params[:redirect_uri]%>">
+        <input type="text" style="display:none" name="scope" value="<%=params[:scope].join(" ")%>">
+        <% if params[:state] %>
+          <input type="text" style="display:none" name="state" value="<%=params[:state]%>">
+        <% end %>
+        <button class="button big danger icon lock">Deny Access</button>
+      </form>
+    </div>
+
+  <% end %>

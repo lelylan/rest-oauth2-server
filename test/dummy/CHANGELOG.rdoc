@@ -1,0 +1,67 @@
+= Changelog
+
+
+== Release v0.3.1 (2011/04/22)
+
+* Added documentation with screenshots
+* Added tag system on scope definition
+* Added basic graph with access token stats
+
+
+== Release v0.3.0 (2011/04/21)
+
+* Added refined UI for the dashboard section
+* Updated documentation
+
+
+== Release v0.2.3 (2011/04/19)
+
+* Added redirect to last URI before logging in
+* Added functionality to block the access of a user resource in
+behalf of a specific client
+* Added client access and stats to every user in the dashboard
+* Added functionality to block a client (only admin can do this)
+* Added UI to automatically set admin the first user which 
+register into the OAuth Server
+* Added autoupdate of scopes to all clients when one of them 
+changes
+
+
+== Release v0.2.2 (2011/04/18)
+
+* Added documentation on scope definition, action authorization, testing 
+framework and oauth flow testing code.
+
+
+== Release v0.2.1 (2011/04/15)
+
+* Added bearer token protection simply adding the filter 
+<tt>before_filter :oauth_authorized<tt> on the conrtoller
+* Added dynamic scope setting. Now is possible to set the 
+scopes directly in the admin interface, and easily protect 
+every method inside a controller.
+* Added dashboard for admin to add scopes and monitor all
+registered users
+* Added dashboard to control and create clients
+* Added dashboard to edit user info
+
+
+== Release v0.2.0 (2011/04/06)
+
+* Added refresh token mechanisms
+* Removed unuseful gems
+* Changed denied message from access=denied to error=access_denied
+* Introduced test to block of single token (idea of logout)
+* Changed oauth/authorize with /oauth/authorization to make sistem more REST
+* Redefinition of all documentation, more simple and complete
+
+
+== Release v0.1.1 (2011/03/29)
+
+* Added documentation explaining the authorization flows
+
+
+== Release v0.1.0 (2011/03/29)
+
+* Added documentation explaining the existing flows
+* Added OAuth2 server with acceptance tests

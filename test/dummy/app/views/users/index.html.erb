@@ -1,0 +1,20 @@
+<h2>Show Users</h2>
+
+<table>
+  <tr>
+    <th>Email</th>
+    <th>Name</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @users.each do |user| %>
+  <tr>
+    <td><%= user.email %></td>
+    <td><%= user.name %></td>
+    <td><%= link_to 'Show', user, class: "button" %></td>
+    <td><%= link_to 'Edit', edit_user_path(user), class: "button" %></td>
+  </tr>
+<% end %>
+</table>

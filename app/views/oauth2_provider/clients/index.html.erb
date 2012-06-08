@@ -1,0 +1,43 @@
+<h2>Show Clients</h2>
+<div class="header_buttons">
+  <%= link_to 'Create a new client', oauth2_provider_engine.new_oauth2_provider_client_path, class: "button icon add" %>
+</div>
+
+<table>
+  <tr>
+    <% if current_user.admin? %>
+      <th>User</th>
+    <% end %>
+    <th>Name</th>
+    <th>Active</th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @clients.each do |client| %>
+  <tr>
+    <% if current_user.admin? %>
+      <td><%= link_to User, client.created_from %></td>
+    <% end %>
+    <td><%= client.name %></td>
+    <% unless current_user.admin? %>
+      <td><%= client.blocked? ? "Not Active" : "Active" %></td>
+    <% end %>
+    <td><%= link_to 'Show', oauth2_provider_engine.oauth2_provider_client_path(client), class: "button" %></td>
+    <td><%= link_to 'Edit', oauth2_provider_engine.edit_oauth2_provider_client_path(client), class: "button" %></td>
+    <td><%= link_to 'Destroy', oauth2_provider_engine.oauth2_provider_client_path(client), confirm: 'Are you sure?', method: :delete, class: "button danger" %></td>
+    <% if current_user.admin? %>
+      <% if client.blocked? %>
+        <td><%= link_to 'Unblock!', oauth2_provider_engine.unblock_oauth2_provider_client_path(client), method: :put, class: "button danger icon unlock" %></td>
+      <% else %>
+        <td><%= link_to 'Block!', oauth2_provider_engine.block_oauth2_provider_client_path(client), method: :put, class: "button danger icon lock" %></td>
+      <% end %>
+    <% end %>
+
+  </tr>
+<% end %>
+</table>
+
+<br/>

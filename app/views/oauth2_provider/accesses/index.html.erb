@@ -1,0 +1,25 @@
+<h2>Show Accesses</h2>
+
+<table>
+  <tr>
+    <th>Client URI</th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @accesses.each do |access| %>
+  <tr>
+    <td><%= access.client_uri %></td>
+    <td><%= link_to 'Show stats', oauth2_provider_engine.oauth2_provider_access_path(access), class: "button icon settings" %></td>
+
+    <% if access.blocked? %>
+      <td><%= link_to 'Unblock!', oauth2_provider_engine.unblock_oauth2_provider_access_path(access), method: :put, class: "button danger" %></td>
+    <% else %>
+      <td><%= link_to 'Block!', oauth2_provider_engine.block_oauth2_provider_access_path(access), method: :put, class: "button danger" %></td>
+    <% end %>
+
+  </tr>
+<% end %>
+</table>
+
+<br/>

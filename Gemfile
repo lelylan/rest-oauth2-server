@@ -1,7 +1,10 @@
 source 'http://rubygems.org'
 source 'http://gemcutter.org'
 
+gemspec
+
 gem 'rails'
+gem "jquery-rails"
 gem 'mongoid'
 gem 'bson_ext'
 gem 'yajl-ruby'

@@ -1,0 +1,4 @@
+token_expires_in: "1800"
+authorization_expires_in: "150"
+random_length: 32
+scope_separator: " "

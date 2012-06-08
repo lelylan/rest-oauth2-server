@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"> 
+  <title>Rest OAuth 2.0 Server</title>
+  <%= stylesheet_link_tag :all %>
+  <%= javascript_include_tag :defaults %>
+  <%= javascript_include_tag "jquery.tagsinput.js", "highcharts.js" %>
+  <%= csrf_meta_tag %>
+</head>
+
+<body">
+  <div class="container">
+    <% unless request.path == oauth2_provider_engine.oauth2_provider_authorize_path %>
+      <a class="ribbon" href="https://github.com/lelylan/rest-oauth2-server" target="_blank"><img src="http://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
+
+      <div class="header">
+        <h1>OAuth 2.0 Provider Engine</h1>
+        <p>
+          <b><a href="https://github.com/lelylan/rest-oauth2-server" title="GitHub repository">OAuth 2.0 Provider Engine</a> 
+            let you open up your API and manage end-user authentication and client application authorization 
+            implementing the OAuth 2.0 Specifications (draft 13). Read more on <a href="https://github.com/lelylan/rest-oauth2-server" title="GitHub readme">Github</a>
+          </b>
+        </p>
+      </div>
+    <% end %>
+      <div class="navigation">
+        <% if current_user %>
+          <div>
+            <%= link_to("Base Application", '/')  %> |
+            <%= link_to("Accesses", oauth2_provider_engine.oauth2_provider_accesses_path)  %> |
+            <%= link_to("Clients", oauth2_provider_engine.oauth2_provider_clients_path)  %>
+            <% if current_user.admin? %> |
+              <%= link_to("Scopes", oauth2_provider_engine.oauth2_provider_scopes_path) %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+      <br/>
+
+
+    <% if flash.notice %>
+      <div class="flash_notice">
+        <%= flash.notice %>
+      </div>
+    <% end %>
+
+    <% if flash.alert %>
+      <div class=flash_alert>
+        <%= flash.alert %>
+        <% if @info %>
+          <p>Additional information: 
+          <%= @info.to_json%>
+          </p>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%= yield %>
+
+  </div>
+</body>
+</html>

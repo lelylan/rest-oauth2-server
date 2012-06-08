@@ -1,0 +1,8 @@
+<h2>Editing Scope</h2>
+
+<div class="button-group header_buttons">
+  <%= link_to 'Back', oauth2_provider_engine.oauth2_provider_scopes_path, class: "button icon arrowleft" %>
+  <%= link_to 'Show', oauth2_provider_engine.oauth2_provider_scope_path(@scope), class: "button" %>
+</div>
+
+<%= render 'form' %>

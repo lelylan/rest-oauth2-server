@@ -1,0 +1,35 @@
+<%
+  form_options = { as: :scope }
+  if @scope.new_record?
+    form_options.merge! :url => oauth2_provider_engine.oauth2_provider_scopes_path, :method => :post
+  else
+    form_options.merge! :url => oauth2_provider_engine.oauth2_provider_scope_path(@scope.id), :method => :put
+  end
+%>
+<%= form_for @scope, form_options do |f| %>
+
+  <% if @scope.errors.any? %>
+    <div id="error_explanation">
+      <div><%= pluralize(@scope.errors.count, "error") %> prohibited this resource from being saved</div>
+      <ul>
+      <% @scope.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :values %> (separated by spaces)<br />
+    <input id="scope_values" class="tags" name="scope[values]" size="30" type="text" value="<%=@scope.values.join(" ") if @scope.values%>">
+  </div>
+
+  <div class="actions">
+    <%= f.submit nil, {class: "button" } %>
+  </div>
+<% end %>

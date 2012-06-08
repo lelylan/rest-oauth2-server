@@ -1,0 +1,27 @@
+<h2>Show Scope</h2>
+
+<div class="header_buttons">
+  <%= link_to 'Create a new scope', oauth2_provider_engine.new_oauth2_provider_scope_path, class: "button icon add" %>
+</div>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Values</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @scopes.each do |scope| %>
+  <tr>
+    <td><b><%= scope.name %></b></td>
+    <td><%= scope.values_pretty %></td>
+    <td><%= link_to 'Show', oauth2_provider_engine.oauth2_provider_scope_path(scope), class: "button" %></td>
+    <td><%= link_to 'Edit', oauth2_provider_engine.edit_oauth2_provider_scope_path(scope), class: "button" %></td>
+    <td><%= link_to 'Destroy', oauth2_provider_engine.oauth2_provider_scope_path(scope), :confirm => 'Are you sure?', :method => :delete, class: "button danger" %></td>
+  </tr>
+<% end %>
+</table>
+
+<br/>
