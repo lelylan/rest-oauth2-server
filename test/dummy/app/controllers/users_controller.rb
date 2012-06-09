@@ -17,7 +17,6 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(params[:user])
-    @user.uri = @user.base_uri(request)
     @user.admin = true if admin_does_not_exist
     if @user.save
       redirect_to root_url, :notice => "Signed up!"
@@ -42,7 +41,7 @@ class UsersController < ApplicationController
   private
 
     def find_user
-      @user = current_user.admin? ? User.criteria : User.where(uri: current_user.uri)
+      @user = current_user.admin? ? User.criteria : User.where(_id: current_user.id.to_s)
       @user = @user.where(_id: params[:id]).first
       unless @user
         redirect_to root_path, alert: "Resource not found."

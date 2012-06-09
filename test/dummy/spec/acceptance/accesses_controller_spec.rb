@@ -6,6 +6,7 @@ feature "Oauth2Provider::AccessesController" do
   before { @client = FactoryGirl.create(:client) }
   before { @token  = FactoryGirl.create(:oauth_token) }
   before { @access = FactoryGirl.create(:oauth_access) }
+  before { Oauth2Provider::AccessesController.any_instance.stub(:user_url).with(@user).and_return( USER_URI ) }
 
   context ".index" do
     before { @uri = "/oauth/accesses" }

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Scope do
+describe Oauth2Provider::Scope do
   before  { @scope = FactoryGirl.create(:scope, values: ALL_SCOPE) }
   subject { @scope }
 

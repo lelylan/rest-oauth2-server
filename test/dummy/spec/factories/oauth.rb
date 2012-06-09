@@ -6,49 +6,46 @@ FactoryGirl.define do
   factory :user do
      email "alice@example.com"
      password "example"
-     uri USER_URI
      admin false
   end
 
   factory :user_bob, class: User do
      email "bob@example.com"
      password "example"
-     uri ANOTHER_USER_URI
      admin false
   end
 
   factory :admin, class: User do
      email "admin@example.com"
      password "example"
-     uri ADMIN_URI
      admin true
   end
 
-  factory :oauth_access do
+  factory :oauth_access, class: Oauth2Provider::OauthAccess do
     client_uri CLIENT_URI
     resource_owner_uri USER_URI
   end
 
 
-  factory :oauth_authorization do
+  factory :oauth_authorization, class: Oauth2Provider::OauthAuthorization do
+    client_uri CLIENT_URI
+    resource_owner_uri USER_URI
+    scope ALL_SCOPE
+  end
+
+
+  factory :oauth_token, class: Oauth2Provider::OauthToken do
     client_uri CLIENT_URI
     resource_owner_uri USER_URI
     scope ALL_SCOPE
   end
 
-
-  factory :oauth_token do
-    client_uri CLIENT_URI
-    resource_owner_uri USER_URI
-    scope ALL_SCOPE
-  end
-  
   factory :oauth_token_read, parent: :oauth_token do
     scope READ_SCOPE
   end
 
 
-  factory :client do
+  factory :client, class: Oauth2Provider::Client do
     uri CLIENT_URI
     name "the client"
     created_from USER_URI
@@ -69,7 +66,7 @@ FactoryGirl.define do
   end
 
 
-  factory :scope do
+  factory :scope, class: Oauth2Provider::Scope do
     uri SCOPE_URI
     name "pizzas"
   end

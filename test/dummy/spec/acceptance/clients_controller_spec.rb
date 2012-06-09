@@ -1,9 +1,9 @@
 require File.expand_path(File.dirname(__FILE__) + '/acceptance_helper')
 
 feature "ClientsController" do
-  before { Client.destroy_all }
+  before { Oauth2Provider::Client.destroy_all }
   before { User.destroy_all }
-  before { Scope.destroy_all }
+  before { Oauth2Provider::Scope.destroy_all }
   before { host! "http://" + host }
   before { @user = FactoryGirl.create(:user) }
   before { @user_bob   = FactoryGirl.create(:user_bob) }
@@ -12,6 +12,7 @@ feature "ClientsController" do
   before { @client_not_owned = FactoryGirl.create(:client_not_owned) }
   before { @scope_read = FactoryGirl.create(:scope_pizzas_read) }
   before { @scope_all = FactoryGirl.create(:scope_pizzas_all) }
+  before { Oauth2Provider::ClientsController.any_instance.stub(:user_url).with(@user).and_return( USER_URI ) }
 
 
   context ".index" do
@@ -126,7 +127,7 @@ feature "ClientsController" do
           visit @uri
           fill_client()
           click_button 'Create Client'
-          @client = Client.last
+          @client = Oauth2Provider::Client.last
         end
 
         scenario "create a resource" do
@@ -135,11 +136,7 @@ feature "ClientsController" do
         end
 
         scenario "assign URI field" do
-          @client.uri.should == host + "/clients/" + @client.id.as_json
-        end
-
-        scenario "assign created_from field" do
-          @client.created_from == @user.uri
+          @client.uri.should == host + "/oauth/clients/" + @client.id.as_json
         end
       end
 

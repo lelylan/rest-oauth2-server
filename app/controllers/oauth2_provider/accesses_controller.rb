@@ -23,7 +23,7 @@ class Oauth2Provider::AccessesController < Oauth2Provider::ApplicationController
   private
 
     def find_accesses
-      @accesses = OauthAccess.where(resource_owner_uri: current_user.uri)
+      @accesses = Oauth2Provider::OauthAccess.where(resource_owner_uri: user_url(current_user))
     end
 
     def find_access

@@ -1,4 +1,5 @@
-class Oauth2Provider::ClientsController < Oauth2Provider::ApplicationController
+module Oauth2Provider
+  class ClientsController < Oauth2Provider::ApplicationController
   before_filter :find_clients
   before_filter :find_client, only: ["show", "edit", "update", "destroy", "block", "unblock"]
   before_filter :normalize_scope, only: ["create", "update"]
@@ -17,9 +18,9 @@ class Oauth2Provider::ClientsController < Oauth2Provider::ApplicationController
 
   def create
     @client = Client.new(params[:client])
-    @client.created_from = current_user.uri
+    @client.created_from = user_url(current_user)
     @client.uri          = @client.base_uri(request)
-    @client.scope_values = OauthProvider.normalize_scope(params[:client][:scope].clone)
+    @client.scope_values = Oauth2Provider.normalize_scope(params[:client][:scope].clone)
 
     if @client.save
       redirect_to oauth2_provider_engine.oauth2_provider_client_path( @client ), notice: "Resource was successfully created."
@@ -33,7 +34,7 @@ class Oauth2Provider::ClientsController < Oauth2Provider::ApplicationController
 
   def update
     @client.scope = params[:client][:scope]
-    @client.scope_values = OauthProvider.normalize_scope(params[:client][:scope].clone)
+    @client.scope_values = Oauth2Provider.normalize_scope(params[:client][:scope].clone)
 
     if @client.update_attributes(params[:client])
       flash.now.notice = "Resource was successfully updated."
@@ -64,9 +65,9 @@ class Oauth2Provider::ClientsController < Oauth2Provider::ApplicationController
 
     def find_clients
       if current_user.admin?
-        @clients = Client.criteria
+        @clients = Oauth2Provider::Client.criteria
       else
-        @clients = Client.where(created_from: current_user.uri)
+        @clients = Oauth2Provider::Client.where(created_from: user_url(current_user))
       end
     end
 
@@ -78,7 +79,7 @@ class Oauth2Provider::ClientsController < Oauth2Provider::ApplicationController
     end
 
     def normalize_scope
-      params[:client][:scope] = params[:client][:scope].split(OauthProvider.settings["scope_separator"])
+      params[:client][:scope] = params[:client][:scope].split(Oauth2Provider.settings["scope_separator"])
     end
 
     def admin?
@@ -89,4 +90,5 @@ class Oauth2Provider::ClientsController < Oauth2Provider::ApplicationController
       end
     end
 
+end
 end

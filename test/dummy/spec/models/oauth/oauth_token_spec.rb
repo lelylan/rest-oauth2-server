@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe OauthToken do
+describe Oauth2Provider::OauthToken do
   before  { @token = FactoryGirl.create(:oauth_token) }
   subject { @token }
 
@@ -20,7 +20,7 @@ describe OauthToken do
 
   context ".block_client!" do
     before { @another_client_token = FactoryGirl.create(:oauth_token, client_uri: ANOTHER_CLIENT_URI) }
-    before { OauthToken.block_client!(CLIENT_URI) }
+    before { Oauth2Provider::OauthToken.block_client!(CLIENT_URI) }
 
     it { @token.reload.should be_blocked }
     it { @another_client_token.should_not be_blocked }
@@ -29,7 +29,7 @@ describe OauthToken do
   context ".block_access!" do
     before { @another_client_token = FactoryGirl.create(:oauth_token, client_uri: ANOTHER_CLIENT_URI)}
     before { @another_owner_token  = FactoryGirl.create(:oauth_token, resource_owner_uri: ANOTHER_USER_URI) }
-    before { OauthToken.block_access!(CLIENT_URI, USER_URI) }
+    before { Oauth2Provider::OauthToken.block_access!(CLIENT_URI, USER_URI) }
 
     it { @token.reload.should be_blocked }
     it { @another_client_token.should_not be_blocked }
@@ -38,7 +38,7 @@ describe OauthToken do
 
   context ".exist" do
     it "should find the token" do
-      existing = OauthToken.exist(@token.client_uri,
+      existing = Oauth2Provider::OauthToken.exist(@token.client_uri,
                                   @token.resource_owner_uri,
                                   @token.scope).first
       existing.should_not be_nil
@@ -48,7 +48,7 @@ describe OauthToken do
 
   it "#expired?" do
     subject.should_not be_expired
-    Delorean.time_travel_to("in #{OauthProvider.settings["token_expires_in"]} seconds")
+    Delorean.time_travel_to("in #{Oauth2Provider.settings["token_expires_in"]} seconds")
     subject.should be_expired
   end
 

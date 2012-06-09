@@ -5,18 +5,18 @@ class Oauth2Provider::ScopesController < Oauth2Provider::ApplicationController
   after_filter  :sync_existing_scopes, only: ["update", "destroy"]
 
   def index
-    @scopes = Scope.all
+    @scopes = Oauth2Provider::Scope.all
   end
 
   def show
   end
 
   def new
-    @scope = Scope.new
+    @scope = Oauth2Provider::Scope.new
   end
 
   def create
-    @scope        = Scope.new(params[:scope])
+    @scope        = Oauth2Provider::Scope.new(params[:scope])
     @scope.uri    = @scope.base_uri(request)
     @scope.values = @scope.normalize(params[:scope][:values])
 
@@ -49,7 +49,7 @@ class Oauth2Provider::ScopesController < Oauth2Provider::ApplicationController
   private
 
     def find_resource
-      @scope = Scope.where(_id: params[:id]).first
+      @scope = Oauth2Provider::Scope.where(_id: params[:id]).first
       unless @scope
         redirect_to root_path, alert: "Resource not found."
       end
@@ -57,7 +57,7 @@ class Oauth2Provider::ScopesController < Oauth2Provider::ApplicationController
 
     # TODO: put into a background process
     def sync_existing_scopes
-      Client.sync_clients_with_scope(@scope.name)
+      Oauth2Provider::Client.sync_clients_with_scope(@scope.name)
     end
 
     def admin?

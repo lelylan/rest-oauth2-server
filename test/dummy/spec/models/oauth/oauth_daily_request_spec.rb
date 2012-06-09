@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe OauthToken do
+describe Oauth2Provider::OauthToken do
 
   let(:access) { FactoryGirl.create(:oauth_access) }
   let(:time) { Chronic.parse("17 august 1982") }

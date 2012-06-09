@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::Base
-  include Lelylan::Rescue::Helpers
 
   protect_from_forgery
 
@@ -54,12 +53,12 @@ class ApplicationController < ActionController::Base
     def oauth_authorized
       action = params[:controller] + "/" + params[:action]
       normalize_token
-      @token = OauthToken.where(token: params[:token]).all_in(scope: [action]).first
+      @token = Oauth2Provider::OauthToken.where(token: params[:token]).all_in(scope: [action]).first
       if @token.nil? or @token.blocked?
         render text: "Unauthorized access.", status: 401
         return false
       else
-        access = OauthAccess.where(client_uri: @token.client_uri , resource_owner_uri: @token.resource_owner_uri).first
+        access = Oauth2Provider::OauthAccess.where(client_uri: @token.client_uri , resource_owner_uri: @token.resource_owner_uri).first
         access.accessed!
         @current_user = User.where(:_id => @token.resource_owner_uri.split('/').last).first
       end
@@ -80,4 +79,15 @@ class ApplicationController < ActionController::Base
       User.where(admin: true).first.nil?
     end
 
+    def bson_invalid_object_id(e)
+      redirect_to root_path, alert: "Resource not found."
+    end
+
+    def json_parse_error(e)
+      redirect_to root_path, alert: "Json not valid"
+    end
+
+    def mongoid_errors_invalid_type(e)
+      redirect_to root_path, alert: "Json values is not an array"
+    end
 end

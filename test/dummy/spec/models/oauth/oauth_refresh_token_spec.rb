@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe OauthRefreshToken do
+describe Oauth2Provider::OauthRefreshToken do
   before  { @token = FactoryGirl.create(:oauth_token) }
-  before  { @refresh_token = OauthRefreshToken.create(access_token: @token.token) }
+  before  { @refresh_token = Oauth2Provider::OauthRefreshToken.create(access_token: @token.token) }
   subject { @refresh_token }
 
   it { should validate_presence_of :access_token }

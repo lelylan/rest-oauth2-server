@@ -1,5 +1,5 @@
 require 'spec_helper'
-
+module Oauth2Provider
 describe Client do
   before  { @client = FactoryGirl.create(:client) }
   subject { @client }
@@ -138,4 +138,4 @@ describe Client do
   end
 
 end
-
+end

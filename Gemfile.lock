@@ -2,7 +2,11 @@ PATH
   remote: .
   specs:
     oauth2_provider (0.0.1)
+      bson_ext
+      jquery-rails
+      mongoid
       rails (~> 3.2.5)
+      validate_url
 
 GEM
   remote: http://rubygems.org/

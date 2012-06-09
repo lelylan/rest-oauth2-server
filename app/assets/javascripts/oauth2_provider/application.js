@@ -1,15 +1,52 @@
-// This is a manifest file that'll be compiled into application.js, which will include all the files
-// listed below.
-//
-// Any JavaScript/Coffee file within this directory, lib/assets/javascripts, vendor/assets/javascripts,
-// or vendor/assets/javascripts of plugins, if any, can be referenced here using a relative path.
-//
-// It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
-// the compiled file.
-//
-// WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
-// GO AFTER THE REQUIRES BELOW.
-//
-//= require jquery
-//= require jquery_ujs
-//= require_tree .
+// Place your application-specific JavaScript functions and classes here
+// This file is automatically included by javascript_include_tag :defaults
+
+$(document).ready(function () {
+  $('input.tags').tagsInput({
+    'unique':true,
+    'delimiter':" ",
+    'defaultText':'add a scope',
+    'height':'78px',
+    'width':'295px'
+  });
+});
+
+var chart;
+function createChart(days, times, uri) {
+   chart = new Highcharts.Chart({
+      chart: {
+         renderTo: 'chart',
+         defaultSeriesType: 'line',
+         marginRight: 30,
+         marginBottom: 50
+      },
+      title: { text: 'Daily access rate for client' },
+      subtitle: { text: uri },
+      xAxis: {
+         categories: days
+      },
+      yAxis: {
+         title: { text: 'Number of requests' },
+         plotLines: [{ value: 0, width: 1, color: '#808080' }]
+      },
+      tooltip: {
+         formatter: function() {
+           return 'Accesses ' + this.x +'<br/><b>' + this.y + ' times</b>';
+         }
+      },
+      legend: {
+         layout: 'vertical',
+         align: 'right',
+         verticalAlign: 'top',
+         x: -10,
+         y: 10,
+         borderWidth: 0
+      },
+      series: [{
+         name: 'accesses',
+         data: times
+      }]
+   });
+};
+
+

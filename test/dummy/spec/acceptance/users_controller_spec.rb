@@ -91,11 +91,6 @@ feature "UsersController" do
       scenario "create a resource" do
         page.should have_content "Signed up"
       end
-
-      scenario "assign an URI to the resource" do
-        @user = User.last
-        @user.uri.should == host + "/users/" + @user.id.as_json
-      end
     end
 
     context "when not valid" do

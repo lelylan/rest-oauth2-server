@@ -20,13 +20,13 @@ class Oauth2Provider::AuthorizeController < Oauth2Provider::ApplicationControlle
 
     # section 4.1.1 - authorization code flow
     if params[:response_type] == "code"
-      @authorization = ::OauthAuthorization.create(client_uri: @client.uri, resource_owner_uri: current_user.uri, scope: params[:scope])
+      @authorization = Oauth2Provider::OauthAuthorization.create(client_uri: @client.uri, resource_owner_uri: user_url(current_user), scope: params[:scope])
       redirect_to authorization_redirect_uri(@client, @authorization, params[:state])
     end
 
     # section 4.2.1 - implicit grant flow
     if params[:response_type] == "token"
-      @token = ::OauthToken.create(client_uri: @client.uri, resource_owner_uri: current_user.uri, scope: params[:scope])
+      @token = Oauth2Provider::OauthToken.create(client_uri: @client.uri, resource_owner_uri: user_url(current_user), scope: params[:scope])
       redirect_to implicit_redirect_uri(@client, @token, params[:state])
     end
   end
@@ -40,12 +40,12 @@ class Oauth2Provider::AuthorizeController < Oauth2Provider::ApplicationControlle
   private
 
     def normalize_scope
-      params[:scope] = OauthProvider.normalize_scope(params[:scope])
+      params[:scope] = Oauth2Provider.normalize_scope(params[:scope])
     end
 
 
     def find_client
-      @client = Client.where_uri(params[:client_id], params[:redirect_uri])
+      @client = Oauth2Provider::Client.where_uri(params[:client_id], params[:redirect_uri])
       client_not_found unless @client.first
     end
 
@@ -59,13 +59,13 @@ class Oauth2Provider::AuthorizeController < Oauth2Provider::ApplicationControlle
     end
 
     def access_blocked?
-      access = ::OauthAccess.find_or_create_by(:client_uri => @client.uri, resource_owner_uri: current_user.uri)
+      access = Oauth2Provider::OauthAccess.find_or_create_by(:client_uri => @client.uri, resource_owner_uri: user_url(current_user))
       access_blocked if access.blocked?
     end
 
     def token_blocked?
       if params[:response_type] == "token"
-        @token = ::OauthToken.exist(@client.uri, current_user.uri, params[:scope]).first
+        @token = Oauth2Provider::OauthToken.exist(@client.uri, user_url(current_user), params[:scope]).first
         token_blocked if @token and @token.blocked?
       end
     end
@@ -73,7 +73,7 @@ class Oauth2Provider::AuthorizeController < Oauth2Provider::ApplicationControlle
     # @only refresh token for implicit flow
     def refresh_token
       if @token
-        @token = ::OauthToken.create(client_uri: @client.uri, resource_owner_uri: current_user.uri, scope: params[:scope])
+        @token = Oauth2Provider::OauthToken.create(client_uri: @client.uri, resource_owner_uri: user_url(current_user), scope: params[:scope])
         redirect_to implicit_redirect_uri(@client, @token, params[:state]) and return
       end
     end
@@ -121,7 +121,7 @@ class Oauth2Provider::AuthorizeController < Oauth2Provider::ApplicationControlle
     def implicit_redirect_uri(client, token, state)
       uri  = client.redirect_uri
       uri += "#token=" + token.token
-      uri += "&expires_in=" + OauthProvider.settings["token_expires_in"]
+      uri += "&expires_in=" + Oauth2Provider.settings["token_expires_in"]
       uri += "&state=" + state if state
       return uri
     end

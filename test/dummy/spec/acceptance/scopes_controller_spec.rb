@@ -101,7 +101,7 @@ feature "ScopesController" do
             visit @uri
             fill_scope("pizza/read", "pizza/index pizza/show")
             click_button 'Create Scope'
-            @scope = Scope.last
+            @scope = Oauth2Provider::Scope.last
           end
 
           scenario "create a resource" do
@@ -110,7 +110,7 @@ feature "ScopesController" do
           end
 
           scenario "assign an URI to the resource" do
-            @scope.uri.should == host + "/scopes/" + @scope.id.as_json
+            @scope.uri.should == host + "/oauth/scopes/" + @scope.id.as_json
           end
         end
 
@@ -181,7 +181,7 @@ feature "ScopesController" do
         context "update clients'scopes" do
 
           before do
-            Scope.destroy_all
+            Oauth2Provider::Scope.destroy_all
             @scope = FactoryGirl.create(:scope_pizzas_all)
             @scope_read = FactoryGirl.create(:scope_pizzas_read)
             @client = FactoryGirl.create(:client)
