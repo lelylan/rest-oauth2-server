@@ -1,5 +1,6 @@
 require 'mongoid'
 require 'validate_url'
+require 'chronic'
 require "oauth2_provider/engine"
 
 module Oauth2Provider
