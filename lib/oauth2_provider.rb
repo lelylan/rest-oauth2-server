@@ -2,6 +2,7 @@ require 'mongoid'
 require 'validate_url'
 require 'chronic'
 require "oauth2_provider/engine"
+require "oauth2_provider/controller_mixin"
 
 module Oauth2Provider
   def self.settings
