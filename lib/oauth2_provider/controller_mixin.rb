@@ -35,7 +35,7 @@ module Oauth2Provider
       else
         access = Oauth2Provider::OauthAccess.where(client_uri: @token.client_uri , resource_owner_uri: @token.resource_owner_uri).first
         access.accessed!
-        @current_user = User.where(:_id => @token.resource_owner_uri.split('/').last).first
+        @current_user = User.find_by_id(@token.resource_owner_uri.split('/').last)
       end
     end
 
