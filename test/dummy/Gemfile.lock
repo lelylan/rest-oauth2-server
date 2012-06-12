@@ -1,3 +1,9 @@
+GIT
+  remote: git://github.com/timgaleckas/orm_adapter.git
+  revision: e4ae617d8eea6c50ca1a4db9de4a12669868119a
+  specs:
+    orm_adapter (0.1.0)
+
 PATH
   remote: ../..
   specs:
@@ -6,6 +12,7 @@ PATH
       chronic
       jquery-rails
       mongoid
+      orm_adapter
       rails (~> 3.2.5)
       validate_url
 
@@ -67,13 +74,13 @@ GEM
     coffee-script (2.2.0)
       coffee-script-source
       execjs
-    coffee-script-source (1.2.0)
+    coffee-script-source (1.3.3)
     columnize (0.3.6)
     database_cleaner (0.8.0)
-    debugger (1.1.3)
+    debugger (1.1.4)
       columnize (>= 0.3.1)
       debugger-linecache (~> 1.1.1)
-      debugger-ruby_core_source (~> 1.1.2)
+      debugger-ruby_core_source (~> 1.1.3)
     debugger-linecache (1.1.1)
       debugger-ruby_core_source (>= 1.1.1)
     debugger-ruby_core_source (1.1.3)
@@ -83,12 +90,12 @@ GEM
     email_validator (1.3.0)
       activemodel
     erubis (2.7.0)
-    execjs (1.3.0)
+    execjs (1.4.0)
       multi_json (~> 1.0)
-    factory_girl (3.3.0)
+    factory_girl (3.4.0)
       activesupport (>= 3.0.0)
-    factory_girl_rails (3.3.0)
-      factory_girl (~> 3.3.0)
+    factory_girl_rails (3.4.0)
+      factory_girl (~> 3.4.0)
       railties (>= 3.0.0)
     ffi (1.0.11)
     fuubar (1.0.0)
@@ -118,7 +125,7 @@ GEM
       mongo (<= 1.6.2)
       tzinfo (~> 0.3.22)
     multi_json (1.3.6)
-    nokogiri (1.5.3)
+    nokogiri (1.5.4)
     polyglot (0.3.3)
     rack (1.4.1)
     rack-cache (1.2)
@@ -163,7 +170,7 @@ GEM
       rspec (>= 2)
     ruby-progressbar (0.0.10)
     rubyzip (0.9.8)
-    sass (3.1.15)
+    sass (3.1.19)
     sass-rails (3.2.5)
       railties (~> 3.2.0)
       sass (>= 3.1.10)
@@ -193,7 +200,7 @@ GEM
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (0.3.33)
-    uglifier (1.2.3)
+    uglifier (1.2.4)
       execjs (>= 0.3.0)
       multi_json (>= 1.0.2)
     validate_url (0.2.0)
@@ -229,6 +236,7 @@ DEPENDENCIES
   launchy
   mongoid
   oauth2_provider!
+  orm_adapter!
   rack-ssl
   rails (= 3.2.5)
   rspec-rails

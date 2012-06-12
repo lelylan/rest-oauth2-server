@@ -1,9 +1,9 @@
 class Oauth2Provider::AccessesController < Oauth2Provider::ApplicationController
 
-  before_filter :_oauth_provider_find_accesses
-  before_filter :_oauth_provider_find_access, except: "index"
+  before_filter :_oauth_provider_find_access, except: :index
 
   def index
+    @accesses = Oauth2Provider::OauthAccess.to_adapter.find_all(resource_owner_uri: user_url(current_user))
   end
 
   def show
@@ -21,24 +21,19 @@ class Oauth2Provider::AccessesController < Oauth2Provider::ApplicationController
 
 
   private
-
-    def _oauth_provider_find_accesses
-      @accesses = Oauth2Provider::OauthAccess.where(resource_owner_uri: user_url(current_user))
+  def _oauth_provider_find_access
+    @access = Oauth2Provider::OauthAccess.to_adapter.find_first(resource_owner_uri: user_url(current_user), id: params[:id])
+    unless @access
+      redirect_to root_path, alert: "Resource not found."
     end
+  end
 
-    def _oauth_provider_find_access
-      @access = @accesses.where(:_id => params[:id]).first
-      unless @access
-        redirect_to root_path, alert: "Resource not found."
-      end
-    end
-
-    # TODO: change this behavior with a simple redirect
-    def resource_not_found
-      flash.now.alert = "notifications.document.not_found"
-      @info = { id: params[:id] }
-      render "shared/html/404" and return
-    end
+  # TODO: change this behavior with a simple redirect
+  def resource_not_found
+    flash.now.alert = "notifications.document.not_found"
+    @info = { id: params[:id] }
+    render "shared/html/404" and return
+  end
 
 end
 

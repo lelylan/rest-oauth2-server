@@ -46,24 +46,6 @@ describe Client do
     end
   end
 
-  context ".find_by_id" do
-    context "without scope" do
-      let(:found) { Client.where_uri(subject.uri, subject.redirect_uri).first }
-      it { found.should_not be_nil }
-    end
-
-    context "with valid scope" do
-      let(:found) { Client.where_scope(subject.scope_values).where_uri(subject.uri, subject.redirect_uri).first }
-      it { found.should_not be_nil }
-    end
-
-    # TODO: Understand why with subject it raise error
-    context "with not valid scope" do
-      let(:found) { Client.where_scope(["not.valid"]).where_uri(subject.uri, subject.redirect_uri).first }
-      it { found.should be_nil }
-    end
-  end
-
   context ".find_by_secret" do
     let(:found) { Client.where_secret(subject.secret, subject.uri).first }
     it { found.should_not be_nil }

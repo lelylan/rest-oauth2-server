@@ -1,6 +1,7 @@
 require 'mongoid'
 require 'validate_url'
 require 'chronic'
+require 'orm_adapter'
 require "oauth2_provider/engine"
 require "oauth2_provider/controller_mixin"
 

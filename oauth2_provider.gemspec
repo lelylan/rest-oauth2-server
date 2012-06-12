@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
   s.add_dependency "bson_ext"
   s.add_dependency "validate_url"
   s.add_dependency "chronic"
+  s.add_dependency "orm_adapter"
 
   s.add_development_dependency "sqlite3"
 end
