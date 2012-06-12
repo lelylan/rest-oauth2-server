@@ -13,6 +13,14 @@ class ApplicationController < ActionController::Base
 
   protected
 
+  def authenticate
+    if api_request
+      oauth_authorized   # uncomment to make all json API protected
+    else
+      session_auth
+    end
+  end
+
   def session_auth
     @current_user ||= User.where(:_id => session[:user_id]).first if session[:user_id]
     unless current_user

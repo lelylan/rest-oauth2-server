@@ -1,7 +1,7 @@
 class Oauth2Provider::AccessesController < Oauth2Provider::ApplicationController
 
-  before_filter :find_accesses
-  before_filter :find_access, except: "index"
+  before_filter :_oauth_provider_find_accesses
+  before_filter :_oauth_provider_find_access, except: "index"
 
   def index
   end
@@ -22,11 +22,11 @@ class Oauth2Provider::AccessesController < Oauth2Provider::ApplicationController
 
   private
 
-    def find_accesses
+    def _oauth_provider_find_accesses
       @accesses = Oauth2Provider::OauthAccess.where(resource_owner_uri: user_url(current_user))
     end
 
-    def find_access
+    def _oauth_provider_find_access
       @access = @accesses.where(:_id => params[:id]).first
       unless @access
         redirect_to root_path, alert: "Resource not found."

@@ -1,8 +1,8 @@
 class Oauth2Provider::ScopesController < Oauth2Provider::ApplicationController
 
-  before_filter :admin?
-  before_filter :find_resource, only: ["show", "edit", "update", "destroy"]
-  after_filter  :sync_existing_scopes, only: ["update", "destroy"]
+  before_filter :_oauth_provider_admin?
+  before_filter :_oauth_provider_find_resource, only: ["show", "edit", "update", "destroy"]
+  after_filter  :_oauth_provider_sync_existing_scopes, only: ["update", "destroy"]
 
   def index
     @scopes = Oauth2Provider::Scope.all
@@ -48,7 +48,7 @@ class Oauth2Provider::ScopesController < Oauth2Provider::ApplicationController
 
   private
 
-    def find_resource
+    def _oauth_provider_find_resource
       @scope = Oauth2Provider::Scope.where(_id: params[:id]).first
       unless @scope
         redirect_to root_path, alert: "Resource not found."
@@ -56,16 +56,8 @@ class Oauth2Provider::ScopesController < Oauth2Provider::ApplicationController
     end
 
     # TODO: put into a background process
-    def sync_existing_scopes
+    def _oauth_provider_sync_existing_scopes
       Oauth2Provider::Client.sync_clients_with_scope(@scope.name)
-    end
-
-    def admin?
-      unless current_user.admin?
-        flash.alert = "Unauthorized access."
-        redirect_to root_path
-        return false
-      end
     end
 
 end

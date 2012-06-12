@@ -3,6 +3,7 @@ PATH
   specs:
     oauth2_provider (0.0.1)
       bson_ext
+      chronic
       jquery-rails
       mongoid
       rails (~> 3.2.5)

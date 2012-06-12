@@ -1,14 +1,14 @@
 class Oauth2Provider::AuthorizeController < Oauth2Provider::ApplicationController
 
-  before_filter :authenticate
-  before_filter :normalize_scope
-  before_filter :find_client
-  before_filter :check_scope          # check if the access is authorized
-  before_filter :client_blocked?      # check if the client is blocked
-  before_filter :access_blocked?      # check if user has blocked the client
+  before_filter :_oauth_provider_authenticate
+  before_filter :_oauth_provider_normalize_scope
+  before_filter :_oauth_provider_find_client
+  before_filter :_oauth_provider_check_scope          # check if the access is authorized
+  before_filter :_oauth_provider_client_blocked?      # check if the client is blocked
+  before_filter :_oauth_provider_access_blocked?      # check if user has blocked the client
 
-  before_filter :token_blocked?, only: :show   # check for an existing token
-  before_filter :refresh_token,  only: :show   # create a new token
+  before_filter :_oauth_provider_token_blocked?, only: :show   # check for an existing token
+  before_filter :_oauth_provider_refresh_token,  only: :show   # create a new token
 
 
   def show
@@ -39,31 +39,31 @@ class Oauth2Provider::AuthorizeController < Oauth2Provider::ApplicationControlle
 
   private
 
-    def normalize_scope
+    def _oauth_provider_normalize_scope
       params[:scope] = Oauth2Provider.normalize_scope(params[:scope])
     end
 
 
-    def find_client
+    def _oauth_provider_find_client
       @client = Oauth2Provider::Client.where_uri(params[:client_id], params[:redirect_uri])
       client_not_found unless @client.first
     end
 
-    def check_scope
+    def _oauth_provider_check_scope
       @client = @client.where_scope(params[:scope]).first
       scope_not_valid unless @client
     end
 
-    def client_blocked?
+    def _oauth_provider_client_blocked?
       client_blocked if @client.blocked?
     end
 
-    def access_blocked?
+    def _oauth_provider_access_blocked?
       access = Oauth2Provider::OauthAccess.find_or_create_by(:client_uri => @client.uri, resource_owner_uri: user_url(current_user))
       access_blocked if access.blocked?
     end
 
-    def token_blocked?
+    def _oauth_provider_token_blocked?
       if params[:response_type] == "token"
         @token = Oauth2Provider::OauthToken.exist(@client.uri, user_url(current_user), params[:scope]).first
         token_blocked if @token and @token.blocked?
@@ -71,7 +71,7 @@ class Oauth2Provider::AuthorizeController < Oauth2Provider::ApplicationControlle
     end
 
     # @only refresh token for implicit flow
-    def refresh_token
+    def _oauth_provider_refresh_token
       if @token
         @token = Oauth2Provider::OauthToken.create(client_uri: @client.uri, resource_owner_uri: user_url(current_user), scope: params[:scope])
         redirect_to implicit_redirect_uri(@client, @token, params[:state]) and return
