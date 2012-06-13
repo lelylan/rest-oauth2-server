@@ -36,16 +36,6 @@ describe Oauth2Provider::OauthToken do
     it { @another_owner_token.should_not be_blocked }
   end
 
-  context ".exist" do
-    it "should find the token" do
-      existing = Oauth2Provider::OauthToken.exist(@token.client_uri,
-                                  @token.resource_owner_uri,
-                                  @token.scope).first
-      existing.should_not be_nil
-    end
-  end
-
-
   it "#expired?" do
     subject.should_not be_expired
     Delorean.time_travel_to("in #{Oauth2Provider.settings["token_expires_in"]} seconds")
