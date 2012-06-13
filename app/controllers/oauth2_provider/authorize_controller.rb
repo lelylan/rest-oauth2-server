@@ -45,12 +45,16 @@ class Oauth2Provider::AuthorizeController < Oauth2Provider::ApplicationControlle
 
 
     def _oauth_provider_find_client
-      @client = Oauth2Provider::Client.where_uri(params[:client_id], params[:redirect_uri])
-      client_not_found unless @client.first
+      @client = Oauth2Provider::Client.to_adapter.find_first(uri: params[:client_id], redirect_uri: params[:redirect_uri])
+      client_not_found unless @client
     end
 
     def _oauth_provider_check_scope
-      @client = @client.where_scope(params[:scope]).first
+      debugger
+      Oauth2Provider::Client.where_uri(params[:client_id], params[:redirect_uri]).where_scope(params[:scope]).first
+      @client = Array(params[:scope]).detect do |s|
+        Oauth2Provider::Client.to_adapter.find_first(uri: params[:client_id], redirect_uri: params[:redirect_uri], scope: s)
+      end
       scope_not_valid unless @client
     end
 

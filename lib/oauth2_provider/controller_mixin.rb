@@ -8,6 +8,13 @@ module Oauth2Provider
       end
     end
 
+    def session_auth
+      unless current_user
+        render text: "Unauthorized access.", status: 401
+        return false
+      end
+    end
+
     def api_request
       json?
     end

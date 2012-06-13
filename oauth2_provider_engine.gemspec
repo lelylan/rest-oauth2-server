@@ -1,17 +1,17 @@
 $:.push File.expand_path("../lib", __FILE__)
 
 # Maintain your gem's version:
-require "oauth2_provider/version"
+require "oauth2_provider_engine/version"
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
-  s.name        = "oauth2_provider"
-  s.version     = Oauth2Provider::VERSION
-  s.authors     = ["TODO: Your name"]
-  s.email       = ["TODO: Your email"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of Oauth2Provider."
-  s.description = "TODO: Description of Oauth2Provider."
+  s.name        = "oauth2_provider_engine"
+  s.version     = Oauth2ProviderEngine::VERSION
+  s.authors     = ["Tim Galeckas"]
+  s.email       = ["tim@galeckas.com"]
+  s.homepage    = "https://github.com/timgaleckas/oauth2_provider_engine"
+  s.summary     = "This is a rails 3 engine that provides a source for oauth2 authentication"
+  s.description = "Drop this in your app, and client apps can easily use omniauth with oauth2 to use it as a source for authentication"
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]
