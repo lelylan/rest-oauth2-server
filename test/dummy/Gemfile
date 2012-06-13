@@ -27,7 +27,7 @@ gem 'email_validator'
 gem 'chronic'
 gem 'jquery-rails'
 gem 'orm_adapter', :git => 'git://github.com/timgaleckas/orm_adapter.git'
-gem 'oauth2_provider', :path => '../..'
+gem 'oauth2_provider_engine', :path => '../..'
 
 group :development, :test do
   gem 'debugger'

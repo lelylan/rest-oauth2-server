@@ -7,7 +7,7 @@ GIT
 PATH
   remote: ../..
   specs:
-    oauth2_provider (0.0.1)
+    oauth2_provider_engine (0.0.2)
       bson_ext
       chronic
       jquery-rails
@@ -235,7 +235,7 @@ DEPENDENCIES
   jquery-rails
   launchy
   mongoid
-  oauth2_provider!
+  oauth2_provider_engine!
   orm_adapter!
   rack-ssl
   rails (= 3.2.5)
