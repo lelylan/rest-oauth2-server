@@ -1,7 +1,7 @@
 # Daily requests of a Resource Owner on a specific client
 
 module Oauth2Provider
-class OauthDailyRequest
+class DailyRequest
 
   include Mongoid::Document
 

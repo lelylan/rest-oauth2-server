@@ -35,12 +35,12 @@ module Oauth2Provider
     def oauth_authorized
       action = params[:controller] + "/" + params[:action]
       _oauth_provider_normalize_token
-      @token = Oauth2Provider::OauthToken.to_adapter.find_first(token: params[:token], scope: action)
+      @token = Oauth2Provider::Token.to_adapter.find_first(token: params[:token], scope: action)
       if @token.nil? or @token.blocked?
         render text: "Unauthorized access.", status: 401
         return false
       else
-        access = Oauth2Provider::OauthAccess.to_adapter.find_first(client_uri: @token.client_uri , resource_owner_uri: @token.resource_owner_uri)
+        access = Oauth2Provider::Access.to_adapter.find_first(client_uri: @token.client_uri , resource_owner_uri: @token.resource_owner_uri)
         access.accessed!
         @current_user = User.to_adapter.find_first(id: @token.resource_owner_uri.split('/').last)
       end

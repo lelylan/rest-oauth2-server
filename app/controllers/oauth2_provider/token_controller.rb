@@ -27,21 +27,21 @@ class Oauth2Provider::TokenController < Oauth2Provider::ApplicationController
   def create
     # section 4.1.3 - authorization code flow
     if @body[:grant_type] == "authorization_code"
-      @token = Oauth2Provider::OauthToken.to_adapter.create!(client_uri: @client.uri, resource_owner_uri: @authorization.resource_owner_uri, scope: @authorization.scope)
-      @refresh_token = Oauth2Provider::OauthRefreshToken.to_adapter.create!(access_token: @token.token)
+      @token = Oauth2Provider::Token.to_adapter.create!(client_uri: @client.uri, resource_owner_uri: @authorization.resource_owner_uri, scope: @authorization.scope)
+      @refresh_token = Oauth2Provider::RefreshToken.to_adapter.create!(access_token: @token.token)
       render "/shared/token" and return
     end
 
     # section 4.3.1 (password credentials flow)
     if @body[:grant_type] == "password"
-      @token = Oauth2Provider::OauthToken.to_adapter.create!(client_uri: @client.uri, resource_owner_uri: user_url(@resource_owner), scope: @body[:scope])
-      @refresh_token = Oauth2Provider::OauthRefreshToken.to_adapter.create!(access_token: @token.token)
+      @token = Oauth2Provider::Token.to_adapter.create!(client_uri: @client.uri, resource_owner_uri: user_url(@resource_owner), scope: @body[:scope])
+      @refresh_token = Oauth2Provider::RefreshToken.to_adapter.create!(access_token: @token.token)
       render "/shared/token" and return
     end
 
     # section 6.0 (refresh token)
     if @body[:grant_type] == "refresh_token"
-      @token = Oauth2Provider::OauthToken.to_adapter.create!(client_uri: @expired_token.client_uri, resource_owner_uri: @expired_token.resource_owner_uri, scope: @expired_token.scope)
+      @token = Oauth2Provider::Token.to_adapter.create!(client_uri: @expired_token.client_uri, resource_owner_uri: @expired_token.resource_owner_uri, scope: @expired_token.scope)
       render "/shared/token" and return
     end
   end
@@ -49,7 +49,7 @@ class Oauth2Provider::TokenController < Oauth2Provider::ApplicationController
   # simulate a logout blocking the token
   # TODO: refactoring
   def destroy
-    token = Oauth2Provider::OauthToken.to_adapter.find_first(token: params[:id])
+    token = Oauth2Provider::Token.to_adapter.find_first(token: params[:id])
     if token
       token.block!
       return head 200
@@ -73,7 +73,7 @@ class Oauth2Provider::TokenController < Oauth2Provider::ApplicationController
 
   def _oauth_provider_find_authorization
     if @body[:grant_type] == "authorization_code"
-      @authorization = Oauth2Provider::OauthAuthorization.to_adapter.find_first(code: @body[:code], client_uri: @client.uri)
+      @authorization = Oauth2Provider::Authorization.to_adapter.find_first(code: @body[:code], client_uri: @client.uri)
       @resource_owner_uri = @authorization.resource_owner_uri if @authorization
       message = "notifications.oauth.authorization.not_found"
       info = { code: @body[:code], client_id: @client.uri }
@@ -130,7 +130,7 @@ class Oauth2Provider::TokenController < Oauth2Provider::ApplicationController
   # filters for refresh token (section 6.0)
   def _oauth_provider_find_refresh_token
     if @body[:grant_type] == "refresh_token"
-      @refresh_token = Oauth2Provider::OauthRefreshToken.to_adapter.find_first(refresh_token: @body[:refresh_token])
+      @refresh_token = Oauth2Provider::RefreshToken.to_adapter.find_first(refresh_token: @body[:refresh_token])
       message = "notifications.oauth.refresh_token.not_found"
       info = { refresh_token: @body[:refresh_token] }
       render_422 message, info unless @refresh_token
@@ -139,7 +139,7 @@ class Oauth2Provider::TokenController < Oauth2Provider::ApplicationController
 
   def _oauth_provider_find_expired_token
     if @body[:grant_type] == "refresh_token"
-      @expired_token = Oauth2Provider::OauthToken.to_adapter.find_first(token: @refresh_token.access_token)
+      @expired_token = Oauth2Provider::Token.to_adapter.find_first(token: @refresh_token.access_token)
       @resource_owner_uri = @expired_token.resource_owner_uri
       message = "notifications.oauth.token.not_found"
       info = { token: @refresh_token.access_token }
@@ -164,7 +164,7 @@ class Oauth2Provider::TokenController < Oauth2Provider::ApplicationController
   end
 
   def _oauth_provider_access_blocked?
-    access = Oauth2Provider::OauthAccess.find_or_create_by(:client_uri => @client.uri, resource_owner_uri: @resource_owner_uri)
+    access = Oauth2Provider::Access.find_or_create_by(:client_uri => @client.uri, resource_owner_uri: @resource_owner_uri)
     message =  "notifications.oauth.resource_owner.blocked_client"
     info = { client_id: @body[:client_id] }
     render_422 message, info if access.blocked

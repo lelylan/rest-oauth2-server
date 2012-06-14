@@ -20,13 +20,13 @@ class Oauth2Provider::AuthorizeController < Oauth2Provider::ApplicationControlle
 
     # section 4.1.1 - authorization code flow
     if params[:response_type] == "code"
-      @authorization = Oauth2Provider::OauthAuthorization.to_adapter.create!(client_uri: @client.uri, resource_owner_uri: user_url(current_user), scope: params[:scope])
+      @authorization = Oauth2Provider::Authorization.to_adapter.create!(client_uri: @client.uri, resource_owner_uri: user_url(current_user), scope: params[:scope])
       redirect_to authorization_redirect_uri(@client, @authorization, params[:state])
     end
 
     # section 4.2.1 - implicit grant flow
     if params[:response_type] == "token"
-      @token = Oauth2Provider::OauthToken.to_adapter.create!(client_uri: @client.uri, resource_owner_uri: user_url(current_user), scope: params[:scope])
+      @token = Oauth2Provider::Token.to_adapter.create!(client_uri: @client.uri, resource_owner_uri: user_url(current_user), scope: params[:scope])
       redirect_to implicit_redirect_uri(@client, @token, params[:state])
     end
   end
@@ -61,14 +61,14 @@ class Oauth2Provider::AuthorizeController < Oauth2Provider::ApplicationControlle
 
     def _oauth_provider_access_blocked?
       attributes = {client_uri: @client.uri, resource_owner_uri: user_url(current_user)}
-      access = Oauth2Provider::OauthAccess.to_adapter.find_first(attributes)
-      access = Oauth2Provider::OauthAccess.to_adapter.create!(attributes) unless access
+      access = Oauth2Provider::Access.to_adapter.find_first(attributes)
+      access = Oauth2Provider::Access.to_adapter.create!(attributes) unless access
       access_blocked if access.blocked?
     end
 
     def _oauth_provider_token_blocked?
       if params[:response_type] == "token"
-        @token = Oauth2Provider::OauthToken.to_adapter.find_all(client_uri: @client.uri, resource_owner_uri: user_url(current_user)).detect{|t|t.scope.sort == params[:scope].sort}
+        @token = Oauth2Provider::Token.to_adapter.find_all(client_uri: @client.uri, resource_owner_uri: user_url(current_user)).detect{|t|t.scope.sort == params[:scope].sort}
         token_blocked if @token and @token.blocked?
       end
     end
@@ -76,7 +76,7 @@ class Oauth2Provider::AuthorizeController < Oauth2Provider::ApplicationControlle
     # @only refresh token for implicit flow
     def _oauth_provider_refresh_token
       if @token
-        @token = Oauth2Provider::OauthToken.to_adapter.create!(client_uri: @client.uri, resource_owner_uri: user_url(current_user), scope: params[:scope])
+        @token = Oauth2Provider::Token.to_adapter.create!(client_uri: @client.uri, resource_owner_uri: user_url(current_user), scope: params[:scope])
         redirect_to implicit_redirect_uri(@client, @token, params[:state]) and return
       end
     end

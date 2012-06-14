@@ -418,10 +418,10 @@ Rest OAuth 2.0 Server is working on top of 5 models. They are pretty simple so i
 them, check the source code, which is clearly documented.
 
 * {OauthClient}[https://github.com/Lelylan/rest-oauth2-server/blob/master/app/models/client.rb]: represents the credentials of a client application.
-* {OauthToken}[https://github.com/Lelylan/rest-oauth2-server/blob/master/app/models/oauth/oauth_token.rb]: represents the token used to access user's resources.
+* {Token}[https://github.com/Lelylan/rest-oauth2-server/blob/master/app/models/oauth/oauth_token.rb]: represents the token used to access user's resources.
 * {OauthAuthorizarion}[https://github.com/Lelylan/rest-oauth2-server/blob/master/app/models/oauth/oauth_authorization.rb]: represents the authorization token used to exchange an access token.
-* {OauthAccess}[https://github.com/Lelylan/rest-oauth2-server/blob/master/app/models/oauth/oauth_access.rb]: represents the relation between a client and a user, whenever a user grant an authorization.
-* {OauthDailyRequests}[https://github.com/Lelylan/rest-oauth2-server/blob/master/app/models/oauth/oauth_daily_request.rb]: represents a daily request from the client on behalf of a specific user.
+* {Access}[https://github.com/Lelylan/rest-oauth2-server/blob/master/app/models/oauth/oauth_access.rb]: represents the relation between a client and a user, whenever a user grant an authorization.
+* {DailyRequests}[https://github.com/Lelylan/rest-oauth2-server/blob/master/app/models/oauth/oauth_daily_request.rb]: represents a daily request from the client on behalf of a specific user.
 
 
 == Basic authentication system

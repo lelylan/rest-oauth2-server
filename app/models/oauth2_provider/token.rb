@@ -2,7 +2,7 @@
 # owner resouces
 
 module Oauth2Provider
-class OauthToken
+class Token
   include Mongoid::Document
   include Mongoid::Timestamps
 

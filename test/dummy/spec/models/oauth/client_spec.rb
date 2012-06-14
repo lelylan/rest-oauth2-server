@@ -49,21 +49,21 @@ describe Client do
   context "#destroy" do
     subject { FactoryGirl.create(:client) }
     before do
-      OauthAuthorization.destroy_all
+      Authorization.destroy_all
       3.times { FactoryGirl.create(:oauth_authorization) }
-      OauthToken.destroy_all
+      Token.destroy_all
       3.times { FactoryGirl.create(:oauth_token) }
     end
 
     it "should remove related authorizations" do
       lambda{ subject.destroy }.should change{
-        OauthAuthorization.all.size
+        Authorization.all.size
       }.by(-3)
     end
 
     it "should remove related tokens" do
       lambda{ subject.destroy }.should change{
-        OauthToken.all.size
+        Token.all.size
       }.by(-3)
     end
   end

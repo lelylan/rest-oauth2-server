@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Oauth2Provider::OauthAuthorization do
+describe Oauth2Provider::Authorization do
   before  { @authorization = FactoryGirl.create(:oauth_authorization) }
   subject { @authorization }
 
@@ -20,7 +20,7 @@ describe Oauth2Provider::OauthAuthorization do
 
   context ".block_client!" do
     before { @another_client_authorization = FactoryGirl.create(:oauth_authorization, client_uri: ANOTHER_CLIENT_URI) }
-    before { Oauth2Provider::OauthAuthorization.block_client!(CLIENT_URI) }
+    before { Oauth2Provider::Authorization.block_client!(CLIENT_URI) }
 
     it { @authorization.reload.should be_blocked }
     it { @another_client_authorization.reload.should_not be_blocked }
@@ -29,7 +29,7 @@ describe Oauth2Provider::OauthAuthorization do
   context ".block_access!" do
     before { @another_client_authorization = FactoryGirl.create(:oauth_authorization, client_uri: ANOTHER_CLIENT_URI)}
     before { @another_owner_authorization  = FactoryGirl.create(:oauth_authorization, resource_owner_uri: ANOTHER_USER_URI) }
-    before { Oauth2Provider::OauthAuthorization.block_access!(CLIENT_URI, USER_URI) }
+    before { Oauth2Provider::Authorization.block_access!(CLIENT_URI, USER_URI) }
 
     it { @authorization.reload.should be_blocked }
     it { @another_client_authorization.reload.should_not be_blocked }

@@ -1,9 +1,9 @@
 require File.expand_path(File.dirname(__FILE__) + '/acceptance_helper')
 
-feature "OauthTokenController" do
+feature "TokenController" do
   before { Oauth2Provider::Client.destroy_all }
-  before { Oauth2Provider::OauthAccess.destroy_all }
-  before { Oauth2Provider::OauthRefreshToken.destroy_all }
+  before { Oauth2Provider::Access.destroy_all }
+  before { Oauth2Provider::RefreshToken.destroy_all }
 
   let(:user)          { FactoryGirl.create(:user) }
   let(:client)        { FactoryGirl.create(:client) }
@@ -130,7 +130,7 @@ feature "OauthTokenController" do
 
   context "Refresh Token" do
     let(:token)         { FactoryGirl.create(:oauth_token) }
-    let(:refresh_token) { Oauth2Provider::OauthRefreshToken.create(access_token: token.token) }
+    let(:refresh_token) { Oauth2Provider::RefreshToken.create(access_token: token.token) }
 
     let(:attributes) { {
       grant_type: "refresh_token",

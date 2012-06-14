@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Oauth2Provider::OauthAccess do
+describe Oauth2Provider::Access do
   before { @access = FactoryGirl.create(:oauth_access) }
   subject { @access }
 

@@ -2,8 +2,8 @@ require File.expand_path(File.dirname(__FILE__) + '/acceptance_helper')
 
 feature "OauthAuthorizeController" do
   before { Oauth2Provider::Client.destroy_all }
-  before { Oauth2Provider::OauthAccess.destroy_all }
-  before { Oauth2Provider::OauthToken.destroy_all }
+  before { Oauth2Provider::Access.destroy_all }
+  before { Oauth2Provider::Token.destroy_all }
 
   let(:user)        { FactoryGirl.create(:user) }
   let(:client)      { FactoryGirl.create(:client) }

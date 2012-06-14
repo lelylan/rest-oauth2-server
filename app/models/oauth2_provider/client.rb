@@ -35,8 +35,8 @@ class Client
   def block!
     self.blocked = Time.now
     self.save
-    OauthToken.block_client!(self.uri)
-    OauthAuthorization.block_client!(self.uri)
+    Token.block_client!(self.uri)
+    Authorization.block_client!(self.uri)
   end
 
   # Unblock the client
@@ -92,11 +92,11 @@ class Client
     # TODO: use atomic updates
     # https://github.com/mongoid/mongoid/commit/aa2c388c71529bf4d987b286acfd861eaac530ce
     def block_tokens!
-      OauthToken.to_adapter.find_all(client_uri: uri).map(&:block!)
+      Token.to_adapter.find_all(client_uri: uri).map(&:block!)
     end
 
     def block_authorizations!
-      OauthAuthorization.to_adapter.find_all(client_uri: uri).map(&:block!)
+      Authorization.to_adapter.find_all(client_uri: uri).map(&:block!)
     end
 
     def random_secret
@@ -104,8 +104,8 @@ class Client
     end
 
     def clean
-      OauthToken.to_adapter.find_all(client_uri: uri).map{|t|OauthToken.to_adapter.destroy(t)}
-      OauthAuthorization.to_adapter.find_all(client_uri: uri).map{|a|OauthAuthorization.to_adapter.destroy(a)}
+      Token.to_adapter.find_all(client_uri: uri).map{|t|Token.to_adapter.destroy(t)}
+      Authorization.to_adapter.find_all(client_uri: uri).map{|a|Authorization.to_adapter.destroy(a)}
     end
 
 end

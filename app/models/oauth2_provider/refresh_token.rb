@@ -1,5 +1,5 @@
 module Oauth2Provider
-class OauthRefreshToken
+class RefreshToken
   include Mongoid::Document
   include Mongoid::Timestamps
 

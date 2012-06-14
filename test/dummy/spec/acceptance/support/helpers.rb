@@ -40,12 +40,12 @@ module HelperMethods
 
   # Redirect URIs
   def authorization_grant_uri(client)
-    authorization = Oauth2Provider::OauthAuthorization.last
+    authorization = Oauth2Provider::Authorization.last
     client.redirect_uri + "?code=" + authorization.code
   end
 
   def implicit_grant_uri(client)
-    token = Oauth2Provider::OauthToken.last
+    token = Oauth2Provider::Token.last
     token.token.should_not be_nil
     uri = client.redirect_uri + "#token=" + token.token + "&expires_in=" + Oauth2Provider.settings["token_expires_in"]
   end
@@ -67,12 +67,12 @@ module HelperMethods
   end
 
   def response_should_have_access_token
-    token = Oauth2Provider::OauthToken.last
+    token = Oauth2Provider::Token.last
     page.should have_content(token.token)
   end
 
   def response_should_have_refresh_token
-    refresh_token = Oauth2Provider::OauthRefreshToken.last
+    refresh_token = Oauth2Provider::RefreshToken.last
     page.should have_content(refresh_token.refresh_token)
   end
 

@@ -21,20 +21,20 @@ FactoryGirl.define do
      admin true
   end
 
-  factory :oauth_access, class: Oauth2Provider::OauthAccess do
+  factory :oauth_access, class: Oauth2Provider::Access do
     client_uri CLIENT_URI
     resource_owner_uri USER_URI
   end
 
 
-  factory :oauth_authorization, class: Oauth2Provider::OauthAuthorization do
+  factory :oauth_authorization, class: Oauth2Provider::Authorization do
     client_uri CLIENT_URI
     resource_owner_uri USER_URI
     scope ALL_SCOPE
   end
 
 
-  factory :oauth_token, class: Oauth2Provider::OauthToken do
+  factory :oauth_token, class: Oauth2Provider::Token do
     client_uri CLIENT_URI
     resource_owner_uri USER_URI
     scope ALL_SCOPE

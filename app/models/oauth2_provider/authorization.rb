@@ -2,7 +2,7 @@
 # provided by the resource owner
 
 module Oauth2Provider
-class OauthAuthorization
+class Authorization
   include Mongoid::Document
   include Mongoid::Timestamps
 

@@ -2,7 +2,7 @@
 # client (block and statistics)
 
 module Oauth2Provider
-class OauthAccess
+class Access
   include Mongoid::Document
   include Mongoid::Timestamps
 
@@ -10,7 +10,7 @@ class OauthAccess
   field :resource_owner_uri                   # resource owner identifier
   field :blocked, type: Time, default: nil    # authorization block (a user block a single client)
 
-  embeds_many :oauth_daily_requests, class_name: 'Oauth2Provider::OauthDailyRequest'           # daily requests (one record per day)
+  embeds_many :oauth_daily_requests, class_name: 'Oauth2Provider::DailyRequest'           # daily requests (one record per day)
 
   validates :client_uri, presence: true
   validates :resource_owner_uri, presence: true
@@ -20,8 +20,8 @@ class OauthAccess
   def block!
     self.blocked = Time.now
     self.save
-    OauthToken.block_access!(client_uri, resource_owner_uri)
-    OauthAuthorization.block_access!(client_uri, resource_owner_uri)
+    Token.block_access!(client_uri, resource_owner_uri)
+    Authorization.block_access!(client_uri, resource_owner_uri)
   end
 
   # Unblock the resource owner delegation to a specific client
@@ -43,7 +43,7 @@ class OauthAccess
   # A daily requests record (there is one per day)
   #
   #   @params [String] time we want to find the requests record
-  #   @return [OauthDailyRequest] requests record
+  #   @return [DailyRequest] requests record
   def daily_requests(time = Time.now)
     find_or_create_daily_requests(time)
   end
