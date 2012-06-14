@@ -5,7 +5,9 @@ module Oauth2Provider
     before_filter :_oauth_provider_authenticate
 
     include ControllerMixin
+
     layout 'oauth2_provider/application'
+
     def _oauth_provider_admin?
       unless current_user.admin?
         flash.alert = "Unauthorized access."

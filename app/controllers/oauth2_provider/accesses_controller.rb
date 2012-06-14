@@ -21,6 +21,7 @@ class Oauth2Provider::AccessesController < Oauth2Provider::ApplicationController
 
 
   private
+
   def _oauth_provider_find_access
     @access = Oauth2Provider::Access.to_adapter.find_first(resource_owner_uri: user_url(current_user), id: params[:id])
     unless @access

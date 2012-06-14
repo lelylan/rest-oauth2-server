@@ -48,16 +48,16 @@ class Oauth2Provider::ScopesController < Oauth2Provider::ApplicationController
 
   private
 
-    def _oauth_provider_find_resource
-      @scope = Oauth2Provider::Scope.to_adapter.find_first(id: params[:id])
-      unless @scope
-        redirect_to root_path, alert: "Resource not found."
-      end
+  def _oauth_provider_find_resource
+    @scope = Oauth2Provider::Scope.to_adapter.find_first(id: params[:id])
+    unless @scope
+      redirect_to root_path, alert: "Resource not found."
     end
+  end
 
-    # TODO: put into a background process
-    def _oauth_provider_sync_existing_scopes
-      Oauth2Provider::Client.sync_clients_with_scope(@scope.name)
-    end
+  # TODO: put into a background process
+  def _oauth_provider_sync_existing_scopes
+    Oauth2Provider::Client.sync_clients_with_scope(@scope.name)
+  end
 
 end
