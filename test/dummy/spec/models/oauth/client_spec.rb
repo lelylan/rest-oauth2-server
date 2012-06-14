@@ -46,31 +46,6 @@ describe Client do
     end
   end
 
-  context ".find_by_secret" do
-    let(:found) { Client.where_secret(subject.secret, subject.uri).first }
-    it { found.should_not be_nil }
-  end
-
-  context ".where_scope" do
-    context "with complete scope" do
-      let(:scope) { ALL_SCOPE }
-      subject { Client.where_scope(scope).first }
-      it { should_not be_nil }
-    end
-
-    context "with partial scope" do
-      let(:scope) { ["pizzas/show", "pizzas/create"] }
-      subject { Client.where_scope(scope).first }
-      it { should_not be_nil }
-    end
-
-    context "with invalid scope" do
-      let(:scope) { ["type.write", "reresource.not_existingg"] }
-      subject { Client.where_scope(scope).first }
-      it { should be_nil }
-    end
-  end
-
   context "#destroy" do
     subject { FactoryGirl.create(:client) }
     before do

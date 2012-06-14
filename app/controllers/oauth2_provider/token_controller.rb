@@ -73,7 +73,7 @@ class Oauth2Provider::TokenController < Oauth2Provider::ApplicationController
 
   def _oauth_provider_find_authorization
     if @body[:grant_type] == "authorization_code"
-      @authorization = Oauth2Provider::OauthAuthorization.where_code_and_client_uri(@body[:code], @client.uri).first
+      @authorization = Oauth2Provider::OauthAuthorization.to_adapter.find_first(code: @body[:code], client_uri: @client.uri)
       @resource_owner_uri = @authorization.resource_owner_uri if @authorization
       message = "notifications.oauth.authorization.not_found"
       info = { code: @body[:code], client_id: @client.uri }
@@ -130,7 +130,7 @@ class Oauth2Provider::TokenController < Oauth2Provider::ApplicationController
   # filters for refresh token (section 6.0)
   def _oauth_provider_find_refresh_token
     if @body[:grant_type] == "refresh_token"
-      @refresh_token = Oauth2Provider::OauthRefreshToken.where(refresh_token: @body[:refresh_token]).first
+      @refresh_token = Oauth2Provider::OauthRefreshToken.to_adapter.find_first(refresh_token: @body[:refresh_token])
       message = "notifications.oauth.refresh_token.not_found"
       info = { refresh_token: @body[:refresh_token] }
       render_422 message, info unless @refresh_token
@@ -139,7 +139,7 @@ class Oauth2Provider::TokenController < Oauth2Provider::ApplicationController
 
   def _oauth_provider_find_expired_token
     if @body[:grant_type] == "refresh_token"
-      @expired_token = Oauth2Provider::OauthToken.where(token: @refresh_token.access_token).first
+      @expired_token = Oauth2Provider::OauthToken.to_adapter.find_first(token: @refresh_token.access_token)
       @resource_owner_uri = @expired_token.resource_owner_uri
       message = "notifications.oauth.token.not_found"
       info = { token: @refresh_token.access_token }

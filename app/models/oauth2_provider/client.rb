@@ -75,17 +75,6 @@ class Client
   end
 
   class << self
-
-    # Filter to the client secret and the redirect uri
-    def where_secret(secret, client_uri)
-      where(secret: secret, uri: client_uri)
-    end
-
-    # Filter to the client scope
-    def where_scope(scope)
-      all_in(scope_values: scope)
-    end
-
     # Sync all clients with the correct exploded scope when a
     # scope is modified (changed or removed)
     def sync_clients_with_scope(scope)
@@ -103,11 +92,11 @@ class Client
     # TODO: use atomic updates
     # https://github.com/mongoid/mongoid/commit/aa2c388c71529bf4d987b286acfd861eaac530ce
     def block_tokens!
-      OauthToken.where(client_uri: uri).map(&:block!)
+      OauthToken.to_adapter.find_all(client_uri: uri).map(&:block!)
     end
 
     def block_authorizations!
-      OauthAuthorization.where(client_uri: uri).map(&:block!)
+      OauthAuthorization.to_adapter.find_all(client_uri: uri).map(&:block!)
     end
 
     def random_secret
@@ -115,8 +104,8 @@ class Client
     end
 
     def clean
-      OauthToken.where(client_uri: uri).destroy_all
-      OauthAuthorization.where(client_uri: uri).destroy_all
+      OauthToken.to_adapter.find_all(client_uri: uri).map{|t|OauthToken.to_adapter.destroy(t)}
+      OauthAuthorization.to_adapter.find_all(client_uri: uri).map{|a|OauthAuthorization.to_adapter.destroy(a)}
     end
 
 end

@@ -45,15 +45,6 @@ class OauthAuthorization
     self.expire_at < Time.now
   end
 
-  # Find the authorization based on the client uri and the
-  # authorization code
-  class << self
-    def where_code_and_client_uri(code, client_id)
-      where(code: code).where(client_uri: client_id)
-    end
-  end
-
-
   private
 
     # random authorization code

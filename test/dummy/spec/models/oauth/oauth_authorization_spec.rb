@@ -41,10 +41,4 @@ describe Oauth2Provider::OauthAuthorization do
     Delorean.time_travel_to("in 151 seconds")
     subject.should be_expired
   end
-
-  it ".where_code_and_client_uri" do
-    result = Oauth2Provider::OauthAuthorization.where_code_and_client_uri(subject.code, subject.client_uri).first
-    result.should == subject
-  end
-
 end
