@@ -76,12 +76,6 @@ class Client
 
   class << self
 
-    # Filter to the client uri (internal identifier) and the
-    # redirect uri
-    def where_uri(client_uri, redirect_uri)
-      where(uri: client_uri, redirect_uri: redirect_uri)
-    end
-
     # Filter to the client secret and the redirect uri
     def where_secret(secret, client_uri)
       where(secret: secret, uri: client_uri)

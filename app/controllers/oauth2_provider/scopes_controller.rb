@@ -5,7 +5,7 @@ class Oauth2Provider::ScopesController < Oauth2Provider::ApplicationController
   after_filter  :_oauth_provider_sync_existing_scopes, only: ["update", "destroy"]
 
   def index
-    @scopes = Oauth2Provider::Scope.all
+    @scopes = Oauth2Provider::Scope.to_adapter.find_all({})
   end
 
   def show
@@ -49,7 +49,7 @@ class Oauth2Provider::ScopesController < Oauth2Provider::ApplicationController
   private
 
     def _oauth_provider_find_resource
-      @scope = Oauth2Provider::Scope.where(_id: params[:id]).first
+      @scope = Oauth2Provider::Scope.to_adapter.find_first(id: params[:id])
       unless @scope
         redirect_to root_path, alert: "Resource not found."
       end

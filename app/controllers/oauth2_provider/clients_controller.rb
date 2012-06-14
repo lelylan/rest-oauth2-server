@@ -1,11 +1,15 @@
 module Oauth2Provider
   class ClientsController < Oauth2Provider::ApplicationController
-    before_filter :_oauth_provider_find_clients
     before_filter :_oauth_provider_find_client, only: ["show", "edit", "update", "destroy", "block", "unblock"]
     before_filter :_oauth_provider_normalize_scope, only: ["create", "update"]
     before_filter :_oauth_provider_admin?, only: ["block", "unblock"]
 
     def index
+      if current_user.admin?
+        @clients = Oauth2Provider::Client.to_adapter.find_all({})
+      else
+        @clients = Oauth2Provider::Client.to_adapter.find_all(created_from: user_url(current_user))
+      end
     end
 
     def show
@@ -62,16 +66,10 @@ module Oauth2Provider
 
     private
 
-    def _oauth_provider_find_clients
-      if current_user.admin?
-        @clients = Oauth2Provider::Client.criteria
-      else
-        @clients = Oauth2Provider::Client.where(created_from: user_url(current_user))
-      end
-    end
-
     def _oauth_provider_find_client
-      @client = @clients.where(_id: params[:id]).first
+      attributes = { id: params[:id] }
+      attributes.merge!(created_from: user_url(current_user)) unless current_user.admin?
+      @client = Oauth2Provider::Client.to_adapter.find_first(attributes)
       unless @client
         redirect_to root_path, alert: "Resource not found."
       end
