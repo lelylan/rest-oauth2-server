@@ -1,18 +1,33 @@
 # Authorization grant which represents the authorization
 # provided by the resource owner
 
+if defined?(Mongoid::Document)
+  module Oauth2Provider
+    class Authorization
+      include Mongoid::Document
+      include Mongoid::Timestamps
+
+      field :client_uri                           # client identifier
+      field :resource_owner_uri                   # resource owner identifier
+      field :code                                 # authorization code
+      field :scope, type: Array                   # scope accessible with request
+      field :expire_at, type: Time                # authorization expiration (security reasons)
+      field :blocked, type: Time, default: nil    # authorization block (if client is blocked)
+    end
+  end
+elsif defined?(ActiveRecord::Base)
+  module Oauth2Provider
+    class Authorization < ActiveRecord::Base
+    end
+  end
+elsif defined?(MongoMapper::Document)
+  raise NotImplementedError
+elsif defined?(DataMapper::Resource)
+  raise NotImplementedError
+end
+
 module Oauth2Provider
   class Authorization
-    include Mongoid::Document
-    include Mongoid::Timestamps
-
-    field :client_uri                           # client identifier
-    field :resource_owner_uri                   # resource owner identifier
-    field :code                                 # authorization code
-    field :scope, type: Array                   # scope accessible with request
-    field :expire_at, type: Time                # authorization expiration (security reasons)
-    field :blocked, type: Time, default: nil    # authorization block (if client is blocked)
-
     validates :client_uri, presence: true, url: true
     validates :resource_owner_uri, presence: true, url: true
 

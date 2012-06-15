@@ -1,25 +1,40 @@
 # Application making protected resource requests on behalf of
 # the resource owner and with its authorization
 
+if defined?(Mongoid::Document)
+  module Oauth2Provider
+    class Client
+      include Mongoid::Document
+      include Mongoid::Timestamps
+
+      field :uri                                       # client identifier (internal)
+      field :name                                      # client name
+      field :created_from                              # user who created the client
+      field :secret                                    # client secret
+      field :site_uri                                  # client website
+      field :redirect_uri                              # page called after authorization
+      field :scope, type: Array, default: []           # raw scope with keywords
+      field :scope_values, type: Array, default: []    # scope parsed as array of allowed actions
+      field :info                                      # client additional info
+      field :granted_times, type: Integer, default: 0  # tokens granted in the authorization step
+      field :revoked_times, type: Integer, default: 0  # tokens revoked in the authorization step
+      field :blocked, type: Time, default: nil         # blocks any request from the client
+    end
+  end
+elsif defined?(ActiveRecord::Base)
+  module Oauth2Provider
+    class Client < ActiveRecord::Base
+    end
+  end
+elsif defined?(MongoMapper::Document)
+  raise NotImplementedError
+elsif defined?(DataMapper::Resource)
+  raise NotImplementedError
+end
+
 module Oauth2Provider
   class Client
-    include Mongoid::Document
-    include Mongoid::Timestamps
     include Document::Base
-
-    field :uri                                       # client identifier (internal)
-    field :name                                      # client name
-    field :created_from                              # user who created the client
-    field :secret                                    # client secret
-    field :site_uri                                  # client website
-    field :redirect_uri                              # page called after authorization
-    field :scope, type: Array, default: []           # raw scope with keywords
-    field :scope_values, type: Array, default: []    # scope parsed as array of allowed actions
-    field :info                                      # client additional info
-    field :granted_times, type: Integer, default: 0  # tokens granted in the authorization step
-    field :revoked_times, type: Integer, default: 0  # tokens revoked in the authorization step
-    field :blocked, type: Time, default: nil         # blocks any request from the client
-
     attr_accessible :name, :site_uri, :redirect_uri, :info, :scope
 
     before_create  :random_secret

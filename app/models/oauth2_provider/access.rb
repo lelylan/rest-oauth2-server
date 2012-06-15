@@ -1,20 +1,35 @@
 # Access info related to a resource owner using a specific
 # client (block and statistics)
 
+if defined?(Mongoid::Document)
+  module Oauth2Provider
+    class Access
+      include Mongoid::Document
+      include Mongoid::Timestamps
+
+      field :client_uri                           # client identifier (internal)
+      field :resource_owner_uri                   # resource owner identifier
+      field :blocked, type: Time, default: nil    # authorization block (a user block a single client)
+
+      embeds_many :oauth_daily_requests, class_name: 'Oauth2Provider::DailyRequest'           # daily requests (one record per day)
+    end
+  end
+elsif defined?(ActiveRecord::Base)
+  module Oauth2Provider
+    class Access < ActiveRecord::Base
+    end
+  end
+elsif defined?(MongoMapper::Document)
+  raise NotImplementedError
+elsif defined?(DataMapper::Resource)
+  raise NotImplementedError
+end
+
+
 module Oauth2Provider
   class Access
-    include Mongoid::Document
-    include Mongoid::Timestamps
-
-    field :client_uri                           # client identifier (internal)
-    field :resource_owner_uri                   # resource owner identifier
-    field :blocked, type: Time, default: nil    # authorization block (a user block a single client)
-
-    embeds_many :oauth_daily_requests, class_name: 'Oauth2Provider::DailyRequest'           # daily requests (one record per day)
-
     validates :client_uri, presence: true
     validates :resource_owner_uri, presence: true
-
 
     # Block the resource owner delegation to a specific client
     def block!

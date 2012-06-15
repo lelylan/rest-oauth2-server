@@ -1,20 +1,34 @@
 # Daily requests of a Resource Owner on a specific client
 
+if defined?(Mongoid::Document)
+  module Oauth2Provider
+    class DailyRequest
+      include Mongoid::Document
+
+      field :created_at, type: Time                       # creation time
+      field :time_id                                      # unique key for the day
+      field :day                                          # request day
+      field :month                                        # request month
+      field :year                                         # request year
+      field :times, type: Integer, default: 0             # daily request times
+
+      # resource owner's client access
+      embedded_in :oauth_access, inverse_of: :oauth_daily_requests
+    end
+  end
+elsif defined?(ActiveRecord::Base)
+  module Oauth2Provider
+    class DailyRequest < ActiveRecord::Base
+    end
+  end
+elsif defined?(MongoMapper::Document)
+  raise NotImplementedError
+elsif defined?(DataMapper::Resource)
+  raise NotImplementedError
+end
+
 module Oauth2Provider
   class DailyRequest
-
-    include Mongoid::Document
-
-    field :created_at, type: Time                       # creation time
-    field :time_id                                      # unique key for the day
-    field :day                                          # request day
-    field :month                                        # request month
-    field :year                                         # request year
-    field :times, type: Integer, default: 0             # daily request times
-
-    # resource owner's client access
-    embedded_in :oauth_access, inverse_of: :oauth_daily_requests
-
     after_create :init_times
 
     # Increment the times counter that track the number of

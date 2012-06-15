@@ -1,12 +1,28 @@
+if defined?(Mongoid::Document)
+  module Oauth2Provider
+    class Scope
+      include Mongoid::Document
+      include Mongoid::Timestamps
+
+      field :name
+      field :uri
+      field :values, type: Array, default: []
+    end
+  end
+elsif defined?(ActiveRecord::Base)
+  module Oauth2Provider
+    class Scope < ActiveRecord::Base
+    end
+  end
+elsif defined?(MongoMapper::Document)
+  raise NotImplementedError
+elsif defined?(DataMapper::Resource)
+  raise NotImplementedError
+end
+
 module Oauth2Provider
   class Scope
-    include Mongoid::Document
-    include Mongoid::Timestamps
     include Document::Base
-
-    field :name
-    field :uri
-    field :values, type: Array, default: []
 
     attr_accessible :name
 

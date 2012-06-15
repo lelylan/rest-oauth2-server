@@ -1,19 +1,34 @@
+if defined?(Mongoid::Document)
+  module Oauth2Provider
+    class Token
+      include Mongoid::Document
+      include Mongoid::Timestamps
+
+      field :client_uri                           # client identifier (internal)
+      field :resource_owner_uri                   # resource owner identifier
+      field :token                                # access token
+      field :refresh_token                        # refresh token
+      field :scope, type: Array                   # scope accessible with token
+      field :expire_at, type: Time, default: nil  # token expiration
+      field :blocked, type: Time, default: nil    # access token block (if client is blocked)
+    end
+  end
+elsif defined?(ActiveRecord::Base)
+  module Oauth2Provider
+    class Token < ActiveRecord::Base
+    end
+  end
+elsif defined?(MongoMapper::Document)
+  raise NotImplementedError
+elsif defined?(DataMapper::Resource)
+  raise NotImplementedError
+end
+
 # Access token used from the client to request resource
 # owner resouces
 
 module Oauth2Provider
   class Token
-    include Mongoid::Document
-    include Mongoid::Timestamps
-
-    field :client_uri                           # client identifier (internal)
-    field :resource_owner_uri                   # resource owner identifier
-    field :token                                # access token
-    field :refresh_token                        # refresh token
-    field :scope, type: Array                   # scope accessible with token
-    field :expire_at, type: Time, default: nil  # token expiration
-    field :blocked, type: Time, default: nil    # access token block (if client is blocked)
-
     before_create :random_token
     before_create :random_refresh_token
     before_create :create_expiration
