@@ -15,7 +15,6 @@ gem 'jquery-rails'
 
 group :development, :test do
   gem 'rspec-rails', '2.4.1'
-  gem 'cucumber-rails'
   gem 'steak'
   gem 'capybara'
   gem 'selenium-client'
@@ -31,4 +30,8 @@ group :development, :test do
   gem 'watchr'
   gem 'delorean'
   gem 'rspec-set'
+end
+
+group :test do
+  gem 'cucumber-rails'
 end
