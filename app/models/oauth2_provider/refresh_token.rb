@@ -11,6 +11,7 @@ if defined?(Mongoid::Document)
 elsif defined?(ActiveRecord::Base)
   module Oauth2Provider
     class RefreshToken < ActiveRecord::Base
+      set_table_name :oauth2_provider_refresh_tokens
     end
   end
 elsif defined?(MongoMapper::Document)

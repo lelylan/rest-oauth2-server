@@ -7,7 +7,7 @@
 
 <div class="field_show">
   <b>Today requests:</b>
-  <%= @access.daily_requests.times %>
+  <%= @access.daily_requests_for(Time.now).times %>
 </div>
 
 <div id="chart" style="width: 100%; height: 250px"></div>

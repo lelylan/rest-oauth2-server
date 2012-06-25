@@ -16,6 +16,9 @@ if defined?(Mongoid::Document)
 elsif defined?(ActiveRecord::Base)
   module Oauth2Provider
     class Token < ActiveRecord::Base
+      set_table_name :oauth2_provider_tokens
+      include Oauth2Provider::Document::ActiveRecordHelp
+      before_save :sync_scope_json
     end
   end
 elsif defined?(MongoMapper::Document)

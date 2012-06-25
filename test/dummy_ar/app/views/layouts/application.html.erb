@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TransisAuth</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<% if current_user %>
+  <%= link_to 'Log Out', logout_path %>
+<% else %>
+  <%= link_to 'Log In', new_user_session_path %>
+<% end %>
+
+<%= yield %>
+
+</body>
+</html>

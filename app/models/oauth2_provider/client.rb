@@ -24,6 +24,10 @@ if defined?(Mongoid::Document)
 elsif defined?(ActiveRecord::Base)
   module Oauth2Provider
     class Client < ActiveRecord::Base
+      set_table_name :oauth2_provider_clients
+      include Oauth2Provider::Document::ActiveRecordHelp
+      before_save :sync_scope_json
+      before_save :sync_scope_values_json
     end
   end
 elsif defined?(MongoMapper::Document)

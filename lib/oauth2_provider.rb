@@ -1,4 +1,5 @@
-require 'mongoid'
+require "oauth2_provider_engine/version"
+require "oauth2_provider_engine/schema"
 require 'validate_url'
 require 'chronic'
 require 'orm_adapter'

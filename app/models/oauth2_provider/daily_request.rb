@@ -13,12 +13,14 @@ if defined?(Mongoid::Document)
       field :times, type: Integer, default: 0             # daily request times
 
       # resource owner's client access
-      embedded_in :oauth_access, inverse_of: :oauth_daily_requests
+      embedded_in :access, inverse_of: :daily_requests
     end
   end
 elsif defined?(ActiveRecord::Base)
   module Oauth2Provider
     class DailyRequest < ActiveRecord::Base
+      set_table_name :oauth2_provider_daily_requests
+      belongs_to :access
     end
   end
 elsif defined?(MongoMapper::Document)

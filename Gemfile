@@ -2,13 +2,11 @@ source 'http://rubygems.org'
 source 'http://gemcutter.org'
 gemspec
 
-gem 'rails', '3.2.5'
-
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
+  gem 'sass-rails',   '>= 3.2.0'
+  gem 'coffee-rails', '>= 3.2.0'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtime
   # gem 'therubyracer'
@@ -17,7 +15,6 @@ group :assets do
 end
 
 gem "jquery-rails"
-gem 'mongoid'
 gem 'bson_ext'
 gem 'yajl-ruby'
 gem 'will_paginate'
@@ -32,6 +29,8 @@ gem 'orm_adapter', :git => 'git://github.com/timgaleckas/orm_adapter.git'
 group :development, :test do
   gem 'debugger'
   gem 'rspec-rails'
+  gem 'authlogic'
+  gem 'pg'
 end
 
 group :test do

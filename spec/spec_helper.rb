@@ -5,10 +5,13 @@ require 'rspec/rails'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
-Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+Dir[Rails.root.join("../../spec/support/**/*.rb")].each {|f| require f}
 
 # Require shared examples ruby files
-Dir[Rails.root.join("spec/**/shared/*.rb")].each {|f| require f}
+Dir[Rails.root.join("../../spec/**/shared/*.rb")].each {|f| require f}
+
+Dir[Rails.root.join("../../spec/factories/*.rb")].each {|f| require f}
+
 
 RSpec.configure do |config|
 
@@ -16,7 +19,7 @@ RSpec.configure do |config|
   config.include SettingsHelper
 
   # Include extra rspec matchers
-  config.include Mongoid::Matchers
+  config.include Mongoid::Matchers if defined? Mongoid
 
   # Include time travel methods
   config.include Delorean
@@ -34,6 +37,6 @@ RSpec.configure do |config|
     Mongoid.master.collections.select do |collection|
       collection.name !~ /system/
     end.each(&:drop)
-  end
+  end if defined? Mongoid
 
 end

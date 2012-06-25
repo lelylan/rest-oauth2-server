@@ -38,10 +38,10 @@ describe Oauth2Provider::Access do
     it "should create or increment the daily requests counter" do
       Delorean.time_travel_to today
       3.times { @access.accessed! }
-      @access.daily_requests.times.should == 3
+      @access.daily_requests_for(Time.now).times.should == 3
       Delorean.time_travel_to tomorrow
       @access.accessed!
-      @access.daily_requests.times.should == 1
+      @access.daily_requests_for(Time.now).times.should == 1
     end
   end
 

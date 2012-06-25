@@ -12,6 +12,9 @@ if defined?(Mongoid::Document)
 elsif defined?(ActiveRecord::Base)
   module Oauth2Provider
     class Scope < ActiveRecord::Base
+      set_table_name :oauth2_provider_scopes
+      include Oauth2Provider::Document::ActiveRecordHelp
+      before_save :sync_values_json
     end
   end
 elsif defined?(MongoMapper::Document)

@@ -1,13 +1,14 @@
 module Oauth2ProviderEngine
+  if defined? ActiveRecord::Migration
   class Schema < ActiveRecord::Migration
     def self.up
-      create_table :oauth2_provider_access, :force => true do |t|
+      create_table :oauth2_provider_accesses, :force => true do |t|
         t.string :client_uri
         t.string :resource_owner_uri
         t.datetime :blocked
         t.timestamps
       end
-      create_table :oauth2_provider_daily_request, :force => true do |t|
+      create_table :oauth2_provider_daily_requests, :force => true do |t|
         t.string :time_id
         t.integer :day
         t.integer :month
@@ -16,7 +17,7 @@ module Oauth2ProviderEngine
         t.references :oauth2_provider_access
         t.timestamps
       end
-      create_table :oauth2_provider_authorization, :force => true do |t|
+      create_table :oauth2_provider_authorizations, :force => true do |t|
         t.string :client_uri
         t.string :resource_owner_uri
         t.string :code
@@ -25,7 +26,7 @@ module Oauth2ProviderEngine
         t.datetime :blocked
         t.timestamps
       end
-      create_table :oauth2_provider_client, :force => true do |t|
+      create_table :oauth2_provider_clients, :force => true do |t|
         t.string :uri
         t.string :name
         t.string :created_from
@@ -40,18 +41,18 @@ module Oauth2ProviderEngine
         t.datetime :blocked
         t.timestamps
       end
-      create_table :oauth2_provider_refresh_token, :force => true do |t|
+      create_table :oauth2_provider_refresh_tokens, :force => true do |t|
         t.string :refresh_token
         t.string :access_token
         t.timestamps
       end
-      create_table :oauth2_provider_scope, :force => true do |t|
+      create_table :oauth2_provider_scopes, :force => true do |t|
         t.string :name
         t.string :uri
         t.string :values_json
         t.timestamps
       end
-      create_table :oauth2_provider_token, :force => true do |t|
+      create_table :oauth2_provider_tokens, :force => true do |t|
         t.string :client_uri
         t.string :resource_owner_uri
         t.string :token
@@ -72,6 +73,7 @@ module Oauth2ProviderEngine
       drop_table :oauth2_provider_scope
       drop_table :oauth2_provider_token
     end
+  end
   end
 end
 

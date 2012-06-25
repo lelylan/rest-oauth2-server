@@ -11,12 +11,14 @@ if defined?(Mongoid::Document)
       field :resource_owner_uri                   # resource owner identifier
       field :blocked, type: Time, default: nil    # authorization block (a user block a single client)
 
-      embeds_many :oauth_daily_requests, class_name: 'Oauth2Provider::DailyRequest'           # daily requests (one record per day)
+      embeds_many :daily_requests, class_name: 'Oauth2Provider::DailyRequest'           # daily requests (one record per day)
     end
   end
 elsif defined?(ActiveRecord::Base)
   module Oauth2Provider
     class Access < ActiveRecord::Base
+      set_table_name :oauth2_provider_accesses
+      has_many :daily_requests
     end
   end
 elsif defined?(MongoMapper::Document)
@@ -52,21 +54,21 @@ module Oauth2Provider
 
     # Increment the daily accesses
     def accessed!
-      daily_requests.increment!
+      daily_requests_for(Time.now).increment!
     end
 
     # A daily requests record (there is one per day)
     #
     #   @params [String] time we want to find the requests record
     #   @return [DailyRequest] requests record
-    def daily_requests(time = Time.now)
-      find_or_create_daily_requests(time)
+    def daily_requests_for(time = Time.now)
+      find_or_create_daily_requests_for(time)
     end
 
     # Give back the last days in a friendly format.It is used to
     # generate graph for statistics
     def chart_days
-      daily_requests = self.oauth_daily_requests.limit(10)
+      daily_requests = self.daily_requests.limit(10)
       days = daily_requests.map(&:created_at)
       days.map { |d| d.strftime("%b %e") }
     end
@@ -74,17 +76,17 @@ module Oauth2Provider
     # Give the number of accesses for the last days. It is used
     # to generate graph for statistics
     def chart_times
-      access_times = self.oauth_daily_requests.limit(10)
+      access_times = self.daily_requests.limit(10)
       access_times.map(&:times)
     end
 
 
     private
 
-    def find_or_create_daily_requests(time)
-      daily_requests = oauth_daily_requests.find_day(time).first
-      daily_requests = oauth_daily_requests.create(created_at: time) unless daily_requests
-      return daily_requests
+    def find_or_create_daily_requests_for(time)
+      daily_requests_for_time = self.daily_requests.find_day(time).first
+      daily_requests_for_time = self.daily_requests.create(created_at: time) unless daily_requests_for_time
+      return daily_requests_for_time
     end
 
     def daily_id(time)
