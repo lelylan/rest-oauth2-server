@@ -1,11 +1,6 @@
-http://github.com/Lelylan/rest-oauth2-server/raw/development/public/images/help-us.png
+= OAuth 2.0 Provider Engine
 
-{The Lelylan Team}[http://lelylan.com]
-
-
-= Rest OAuth 2.0 Server
-
-<b>Rest OAuth 2.0 Server</b> is a project that easily allows the generation of an OAuth 2.0 Server following the {draft 13}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13]
+<b>OAuth 2.0 Provider Engine</b> is a project that easily allows the generation of an OAuth 2.0 Server following the {draft 13}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13]
 of the OAuth 2.0 protocol with {bearer tokens}[http://tools.ietf.org/html/draft-ietf-oauth-v2-bearer-02]. The spec 
 is close to settling down, and we intend to update our code to match the final OAuth 2.0 and bearer token standards. 
 OAuth has often been described as a "valet key for the web." It lets applications ask users for access to just the 
@@ -15,50 +10,44 @@ the time without sharing their secret credentials.
 
 = Installation
 
-For the Rest OAuth 2.0 Server to work you need to have
+For the OAuth 2.0 Provider Engine to work you need to have
 
 * {Ruby 1.9.2}[www.ruby-lang.org/en/] (use rvm[http://screencasts.org/episodes/how-to-use-rvm?utm_source=rubyweekly&utm_medium=email] to manage versions).
-* {MongoDB}[http://www.mongodb.org/]. 
+* {MongoDB}[http://www.mongodb.org/].
 
-To install the project run the following commands (remember to run <tt>$ mongod</tt> before)
+To create an oauth2 server from scratch:
 
-  $ git clone git@github.com:Lelylan/rest-oauth2-server.git
-  $ cd rest-oauth2-server
+  $ gem install bundler
+  $ git clone git://github.com/RailsApps/rails3-mongoid-devise.git
+  $ cd rails3-mongoid-devise
+  $ echo "" >> Gemfile
+  $ echo "gem 'oauth2_provider_engine'" >> Gemfile
   $ bundle install
-  $ rake spec
+
+Add `mount Oauth2Provider::Engine, at: 'oauth'` to config/routes.rb
+Add `def admin?; true; end` to app/models/user.rb
+
   $ rails s
 
-If everything works fine, you have your OAuth 2.0 Server up and running! We are also working at a gem and a 
-generator to easily integrate the Rest OAuth 2.0 server into your project, so stay tuned.
-
+Log in at http://localhost:3000/
+All oauth administrations is at: http://localhost:3000/oauth
 
 == Admin user definition
 
-When accessing the application for the first time, click to sign up. A message will ask you to create the first 
-administrator user as no one have been found. 
+Log in and access the admin dashboard where you will find the following sections.
 
-http://github.com/Lelylan/rest-oauth2-server/raw/development/public/images/screenshots/first-user-creation.png
-
-Register, log in and access the admin dashboard where you will find the following sections.
-
-* <b>Users</b>: list with all registered users.
-* <b>Scopes</b>: authorization scopes administration.
 * <b>Accesses</b>: clients that access the user's data.
 * <b>Clients</b>: registered clients (third party application)
+* <b>Scopes</b>: authorization scopes administration.
 
 While the Users and Scopes sections are visible only to the admin, Accesses and Clients are available to every 
 registered user, also the ones that will grant access for their resources. To better understand what you can do 
 explore the Dashboard and read the following sections.
 
-http://github.com/Lelylan/rest-oauth2-server/raw/development/public/images/screenshots/admin-dashboard.png
-
-
 == Scopes explained
 
 In a short way, scopes tell you <b>what can and can't be accessed</b>. The Rest OAuth 2.0 Server ships with a 
 flexible and powerful scope system which can be dynamically built.
-
-http://github.com/Lelylan/rest-oauth2-server/raw/development/public/images/screenshots/scopes.png
 
 To create a new scope click <b>Create a new scope</b> and you will get a simple form with two fields
 
@@ -70,19 +59,13 @@ Going a bit deeper you can define the accessible actions in two ways.
 === Action specific values
 
 You can specify *any* action present in your rails app. For example if you want to allow the access to the action 
-create in the controller pizzas you just add the string "pizzas/create". Here you can see an example on defining the 
-access to all RESTful actions in a sample pizzas controller.
-
-http://github.com/Lelylan/rest-oauth2-server/raw/development/public/images/screenshots/pizzas-scope.png
+create in the controller pizzas you just add the string "pizzas/create".
 
 === Scope name values
 
 You can specify any group of actions adding a name scope. For example if the scope pizzas allows the access to all 
 actions in the pizzas controller and the scope pastas allow the access to all actions in pastas controller, then the 
 "all" "cope could have as values the list "pizzas pastas"
-
-http://github.com/Lelylan/rest-oauth2-server/raw/development/public/images/screenshots/all-scope.png
-
 
 == Protect your resources
 
@@ -100,7 +83,6 @@ line in the {ApplicationController}[https://github.com/Lelylan/rest-oauth2-serve
 Last, you can make some actions public by using the <tt>exclude</tt> option.
 
    before_filter :oauth_authorized, except: %w(index, show)
-
 
 == Client definition
 
@@ -436,10 +418,10 @@ Rest OAuth 2.0 Server is working on top of 5 models. They are pretty simple so i
 them, check the source code, which is clearly documented.
 
 * {OauthClient}[https://github.com/Lelylan/rest-oauth2-server/blob/master/app/models/client.rb]: represents the credentials of a client application.
-* {OauthToken}[https://github.com/Lelylan/rest-oauth2-server/blob/master/app/models/oauth/oauth_token.rb]: represents the token used to access user's resources.
+* {Token}[https://github.com/Lelylan/rest-oauth2-server/blob/master/app/models/oauth/oauth_token.rb]: represents the token used to access user's resources.
 * {OauthAuthorizarion}[https://github.com/Lelylan/rest-oauth2-server/blob/master/app/models/oauth/oauth_authorization.rb]: represents the authorization token used to exchange an access token.
-* {OauthAccess}[https://github.com/Lelylan/rest-oauth2-server/blob/master/app/models/oauth/oauth_access.rb]: represents the relation between a client and a user, whenever a user grant an authorization.
-* {OauthDailyRequests}[https://github.com/Lelylan/rest-oauth2-server/blob/master/app/models/oauth/oauth_daily_request.rb]: represents a daily request from the client on behalf of a specific user.
+* {Access}[https://github.com/Lelylan/rest-oauth2-server/blob/master/app/models/oauth/oauth_access.rb]: represents the relation between a client and a user, whenever a user grant an authorization.
+* {DailyRequests}[https://github.com/Lelylan/rest-oauth2-server/blob/master/app/models/oauth/oauth_daily_request.rb]: represents a daily request from the client on behalf of a specific user.
 
 
 == Basic authentication system

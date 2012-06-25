@@ -1,0 +1,13 @@
+# Environments for use on developer machines
+defaults: &defaults
+  adapter: postgresql
+  host: localhost
+  port: <%= ENV['PGPORT'] || "~" %>
+
+development:
+  <<: *defaults
+  database: transis_auth_development
+
+test:
+  <<: *defaults
+  database: transis_auth_test

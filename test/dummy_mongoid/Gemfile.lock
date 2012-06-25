@@ -1,0 +1,252 @@
+GIT
+  remote: git://github.com/timgaleckas/orm_adapter.git
+  revision: e4ae617d8eea6c50ca1a4db9de4a12669868119a
+  specs:
+    orm_adapter (0.1.0)
+
+PATH
+  remote: ../..
+  specs:
+    oauth2_provider_engine (0.0.2)
+      chronic
+      jquery-rails
+      orm_adapter
+      rails (>= 3.1.0)
+      validate_url
+
+GEM
+  remote: http://rubygems.org/
+  remote: http://gemcutter.org/
+  specs:
+    ZenTest (4.8.1)
+    actionmailer (3.2.5)
+      actionpack (= 3.2.5)
+      mail (~> 2.4.4)
+    actionpack (3.2.5)
+      activemodel (= 3.2.5)
+      activesupport (= 3.2.5)
+      builder (~> 3.0.0)
+      erubis (~> 2.7.0)
+      journey (~> 1.0.1)
+      rack (~> 1.4.0)
+      rack-cache (~> 1.2)
+      rack-test (~> 0.6.1)
+      sprockets (~> 2.1.3)
+    activemodel (3.2.5)
+      activesupport (= 3.2.5)
+      builder (~> 3.0.0)
+    activerecord (3.2.5)
+      activemodel (= 3.2.5)
+      activesupport (= 3.2.5)
+      arel (~> 3.0.2)
+      tzinfo (~> 0.3.29)
+    activeresource (3.2.5)
+      activemodel (= 3.2.5)
+      activesupport (= 3.2.5)
+    activesupport (3.2.5)
+      i18n (~> 0.6)
+      multi_json (~> 1.0)
+    addressable (2.2.8)
+    arel (3.0.2)
+    autotest (4.4.6)
+      ZenTest (>= 4.4.1)
+    autotest-growl (0.2.16)
+    bcrypt-ruby (3.0.1)
+    bson (1.6.4)
+    bson_ext (1.6.4)
+      bson (~> 1.6.4)
+    builder (3.0.0)
+    capybara (1.1.2)
+      mime-types (>= 1.16)
+      nokogiri (>= 1.3.3)
+      rack (>= 1.0.0)
+      rack-test (>= 0.5.4)
+      selenium-webdriver (~> 2.0)
+      xpath (~> 0.1.4)
+    childprocess (0.3.2)
+      ffi (~> 1.0.6)
+    chronic (0.6.7)
+    coffee-rails (3.2.2)
+      coffee-script (>= 2.2.0)
+      railties (~> 3.2.0)
+    coffee-script (2.2.0)
+      coffee-script-source
+      execjs
+    coffee-script-source (1.3.3)
+    columnize (0.3.6)
+    database_cleaner (0.8.0)
+    debugger (1.1.4)
+      columnize (>= 0.3.1)
+      debugger-linecache (~> 1.1.1)
+      debugger-ruby_core_source (~> 1.1.3)
+    debugger-linecache (1.1.1)
+      debugger-ruby_core_source (>= 1.1.1)
+    debugger-ruby_core_source (1.1.3)
+    delorean (1.2.0)
+      chronic
+    diff-lcs (1.1.3)
+    email_validator (1.3.0)
+      activemodel
+    erubis (2.7.0)
+    execjs (1.4.0)
+      multi_json (~> 1.0)
+    factory_girl (3.4.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (3.4.0)
+      factory_girl (~> 3.4.0)
+      railties (>= 3.0.0)
+    ffi (1.0.11)
+    fuubar (1.0.0)
+      rspec (~> 2.0)
+      rspec-instafail (~> 0.2.0)
+      ruby-progressbar (~> 0.0.10)
+    hike (1.2.1)
+    i18n (0.6.0)
+    journey (1.0.3)
+    jquery-rails (2.0.2)
+      railties (>= 3.2.0, < 5.0)
+      thor (~> 0.14)
+    json (1.7.3)
+    launchy (2.1.0)
+      addressable (~> 2.2.6)
+    libwebsocket (0.1.3)
+      addressable
+    mail (2.4.4)
+      i18n (>= 0.4.0)
+      mime-types (~> 1.16)
+      treetop (~> 1.4.8)
+    mime-types (1.18)
+    mongo (1.6.2)
+      bson (~> 1.6.2)
+    mongoid (2.4.11)
+      activemodel (~> 3.1)
+      mongo (<= 1.6.2)
+      tzinfo (~> 0.3.22)
+    multi_json (1.3.6)
+    nokogiri (1.5.4)
+    polyglot (0.3.3)
+    rack (1.4.1)
+    rack-cache (1.2)
+      rack (>= 0.4)
+    rack-ssl (1.3.2)
+      rack
+    rack-test (0.6.1)
+      rack (>= 1.0)
+    rails (3.2.5)
+      actionmailer (= 3.2.5)
+      actionpack (= 3.2.5)
+      activerecord (= 3.2.5)
+      activeresource (= 3.2.5)
+      activesupport (= 3.2.5)
+      bundler (~> 1.0)
+      railties (= 3.2.5)
+    railties (3.2.5)
+      actionpack (= 3.2.5)
+      activesupport (= 3.2.5)
+      rack-ssl (~> 1.3.2)
+      rake (>= 0.8.7)
+      rdoc (~> 3.4)
+      thor (>= 0.14.6, < 2.0)
+    rake (0.9.2.2)
+    rdoc (3.12)
+      json (~> 1.4)
+    rspec (2.10.0)
+      rspec-core (~> 2.10.0)
+      rspec-expectations (~> 2.10.0)
+      rspec-mocks (~> 2.10.0)
+    rspec-core (2.10.1)
+    rspec-expectations (2.10.0)
+      diff-lcs (~> 1.1.3)
+    rspec-instafail (0.2.4)
+    rspec-mocks (2.10.1)
+    rspec-rails (2.10.1)
+      actionpack (>= 3.0)
+      activesupport (>= 3.0)
+      railties (>= 3.0)
+      rspec (~> 2.10.0)
+    rspec-set (0.0.1)
+      rspec (>= 2)
+    ruby-progressbar (0.0.10)
+    rubyzip (0.9.8)
+    sass (3.1.19)
+    sass-rails (3.2.5)
+      railties (~> 3.2.0)
+      sass (>= 3.1.10)
+      tilt (~> 1.3)
+    selenium-client (1.2.18)
+    selenium-webdriver (2.22.2)
+      childprocess (>= 0.2.5)
+      ffi (~> 1.0)
+      libwebsocket (~> 0.1.3)
+      multi_json (~> 1.0)
+      rubyzip
+    shoulda (3.0.1)
+      shoulda-context (~> 1.0.0)
+      shoulda-matchers (~> 1.0.0)
+    shoulda-context (1.0.0)
+    shoulda-matchers (1.0.0)
+    sprockets (2.1.3)
+      hike (~> 1.2)
+      rack (~> 1.0)
+      tilt (~> 1.1, != 1.3.0)
+    steak (2.0.0)
+      capybara (>= 1.0.0)
+      rspec-rails (>= 2.5.0)
+    thor (0.15.2)
+    tilt (1.3.3)
+    treetop (1.4.10)
+      polyglot
+      polyglot (>= 0.3.1)
+    tzinfo (0.3.33)
+    uglifier (1.2.4)
+      execjs (>= 0.3.0)
+      multi_json (>= 1.0.2)
+    validate_url (0.2.0)
+      activemodel (>= 3.0.0)
+    watchr (0.7)
+    webrat (0.7.3)
+      nokogiri (>= 1.2.0)
+      rack (>= 1.0)
+      rack-test (>= 0.5.3)
+    will_paginate (3.0.3)
+    xpath (0.1.4)
+      nokogiri (~> 1.3)
+    yajl-ruby (1.1.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  autotest
+  autotest-growl
+  bcrypt-ruby
+  bson_ext
+  capybara
+  chronic
+  coffee-rails (~> 3.2.1)
+  database_cleaner
+  debugger
+  delorean
+  email_validator
+  factory_girl_rails
+  fuubar
+  jquery-rails
+  launchy
+  mongoid
+  oauth2_provider_engine!
+  orm_adapter!
+  rack-ssl
+  rails (= 3.2.5)
+  rspec-rails
+  rspec-set
+  sass-rails (~> 3.2.3)
+  selenium-client
+  selenium-webdriver
+  shoulda
+  steak
+  uglifier (>= 1.0.3)
+  validate_url
+  watchr
+  webrat
+  will_paginate
+  yajl-ruby

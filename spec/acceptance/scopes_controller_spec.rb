@@ -2,14 +2,14 @@ require File.expand_path(File.dirname(__FILE__) + '/acceptance_helper')
 
 feature "ScopesController" do
   before { host! "http://" + host }
-  before { @user  = Factory(:user) }
-  before { @admin = Factory(:admin) }
-  before { @scope = Factory(:scope, values: ALL_SCOPE) }
+  before { @user  = FactoryGirl.create(:user) }
+  before { @admin = FactoryGirl.create(:admin) }
+  before { @scope = FactoryGirl.create(:scope, values: ALL_SCOPE) }
 
 
   context ".index" do
-    before { @uri = "/scopes" }
-    before { @read_scope = Factory(:scope, name: "read", values: READ_SCOPE) }
+    before { @uri = "/oauth/scopes" }
+    before { @read_scope = FactoryGirl.create(:scope, name: "read", values: READ_SCOPE) }
 
     context "when not logged in" do
       scenario "is not authorized" do
@@ -20,7 +20,7 @@ feature "ScopesController" do
 
     context "when logged it" do
       context "when admin" do
-        before { login(@admin) } 
+        before { login(@admin) }
 
         scenario "view the resources" do
           visit @uri
@@ -30,7 +30,7 @@ feature "ScopesController" do
       end
 
       context "when not admin" do
-        before { login(@user) } 
+        before { login(@user) }
         scenario "do not list all resources" do
           visit @uri
           page.should have_content "Unauthorized access"
@@ -41,7 +41,7 @@ feature "ScopesController" do
 
 
   context ".show" do
-    before { @uri = "/scopes/" + @scope.id.as_json }
+    before { @uri = "/oauth/scopes/" + @scope.id.as_json }
 
     context "when not logged in" do
       scenario "is not authorized" do
@@ -52,7 +52,7 @@ feature "ScopesController" do
 
     context "when logged in" do
       context "when admin" do
-        before { login(@admin) } 
+        before { login(@admin) }
 
         scenario "view a resource" do
           visit @uri
@@ -66,13 +66,13 @@ feature "ScopesController" do
         end
 
         scenario "illegal id" do
-          visit "/scopes/0"
+          visit "/oauth/scopes/0"
           page.should have_content "Resource not found"
         end
       end
 
       context "when not admin" do
-        before { login(@user) } 
+        before { login(@user) }
         scenario "do not show a resource" do
           visit @uri
           page.should have_content "Unauthorized access"
@@ -83,7 +83,7 @@ feature "ScopesController" do
 
 
   context ".create" do
-    before { @uri = "/scopes/new" }
+    before { @uri = "/oauth/scopes/new" }
 
     context "when not logged in" do
       scenario "is not authorized" do
@@ -94,14 +94,14 @@ feature "ScopesController" do
 
     context "when logged in" do
       context "when admin" do
-        before { login(@admin) } 
+        before { login(@admin) }
 
         context "when valid" do
           before do
             visit @uri
             fill_scope("pizza/read", "pizza/index pizza/show")
             click_button 'Create Scope'
-            @scope = Scope.last
+            @scope = Oauth2Provider::Scope.last
           end
 
           scenario "create a resource" do
@@ -110,7 +110,7 @@ feature "ScopesController" do
           end
 
           scenario "assign an URI to the resource" do
-            @scope.uri.should == host + "/scopes/" + @scope.id.as_json
+            @scope.uri.should == host + "/oauth/scopes/" + @scope.id.as_json
           end
         end
 
@@ -126,7 +126,7 @@ feature "ScopesController" do
       end
 
       context "when not admin" do
-        before { login(@user) } 
+        before { login(@user) }
         scenario "do not create a resource" do
           visit @uri
           page.should have_content "Unauthorized access"
@@ -136,7 +136,7 @@ feature "ScopesController" do
   end
 
   context ".update" do
-    before { @uri = "/scopes/" + @scope.id.as_json +  "/edit" }
+    before { @uri = "/oauth/scopes/" + @scope.id.as_json +  "/edit" }
 
     context "when not logged in" do
       scenario "is not authorized" do
@@ -147,7 +147,7 @@ feature "ScopesController" do
 
     context "when logged in" do
       context "when admin" do
-        before { login(@admin) } 
+        before { login(@admin) }
 
         scenario "update a resource" do
           visit @uri
@@ -164,7 +164,7 @@ feature "ScopesController" do
         end
 
         scenario "illegal id" do
-          visit "/scopes/0"
+          visit "/oauth/scopes/0"
           page.should have_content "Resource not found"
         end
 
@@ -180,16 +180,16 @@ feature "ScopesController" do
 
         context "update clients'scopes" do
 
-          before do 
-            Scope.destroy_all
-            @scope = Factory(:scope_pizzas_all)
-            @scope_read = Factory(:scope_pizzas_read)
-            @client = Factory(:client)
-            @client_read = Factory(:client_read)
+          before do
+            Oauth2Provider::Scope.destroy_all
+            @scope = FactoryGirl.create(:scope_pizzas_all)
+            @scope_read = FactoryGirl.create(:scope_pizzas_read)
+            @client = FactoryGirl.create(:client)
+            @client_read = FactoryGirl.create(:client_read)
           end
 
           before do
-            visit "/scopes/" + @scope_read.id.as_json +  "/edit"
+            visit "/oauth/scopes/" + @scope_read.id.as_json +  "/edit"
             fill_scope("pizzas/read", "pizzas/show")
             click_button 'Update Scope'
           end
@@ -209,10 +209,10 @@ feature "ScopesController" do
             it { @client_read.reload.scope_values.should include "pizzas/show" }
           end
         end
-      end 
+      end
 
       context "when not admin" do
-        before { login(@user) } 
+        before { login(@user) }
         scenario "do not update a resource" do
           visit @uri
           page.should have_content "Unauthorized access"

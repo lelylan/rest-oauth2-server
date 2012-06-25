@@ -1,0 +1,8 @@
+<%=
+  {
+    'access_token' => @token.token,
+    'expires_in' => Oauth2Provider.settings["token_expires_in"],
+    'refresh_token' => @refresh_token.refresh_token,
+    'resource_owner_uri' => @resource_owner_uri
+  }.to_json.html_safe
+%>

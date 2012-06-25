@@ -1,7 +1,7 @@
 .bundle
 db/*.sqlite3
-log/*.log
-tmp/**/*
+*.log
+tmp
 config/database.yml
 *.DS_Store
 *.swp

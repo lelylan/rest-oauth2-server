@@ -22,12 +22,12 @@ module HelperMethods
 
   # Authorization page URIs
   def authorization_grant_page(client, scope)
-    uri = "/oauth/authorization?response_type=code" + authorization_params(client, scope)
+    uri = "/oauth/authorize?response_type=code" + authorization_params(client, scope)
     return URI.escape(uri)
   end
 
   def implicit_grant_page(client, scope)
-    uri = "/oauth/authorization?response_type=token" + authorization_params(client, scope)
+    uri = "/oauth/authorize?response_type=token" + authorization_params(client, scope)
     return URI.escape(uri)
   end
 
@@ -40,14 +40,14 @@ module HelperMethods
 
   # Redirect URIs
   def authorization_grant_uri(client)
-    authorization = OauthAuthorization.last
+    authorization = Oauth2Provider::Authorization.last
     client.redirect_uri + "?code=" + authorization.code
   end
 
   def implicit_grant_uri(client)
-    token = OauthToken.last
+    token = Oauth2Provider::Token.last
     token.token.should_not be_nil
-    uri = client.redirect_uri + "#token=" + token.token + "&expires_in=" + Oauth.settings["token_expires_in"]
+    uri = client.redirect_uri + "#token=" + token.token + "&expires_in=" + Oauth2Provider.settings["token_expires_in"]
   end
 
   def authorization_denied_uri(client)
@@ -61,16 +61,18 @@ module HelperMethods
 
   # Token generation (via POST requests)
   def create_token_uri(attributes)
-    page.driver.post("/oauth/token", attributes.to_json)
+    uri = Addressable::URI.new
+    uri.query_values = attributes
+    page.driver.post("/oauth/token", uri.query)
   end
 
   def response_should_have_access_token
-    token = OauthToken.last
+    token = Oauth2Provider::Token.last
     page.should have_content(token.token)
   end
 
   def response_should_have_refresh_token
-    refresh_token = OauthRefreshToken.last
+    refresh_token = Oauth2Provider::RefreshToken.last
     page.should have_content(refresh_token.refresh_token)
   end
 
