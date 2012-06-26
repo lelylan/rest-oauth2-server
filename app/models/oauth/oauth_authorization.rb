@@ -57,7 +57,7 @@ class OauthAuthorization
 
     # random authorization code
     def random_code
-      self.code = ActiveSupport::SecureRandom.hex(Oauth.settings["random_length"])
+      self.code = SecureRandom.hex(Oauth.settings["random_length"])
     end
 
     # expiration time

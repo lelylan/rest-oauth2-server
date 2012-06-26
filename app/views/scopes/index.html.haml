@@ -1,0 +1,19 @@
+%h2 Show Scope
+.header_buttons
+  = link_to 'Create a new scope', new_scope_path, class: "button icon add"
+%table
+  %tr
+    %th Name
+    %th Values
+    %th
+    %th
+    %th
+  - @scopes.each do |scope|
+    %tr
+      %td
+        %b= scope.name
+      %td= scope.values_pretty
+      %td= link_to 'Show', scope, class: "button"
+      %td= link_to 'Edit', edit_scope_path(scope), class: "button"
+      %td= link_to 'Destroy', scope, :confirm => 'Are you sure?', :method => :delete, class: "button danger"
+%br/

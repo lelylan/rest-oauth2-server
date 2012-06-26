@@ -6,4 +6,5 @@ config/database.yml
 *.DS_Store
 *.swp
 .rvmrc
-
+vendor/bundle
+.sass-cache/

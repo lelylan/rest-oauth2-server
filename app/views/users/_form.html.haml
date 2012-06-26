@@ -1,0 +1,19 @@
+= form_for(@user) do |f|
+  - if @user.errors.any?
+    #error_explanation
+      %div
+        = pluralize(@user.errors.count, "error")
+        prohibited this resource from being saved
+      %ul
+        - @user.errors.full_messages.each do |msg|
+          %li= msg
+  .field
+    = f.label :name
+    %br/
+    = f.text_field :name
+  .field
+    = f.label :password
+    %br/
+    = f.text_field :password
+  .actions
+    = f.submit nil, {class: "button"}

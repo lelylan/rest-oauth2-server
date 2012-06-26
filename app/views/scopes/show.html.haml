@@ -1,0 +1,13 @@
+%h2 Show Scope
+.field_show
+  %b Name:
+  = @scope.name
+.field_show
+  %b Values:
+  = @scope.values_pretty
+  %span.details
+    (includes #{Oauth.normalize_scope(@scope.values_pretty).join(" ")}
+.button-group.footer_buttons
+  = link_to 'Back', scopes_path, class: "button icon arrowleft"
+  = link_to 'Edit', edit_scope_path(@scope), class: "button"
+  = link_to 'Destroy', @scope, :confirm => 'Are you sure?', :method => :delete, class: "button danger"

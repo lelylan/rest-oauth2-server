@@ -1,0 +1,28 @@
+- unless flash.alert
+  %h2 Authorization request
+  %div
+    %b
+      The application
+      %span.green= @client.name
+      would like to access your resources
+    .details
+      You are giving access to #{params[:scope].join(" ")}
+    #grant.footer_buttons
+      %form{:action => "/oauth/authorization", :method => "POST"}
+        %input{:name => "response_type", :style => "display:none", :type => "text", :value => params[:response_type]}/
+        %input{:name => "client_id", :style => "display:none", :type => "text", :value => params[:client_id]}/
+        %input{:name => "redirect_uri", :style => "display:none", :type => "text", :value => params[:redirect_uri]}/
+        %input{:name => "scope", :style => "display:none", :type => "text", :value => params[:scope].join(" ")}/
+        - if params[:state]
+          %input{:name => "state", :style => "display:none", :type => "text", :value => params[:state]}/
+        %button.button.big.icon.approve Grant Access
+    #deny
+      %form{:action => "/oauth/authorization", :method => "POST"}
+        %input{:name => "_method", :style => "display:none", :type => "text", :value => "delete"}/
+        %input{:name => "response_type", :style => "display:none", :type => "text", :value => params[:response_type]}/
+        %input{:name => "client_id", :style => "display:none", :type => "text", :value => params[:client_id]}/
+        %input{:name => "redirect_uri", :style => "display:none", :type => "text", :value => params[:redirect_uri]}/
+        %input{:name => "scope", :style => "display:none", :type => "text", :value => params[:scope].join(" ")}/
+        - if params[:state]
+          %input{:name => "state", :style => "display:none", :type => "text", :value => params[:state]}/
+        %button.button.big.danger.icon.lock Deny Access

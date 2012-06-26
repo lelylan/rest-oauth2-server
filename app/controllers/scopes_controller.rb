@@ -49,7 +49,7 @@ class ScopesController < ApplicationController
   private
 
     def find_resource
-      @scope = Scope.criteria.id(params[:id]).first
+      @scope = Scope.criteria.for_ids(params[:id]).first
       unless @scope
         redirect_to root_path, alert: "Resource not found."
       end        

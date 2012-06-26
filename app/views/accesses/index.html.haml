@@ -1,0 +1,15 @@
+%h2 Show Accesses
+%table
+  %tr
+    %th Client URI
+    %th
+    %th
+  - @accesses.each do |access|
+    %tr
+      %td= access.client_uri
+      %td= link_to 'Show stats', access_path(access), class: "button icon settings"
+      - if access.blocked?
+        %td= link_to 'Unblock!', unblock_access_path(access), method: :put, class: "button danger"
+      - else
+        %td= link_to 'Block!', block_access_path(access), method: :put, class: "button danger"
+%br/

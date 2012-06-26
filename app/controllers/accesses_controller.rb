@@ -27,7 +27,7 @@ class AccessesController < ApplicationController
     end
 
     def find_access
-      @access = @accesses.id(params[:id]).first
+      @access = @accesses.for_ids(params[:id]).first
       unless @access
         redirect_to root_path, alert: "Resource not found."
       end

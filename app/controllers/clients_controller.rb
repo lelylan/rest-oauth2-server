@@ -71,7 +71,7 @@ class ClientsController < ApplicationController
     end
 
     def find_client
-      @client = @clients.id(params[:id]).first
+      @client = @clients.for_ids(params[:id]).first
       unless @client
         redirect_to root_path, alert: "Resource not found."
       end

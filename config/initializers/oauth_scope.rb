@@ -4,11 +4,12 @@ module Oauth
     scope = scope.split(" ") if scope.kind_of? String
     normalized = Scope.any_in(name: scope)
     normalized = normalized.map(&:values).flatten
+    normalized.concat(scope).uniq!
 
-    if normalized.empty?
-      return self.clean(scope)
+    if normalized == scope
+      return self.clean(normalized)
     else
-      return self.clean(scope) + self.normalize_scope(normalized)
+      return self.normalize_scope(normalized)
     end
   end
 

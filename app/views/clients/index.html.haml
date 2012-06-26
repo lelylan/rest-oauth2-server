@@ -1,0 +1,29 @@
+%h2 Show Clients
+.header_buttons
+  = link_to 'Create a new client', new_client_path, class: "button icon add"
+%table
+  %tr
+    - if current_user.admin?
+      %th User
+    %th Name
+    %th Active
+    %th
+    %th
+    %th
+    %th
+  - @clients.each do |client|
+    %tr
+      - if current_user.admin?
+        %td= link_to User, client.created_from
+      %td= client.name
+      - unless current_user.admin?
+        %td= client.blocked? ? "Not Active" : "Active"
+      %td= link_to 'Show', client, class: "button"
+      %td= link_to 'Edit', edit_client_path(client), class: "button"
+      %td= link_to 'Destroy', client, confirm: 'Are you sure?', method: :delete, class: "button danger"
+      - if current_user.admin?
+        - if client.blocked?
+          %td= link_to 'Unblock!', unblock_client_path(client), method: :put, class: "button danger icon unlock"
+        - else
+          %td= link_to 'Block!', block_client_path(client), method: :put, class: "button danger icon lock"
+%br/

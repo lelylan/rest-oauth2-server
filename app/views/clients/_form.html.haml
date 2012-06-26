@@ -1,0 +1,32 @@
+= form_for(@client) do |f|
+  - if @client.errors.any?
+    #error_explanation
+      %div
+        = pluralize(@client.errors.count, "error")
+        prohibited this resource from being saved
+      %ul
+        - @client.errors.full_messages.each do |msg|
+          %li= msg
+  .field
+    = f.label :name
+    %br/
+    = f.text_field :name
+  .field
+    = f.label :site_uri
+    %br/
+    = f.text_field :site_uri
+  .field
+    = f.label :redirect_uri
+    %br/
+    = f.text_field :redirect_uri
+  .field
+    = f.label :scope
+    (separated by spaces)
+    %br/
+    %input#client_scope.tags{:name => "client[scope]", :size => "30", :type => "text", :value => @client.scope_pretty}/
+  .field
+    = f.label :info
+    %br/
+    = f.text_field :info
+  .actions
+    = f.submit nil, {class: "button"}
