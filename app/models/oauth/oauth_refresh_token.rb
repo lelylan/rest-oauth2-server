@@ -12,7 +12,7 @@ class OauthRefreshToken
   private
     
     def random_refresh_token
-      self.refresh_token = ActiveSupport::SecureRandom.hex(Oauth.settings["random_length"])
+      self.refresh_token = SecureRandom.hex(Oauth.settings["random_length"])
     end
   
 end
