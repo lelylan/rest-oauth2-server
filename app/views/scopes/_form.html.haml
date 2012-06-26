@@ -1,0 +1,20 @@
+= form_for(@scope) do |f|
+  - if @scope.errors.any?
+    #error_explanation
+      %div
+        = pluralize(@scope.errors.count, "error")
+        prohibited this resource from being saved
+      %ul
+        - @scope.errors.full_messages.each do |msg|
+          %li= msg
+  .field
+    = f.label :name
+    %br/
+    = f.text_field :name
+  .field
+    = f.label :values
+    (separated by spaces)
+    %br/
+    %input#scope_values.tags{:name => "scope[values]", :size => "30", :type => "text", :value => @scope.values.join(" ") if @scope.values}/
+  .actions
+    = f.submit nil, {class: "button" }

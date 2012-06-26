@@ -1,0 +1,53 @@
+!!!
+%html
+  %head
+    %meta{:charset => "utf-8"}/
+    %title Rest OAuth 2.0 Server
+    = stylesheet_link_tag 'application'
+    = javascript_include_tag 'application'
+    = csrf_meta_tag
+  %body
+    .container
+      - unless request.path == oauth_authorization_path
+        %a.ribbon{:href => "https://github.com/lelylan/rest-oauth2-server", :target => "_blank"}
+          %img{:alt => "Fork me on GitHub", :src => "http://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"}/
+        .header
+          %h1 Rest OAuth 2.0 Server
+          %p
+            %b
+              %a{:href => "https://github.com/lelylan/rest-oauth2-server", :title => "GitHub repository"} Rest OAuth 2.0 Server
+              let you open up your API and manage end-user authentication and client application authorization
+              implementing the OAuth 2.0 Specifications (draft 13). Read more on
+              %a{:href => "https://github.com/lelylan/rest-oauth2-server", :title => "GitHub readme"} Github
+      .navigation
+        - if current_user
+          %div{:style => "float: right"}
+            Logged in as #{current_user.email}.
+            \#{link_to "Log out", log_out_path}
+          %div
+            = link_to("Home", current_user)
+            |
+            \#{link_to("Accesses", accesses_path)}
+            |
+            \#{link_to("Clients", clients_path)}
+            - if current_user.admin?
+              |
+              \#{link_to("Users", users_path)}
+              |
+              \#{link_to("Scopes", scopes_path)}
+        - else
+          = link_to "Sign up", sign_up_path
+          or
+          \#{link_to "log in", log_in_path}
+      %br/
+      - if flash.notice
+        .flash_notice
+          = flash.notice
+      - if flash.alert
+        .flash_alert
+          = flash.alert
+          - if @info
+            %p
+              Additional information:
+              \#{@info.to_json}
+      = yield

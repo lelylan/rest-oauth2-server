@@ -1,0 +1,30 @@
+%html
+  %head
+  %body
+    %h2 Sign Up
+    - if admin_does_not_exist
+      %p.admin_notice
+        %b>
+          No administrator was found. Probably this is the first time
+          you access the Rest OAuth 2.0 Server Dashboard. Fill the form
+          and create the first admin user
+        \.
+    = form_for @user do |f|
+      - if @user.errors.any?
+        #error_explanation
+          %div
+            = pluralize(@user.errors.count, "error")
+            prohibited this resource from being saved
+          %ul
+            - @user.errors.full_messages.each do |msg|
+              %li= msg
+      .field
+        = f.label :email
+        %br/
+        = f.text_field :email
+      .field
+        = f.label :password
+        %br/
+        = f.password_field :password
+      .actions
+        = f.submit nil, {class: "button"}

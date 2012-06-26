@@ -1,0 +1,12 @@
+%h2 Show User
+.field_show
+  %b URI:
+  = @user.uri
+.field_show
+  %b Email:
+  = @user.email
+.field_show
+  %b Name:
+  = @user.name
+.button-group.footer_buttons
+  = link_to 'Edit', edit_user_path(@user), class: "button"

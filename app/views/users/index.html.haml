@@ -1,0 +1,14 @@
+%h2 Show Users
+%table
+  %tr
+    %th Email
+    %th Name
+    %th
+    %th
+    %th
+  - @users.each do |user|
+    %tr
+      %td= user.email
+      %td= user.name
+      %td= link_to 'Show', user, class: "button"
+      %td= link_to 'Edit', edit_user_path(user), class: "button"

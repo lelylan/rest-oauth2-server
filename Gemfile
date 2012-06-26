@@ -13,6 +13,8 @@ gem 'email_validator'
 gem 'chronic'
 gem 'jquery-rails'
 
+gem 'haml-rails'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -42,4 +44,8 @@ end
 
 group :test do
   gem 'cucumber-rails'
+end
+
+group :development do
+  gem 'erb2haml'
 end
