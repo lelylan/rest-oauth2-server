@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
 
     def authenticate
       if api_request
-        # oauth_authorized   # uncomment to make all json API protected
+        oauth_authorized   # uncomment to make all json API protected
       else
         session_auth
       end
@@ -61,12 +61,13 @@ class ApplicationController < ActionController::Base
 
     def normalize_token
       # Token in the body
-      if (json_body and @body[:token])
+      if request.env["HTTP_CONTENT_TYPE"] == "application/json"
+        json_body
         params[:token] = @body[:token]
       end
       # Token in the header
-      if request.env["Authorization"]
-        params[:token] = request.env["Authorization"].split(" ").last
+      if request.env["HTTP_AUTHORIZATION"]
+        params[:token] = request.env["HTTP_AUTHORIZATION"].split(" ").last
       end
     end
 
