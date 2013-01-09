@@ -22,7 +22,7 @@ For the Rest OAuth 2.0 Server to work you need to have
 
 To install the project run the following commands (remember to run <tt>$ mongod</tt> before)
 
-  $ git clone git@github.com:Lelylan/rest-oauth2-server.git
+  $ git clone git@github.com:lelylan/rest-oauth2-server.git
   $ cd rest-oauth2-server
   $ bundle install
   $ rake spec
