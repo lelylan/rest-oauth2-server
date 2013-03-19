@@ -2,8 +2,9 @@
 
 We are sorry to annunce that due to a lack of time rest oauth2 server is now without a mantainer. For this 
 reason we call the **project dead** and we suggest you to use more solid solution such as 
-[Doorkeeper](https://github.com/applicake/doorkeeper) or [oPRO](https://github.com/opro/opro). 
-It was really nice to have such good people collaborating on this project.
+{Doorkeeper}[https://github.com/applicake/doorkeeper] or {oPRO}[https://github.com/opro/opro]. 
+Anyway, we still think this project can be helpful to understand how a OAuth2 server works so if interested in that 
+checkout the code and the whole documentation. It was really nice to have such good people collaborating on this project.
 
 P.S. If you are interested about becoming the new mantainer of this project write us.
 
