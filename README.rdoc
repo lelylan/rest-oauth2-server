@@ -1,9 +1,16 @@
-http://github.com/Lelylan/rest-oauth2-server/raw/development/public/images/help-us.png
+= Rest OAuth 2.0 Server is dead
+
+We are sorry to annunce that due to a lack of time rest oauth2 server is now without a mantainer. For this 
+reason we call the **project dead** and we suggest you to use more solid solution such as 
+[Doorkeeper](https://github.com/applicake/doorkeeper) or [oPRO](https://github.com/opro/opro). 
+It was really nice to have such good people collaborating on this project.
+
+P.S. If you are interested about becoming the new mantainer of this project write us.
 
 {The Lelylan Team}[http://lelylan.com]
 
 
-= Rest OAuth 2.0 Server
+= Desription
 
 <b>Rest OAuth 2.0 Server</b> is a project that easily allows the generation of an OAuth 2.0 Server following the {draft 13}[http://tools.ietf.org/html/draft-ietf-oauth-v2-13]
 of the OAuth 2.0 protocol with {bearer tokens}[http://tools.ietf.org/html/draft-ietf-oauth-v2-bearer-02]. The spec 
